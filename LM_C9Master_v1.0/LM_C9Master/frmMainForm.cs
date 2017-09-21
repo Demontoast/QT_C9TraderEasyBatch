@@ -11,7 +11,7 @@ using System.IO;
 using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading;
-using System.IO;
+
 //need to review the whole account retreival/saving system, the accounts get overwritten when saved.
 
 namespace LM_C9Master
@@ -428,14 +428,20 @@ namespace LM_C9Master
 
         public void RefreshVersions()
         {
+<<<<<<< HEAD
            /*
             string[]strSubDirList= Directory.GetDirectories(lblC9TraderRoot.Text);
             foreach(string s in strSubDirList)
+=======
+           
+            string[]strSubDirList= Directory.GetDirectories(lblC9TraderRoot.Text); //creates an array of strings and puts in it a list of the sub directories of the main squirrel folder in userlocalappdata
+            foreach(string s in strSubDirList) // each of the subdirectories that i obtained in the previous step do the following:
+>>>>>>> 3c3804d906395996e8a4a0b778ae4f1a2dee14c4
             {
-                string[] strPathSplit = s.Split('\\') ;
-                string[] strAppSplit = strPathSplit[strPathSplit.Length-1].Split('-');
-                if (strAppSplit[0] == "app")
-                   cmbBoxVersionsList.SelectedIndex= cmbBoxVersionsList.Items.Add(strAppSplit[1]);
+                string[] strPathSplit = s.Split('\\') ; // split the full path so that i have an array of for example c:,users,localuser,appdata, etc.
+                string[] strAppSplit = strPathSplit[strPathSplit.Length-1].Split('-'); //i split again what i got in the previous step so that i end up with an array of two elements: [0] = "app" and [1]="2.x.x.x." (which is our target)
+                if (strAppSplit[0] == "app") //if the first element (i.e. [0]) of the array i got in the previous step is indeed "app" then i can proceed in adding it to the list, otherwise i won't add it.
+                   cmbBoxVersionsList.SelectedIndex= cmbBoxVersionsList.Items.Add(strAppSplit[1]); //adds the the item to the combobox in the form and selects it as last item so it is visible to the user immediately.
             }
             
             */
