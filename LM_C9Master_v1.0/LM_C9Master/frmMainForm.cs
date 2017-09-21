@@ -41,43 +41,25 @@ namespace LM_C9Master
             LoadSettings("C9TRADERROOT");
             
             LoadSettings("APPACCOUNTS");
-            
+
             //VPN Manager Startup Setup
-            ServiceController[] scActiveServices=ServiceController.GetServices();
-            foreach(ServiceController service in scActiveServices)
+            ServiceController svcAcumbrella = new ServiceController("acumbrellaagent");
+            ServiceController svcVPNAgent = new ServiceController("vpnagent");
+            if(svcAcumbrella.Status==ServiceControllerStatus.Stopped&&svcVPNAgent.Status==ServiceControllerStatus.Stopped)
             {
-                if(service.ServiceName== "acumbrellaagent"||service.ServiceName== "vpnagent")
-                {
-                    if(service.Status==ServiceControllerStatus.Running)
-                    {
-                        BtnVPNSwitch.BackColor = Color.LightGreen;
-                        BtnVPNSwitch.ForeColor = Color.DarkGreen;
-                        BtnVPNSwitch.Text = "ON";
-                        Thread.Sleep(1000);
-                        btnVPNClientLaunch.Enabled = true;
-                        break;
-                    }
-                    break;
-                }
-                             
-                
+                BtnVPNSwitch.Text = "OFF";
+                BtnVPNSwitch.BackColor = Color.LightCoral;
+                BtnVPNSwitch.ForeColor = Color.DarkRed;
+                btnOpenSharedFolder.Enabled = false;
+                btnVPNClientLaunch.Enabled = false;
             }
-            if (BtnVPNSwitch.Text == "ON")
+            else if(svcAcumbrella.Status == ServiceControllerStatus.Running && svcVPNAgent.Status == ServiceControllerStatus.Running)
             {
-                try
-                {
-                    ProcessStartInfo ProcSharedTry = new ProcessStartInfo();
-                    ProcSharedTry.FileName = @"\\c9-fs01";
-                    ProcSharedTry.WindowStyle = ProcessWindowStyle.Hidden;
-                    ProcSharedTry.CreateNoWindow = true;
-                    Process.Start(ProcSharedTry);
+                BtnVPNSwitch.Text = "ON";
+                BtnVPNSwitch.BackColor = Color.LightGreen;
+                BtnVPNSwitch.ForeColor = Color.DarkGreen;
 
-                    btnOpenSharedFolder.Enabled = true;
-                    
-
-                }
-                catch
-                { btnOpenSharedFolder.Enabled = false; }
+                btnVPNClientLaunch.Enabled = true;
             }
             ///
             //App Manager Startup Setup
@@ -367,48 +349,105 @@ namespace LM_C9Master
 
         private void BtnVPNSwitch_Click(object sender, EventArgs e)
         {
-            ServiceController[] scActiveServices = ServiceController.GetServices();
-
-            if(BtnVPNSwitch.Text=="ON")
+            ServiceController svcAcumbrella = new ServiceController("acumbrellaagent");
+            ServiceController svcVPNAgent = new ServiceController("vpnagent");
+            try
             {
-                foreach(ServiceController service in scActiveServices)
+                if(svcAcumbrella.Status==ServiceControllerStatus.Stopped && svcVPNAgent.Status==ServiceControllerStatus.Stopped)
                 {
-                    if(service.ServiceName == "acumbrellaagent" || service.ServiceName == "vpnagent")
-                    {
-                        if(service.Status!=ServiceControllerStatus.Stopped)
-                        {
-                            service.Stop();
-                            
-                        }
-                        
-                    }
+                    svcAcumbrella.Start();
+                    Thread.Sleep(1500);
+                    svcVPNAgent.Start();
+
+                    BtnVPNSwitch.Text = "ON";
+                    BtnVPNSwitch.BackColor = Color.LightGreen;
+                    BtnVPNSwitch.ForeColor = Color.DarkGreen;
+
+                    btnVPNClientLaunch.Enabled = true;
                 }
-                BtnVPNSwitch.Text = "OFF";
-                BtnVPNSwitch.BackColor = Color.LightCoral;
-                BtnVPNSwitch.ForeColor = Color.DarkRed;
-                btnOpenSharedFolder.Enabled = false;
-                btnVPNClientLaunch.Enabled = false;
+                if (svcAcumbrella.Status == ServiceControllerStatus.Running && svcVPNAgent.Status == ServiceControllerStatus.Running)
+                {
+                    svcAcumbrella.Stop();
+                    svcVPNAgent.Stop();
+
+                    BtnVPNSwitch.Text = "OFF";
+                    BtnVPNSwitch.BackColor = Color.LightCoral;
+                    BtnVPNSwitch.ForeColor = Color.DarkRed;
+                    btnOpenSharedFolder.Enabled = false;
+                    btnVPNClientLaunch.Enabled = false;
+
+                }
+            }
+            catch
+            {
+                MessageBox.Show("VPN services are not working properly..." + Environment.NewLine + "Please verify their status in Windows Task Manager", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                BtnVPNSwitch.Enabled = false;
+            }
+           /* ServiceController[] scActiveServices = ServiceController.GetServices();
+
+            string strAcumbrellaStatus = null;
+            string strVpnAgentStatus = null;
+
+            //ServiceControllerStatus.StopPending
+
+            foreach(ServiceController service in scActiveServices)
+            {
+                if (service.ServiceName == "acumbrellaagent")
+                    strAcumbrellaStatus = service.Status.ToString();
+                if (service.ServiceName == "vpnagent")
+                    strVpnAgentStatus = service.Status.ToString();
+            }
+
+            //debug
+            // MessageBox.Show("status of acumbrella" + strAcumbrellaStatus + Environment.NewLine + "status of vpangent" + strVpnAgentStatus);
+
+
+            if (strAcumbrellaStatus!="StopPending" && strVpnAgentStatus!="StopPending")
+            {
+                if (BtnVPNSwitch.Text == "ON")
+                {
+                    foreach (ServiceController service in scActiveServices)
+                    {
+                        if (service.ServiceName == "acumbrellaagent" || service.ServiceName == "vpnagent")
+                        {
+                            if (service.Status != ServiceControllerStatus.Stopped)
+                            {
+                                service.Stop();
+
+                            }
+
+                        }
+                    }
+                    BtnVPNSwitch.Text = "OFF";
+                    BtnVPNSwitch.BackColor = Color.LightCoral;
+                    BtnVPNSwitch.ForeColor = Color.DarkRed;
+                    btnOpenSharedFolder.Enabled = false;
+                    btnVPNClientLaunch.Enabled = false;
+                }
+                else
+                {
+                    foreach (ServiceController service in scActiveServices)
+                    {
+                        if (service.ServiceName == "acumbrellaagent" || service.ServiceName == "vpnagent")
+                        {
+                            if (service.Status != ServiceControllerStatus.Running)
+                            {
+                                service.Start();
+
+                            }
+
+                        }
+                    }
+                    BtnVPNSwitch.Text = "ON";
+                    BtnVPNSwitch.BackColor = Color.LightGreen;
+                    BtnVPNSwitch.ForeColor = Color.DarkGreen;
+
+                    btnVPNClientLaunch.Enabled = true;
+                } 
             }
             else
-            {
-                foreach (ServiceController service in scActiveServices)
-                {
-                    if (service.ServiceName == "acumbrellaagent" || service.ServiceName == "vpnagent")
-                    {
-                        if (service.Status != ServiceControllerStatus.Running)
-                        {
-                            service.Start();
-                            
-                        }
-
-                    }
-                }
-                BtnVPNSwitch.Text = "ON";
-                BtnVPNSwitch.BackColor = Color.LightGreen;
-                BtnVPNSwitch.ForeColor = Color.DarkGreen;
-                
-                btnVPNClientLaunch.Enabled = true;
-            }
+            { MessageBox.Show("Error in Services"); }
+            */
         }
 
         private void btnVPNClientLaunch_Click(object sender, EventArgs e)
