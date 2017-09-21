@@ -7,3 +7,13 @@ c:\users\x1 carbon\documents\visual studio 2017\Projects\LM_C9Master\LM_C9Master
 c:\users\x1 carbon\documents\visual studio 2017\Projects\LM_C9Master\LM_C9Master\obj\Debug\LM_C9Master.csproj.GenerateResource.Cache
 c:\users\x1 carbon\documents\visual studio 2017\Projects\LM_C9Master\LM_C9Master\obj\Debug\LM_C9Master.exe
 c:\users\x1 carbon\documents\visual studio 2017\Projects\LM_C9Master\LM_C9Master\obj\Debug\LM_C9Master.pdb
+C:\Projects\QT_C9TraderEasyBatch\LM_C9Master_v1.0\LM_C9Master\bin\Debug\LM_C9Master.exe.config
+C:\Projects\QT_C9TraderEasyBatch\LM_C9Master_v1.0\LM_C9Master\bin\Debug\LM_C9Master.exe
+C:\Projects\QT_C9TraderEasyBatch\LM_C9Master_v1.0\LM_C9Master\bin\Debug\LM_C9Master.pdb
+C:\Projects\QT_C9TraderEasyBatch\LM_C9Master_v1.0\LM_C9Master\obj\Debug\LM_C9Master.csprojResolveAssemblyReference.cache
+C:\Projects\QT_C9TraderEasyBatch\LM_C9Master_v1.0\LM_C9Master\obj\Debug\LM_C9Master.frmMainForm.resources
+C:\Projects\QT_C9TraderEasyBatch\LM_C9Master_v1.0\LM_C9Master\obj\Debug\LM_C9Master.Properties.Resources.resources
+C:\Projects\QT_C9TraderEasyBatch\LM_C9Master_v1.0\LM_C9Master\obj\Debug\LM_C9Master.csproj.GenerateResource.Cache
+C:\Projects\QT_C9TraderEasyBatch\LM_C9Master_v1.0\LM_C9Master\obj\Debug\LM_C9Master.csproj.CoreCompileInputs.cache
+C:\Projects\QT_C9TraderEasyBatch\LM_C9Master_v1.0\LM_C9Master\obj\Debug\LM_C9Master.exe
+C:\Projects\QT_C9TraderEasyBatch\LM_C9Master_v1.0\LM_C9Master\obj\Debug\LM_C9Master.pdb
