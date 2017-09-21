@@ -466,8 +466,7 @@ namespace LM_C9Master
         }
 
         public void RefreshVersions()
-        {
-           
+        {          
             string[]strSubDirList= Directory.GetDirectories(lblC9TraderRoot.Text); //creates an array of strings and puts in it a list of the sub directories of the main squirrel folder in userlocalappdata
             foreach(string s in strSubDirList) // each of the subdirectories that i obtained in the previous step do the following:
             {
@@ -477,7 +476,7 @@ namespace LM_C9Master
                    cmbBoxVersionsList.SelectedIndex= cmbBoxVersionsList.Items.Add(strAppSplit[1]); //adds the the item to the combobox in the form and selects it as last item so it is visible to the user immediately.
             }
             
-            
+            */
         }
 
         private void btnRefreshVersions_Click(object sender, EventArgs e)
@@ -578,6 +577,41 @@ namespace LM_C9Master
                 btnRemoveUser.Enabled = true;
             }
             AutoSetPWD(cmbBoxUsers.Text);
+        }
+
+        private void Links_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnTestCycles_Click(object sender, EventArgs e)
+        {
+            //Opens the JIRA Test Cycles page in default browser
+            System.Diagnostics.Process.Start("https://6w46h65ghw56gh7.atlassian.net/projects/CTTEST?selectedItem=com.thed.zephyr.je__project-centric-view-tests-page&testsTab=test-cycles-tab");
+        }
+
+        private void btnScrumBoard_Click(object sender, EventArgs e)
+        {
+            //Opens the JIRA Scrum Board page in default browser
+            System.Diagnostics.Process.Start("https://6w46h65ghw56gh7.atlassian.net/secure/RapidBoard.jspa?rapidView=56");
+        }
+
+        private void btnWebApp_Click(object sender, EventArgs e)
+        {
+            //Opens the C9 Slack webapp in default browser
+            System.Diagnostics.Process.Start("https://cloud9tec.slack.com/messages/C4N3M42QP/details/");
+        }
+
+        private void btnDesktopApp_Click(object sender, EventArgs e)
+        {
+            //Opens Slack desktop app
+            String curUser = Environment.UserName;
+            System.Diagnostics.Process.Start("C:\\Users\\" + curUser + "\\AppData\\Local\\slack\\slack.exe");
         }
     }
 }
