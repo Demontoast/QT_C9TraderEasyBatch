@@ -476,7 +476,7 @@ namespace LM_C9Master
                    cmbBoxVersionsList.SelectedIndex= cmbBoxVersionsList.Items.Add(strAppSplit[1]); //adds the the item to the combobox in the form and selects it as last item so it is visible to the user immediately.
             }
             
-            */
+            
         }
 
         private void btnRefreshVersions_Click(object sender, EventArgs e)
