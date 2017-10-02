@@ -41,7 +41,6 @@
             this.btnSaveSettings = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lblVPNClientTarget = new System.Windows.Forms.Label();
-            this.labely = new System.Windows.Forms.Label();
             this.labelx = new System.Windows.Forms.Label();
             this.btnChangeVPNClient = new System.Windows.Forms.Button();
             this.btnDefaultVPNClient = new System.Windows.Forms.Button();
@@ -60,11 +59,20 @@
             this.btnRefreshVersions = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.cmbBoxVersionsList = new System.Windows.Forms.ComboBox();
+            this.Links = new System.Windows.Forms.GroupBox();
+            this.btnDesktopApp = new System.Windows.Forms.Button();
+            this.btnWebApp = new System.Windows.Forms.Button();
+            this.btnScrumBoard = new System.Windows.Forms.Button();
+            this.btnTestCycles = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.Links.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -82,7 +90,7 @@
             // btnVPNClientLaunch
             // 
             this.btnVPNClientLaunch.Enabled = false;
-            this.btnVPNClientLaunch.Location = new System.Drawing.Point(6, 107);
+            this.btnVPNClientLaunch.Location = new System.Drawing.Point(7, 107);
             this.btnVPNClientLaunch.Name = "btnVPNClientLaunch";
             this.btnVPNClientLaunch.Size = new System.Drawing.Size(273, 49);
             this.btnVPNClientLaunch.TabIndex = 2;
@@ -106,7 +114,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(42, 48);
+            this.label1.Location = new System.Drawing.Point(43, 48);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(288, 25);
             this.label1.TabIndex = 0;
@@ -119,7 +127,7 @@
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Location = new System.Drawing.Point(587, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1513, 548);
+            this.groupBox2.Size = new System.Drawing.Size(645, 547);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Settings";
@@ -130,16 +138,16 @@
             this.groupBox5.Controls.Add(this.btnDefaultC9TraderRoot);
             this.groupBox5.Controls.Add(this.lblC9TraderRoot);
             this.groupBox5.Controls.Add(this.label3);
-            this.groupBox5.Location = new System.Drawing.Point(6, 240);
+            this.groupBox5.Location = new System.Drawing.Point(7, 250);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(1501, 250);
+            this.groupBox5.Size = new System.Drawing.Size(626, 210);
             this.groupBox5.TabIndex = 2;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "App Manager";
             // 
             // btnChangeC9TraderRoot
             // 
-            this.btnChangeC9TraderRoot.Location = new System.Drawing.Point(1275, 66);
+            this.btnChangeC9TraderRoot.Location = new System.Drawing.Point(12, 72);
             this.btnChangeC9TraderRoot.Name = "btnChangeC9TraderRoot";
             this.btnChangeC9TraderRoot.Size = new System.Drawing.Size(107, 40);
             this.btnChangeC9TraderRoot.TabIndex = 3;
@@ -150,7 +158,7 @@
             // btnDefaultC9TraderRoot
             // 
             this.btnDefaultC9TraderRoot.Enabled = false;
-            this.btnDefaultC9TraderRoot.Location = new System.Drawing.Point(1388, 66);
+            this.btnDefaultC9TraderRoot.Location = new System.Drawing.Point(125, 72);
             this.btnDefaultC9TraderRoot.Name = "btnDefaultC9TraderRoot";
             this.btnDefaultC9TraderRoot.Size = new System.Drawing.Size(107, 40);
             this.btnDefaultC9TraderRoot.TabIndex = 2;
@@ -161,7 +169,7 @@
             // lblC9TraderRoot
             // 
             this.lblC9TraderRoot.AutoSize = true;
-            this.lblC9TraderRoot.Location = new System.Drawing.Point(15, 81);
+            this.lblC9TraderRoot.Location = new System.Drawing.Point(15, 117);
             this.lblC9TraderRoot.Name = "lblC9TraderRoot";
             this.lblC9TraderRoot.Size = new System.Drawing.Size(176, 25);
             this.lblC9TraderRoot.TabIndex = 1;
@@ -171,7 +179,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 43);
+            this.label3.Location = new System.Drawing.Point(7, 43);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(284, 25);
             this.label3.TabIndex = 0;
@@ -180,7 +188,7 @@
             // btnSaveSettings
             // 
             this.btnSaveSettings.Enabled = false;
-            this.btnSaveSettings.Location = new System.Drawing.Point(1373, 496);
+            this.btnSaveSettings.Location = new System.Drawing.Point(7, 495);
             this.btnSaveSettings.Name = "btnSaveSettings";
             this.btnSaveSettings.Size = new System.Drawing.Size(134, 46);
             this.btnSaveSettings.TabIndex = 1;
@@ -191,13 +199,12 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.lblVPNClientTarget);
-            this.groupBox3.Controls.Add(this.labely);
             this.groupBox3.Controls.Add(this.labelx);
             this.groupBox3.Controls.Add(this.btnChangeVPNClient);
             this.groupBox3.Controls.Add(this.btnDefaultVPNClient);
-            this.groupBox3.Location = new System.Drawing.Point(6, 35);
+            this.groupBox3.Location = new System.Drawing.Point(7, 29);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1501, 199);
+            this.groupBox3.Size = new System.Drawing.Size(626, 215);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "VPN Manager";
@@ -209,13 +216,6 @@
             this.lblVPNClientTarget.Name = "lblVPNClientTarget";
             this.lblVPNClientTarget.Size = new System.Drawing.Size(0, 25);
             this.lblVPNClientTarget.TabIndex = 6;
-            // 
-            // labely
-            // 
-            this.labely.Location = new System.Drawing.Point(356, 117);
-            this.labely.Name = "labely";
-            this.labely.Size = new System.Drawing.Size(100, 23);
-            this.labely.TabIndex = 7;
             // 
             // labelx
             // 
@@ -271,7 +271,7 @@
             // chkBoxSetViewPassword
             // 
             this.chkBoxSetViewPassword.AutoSize = true;
-            this.chkBoxSetViewPassword.Location = new System.Drawing.Point(282, 231);
+            this.chkBoxSetViewPassword.Location = new System.Drawing.Point(283, 231);
             this.chkBoxSetViewPassword.Name = "chkBoxSetViewPassword";
             this.chkBoxSetViewPassword.Size = new System.Drawing.Size(190, 29);
             this.chkBoxSetViewPassword.TabIndex = 8;
@@ -362,7 +362,7 @@
             // 
             // btnRefreshVersions
             // 
-            this.btnRefreshVersions.Location = new System.Drawing.Point(282, 63);
+            this.btnRefreshVersions.Location = new System.Drawing.Point(283, 62);
             this.btnRefreshVersions.Name = "btnRefreshVersions";
             this.btnRefreshVersions.Size = new System.Drawing.Size(128, 44);
             this.btnRefreshVersions.TabIndex = 2;
@@ -373,7 +373,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 32);
+            this.label2.Location = new System.Drawing.Point(7, 32);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(85, 25);
             this.label2.TabIndex = 1;
@@ -387,12 +387,98 @@
             this.cmbBoxVersionsList.Size = new System.Drawing.Size(269, 33);
             this.cmbBoxVersionsList.TabIndex = 0;
             // 
+            // Links
+            // 
+            this.Links.Controls.Add(this.btnDesktopApp);
+            this.Links.Controls.Add(this.btnWebApp);
+            this.Links.Controls.Add(this.btnScrumBoard);
+            this.Links.Controls.Add(this.btnTestCycles);
+            this.Links.Controls.Add(this.label8);
+            this.Links.Controls.Add(this.label7);
+            this.Links.Controls.Add(this.label4);
+            this.Links.Location = new System.Drawing.Point(1238, 12);
+            this.Links.Name = "Links";
+            this.Links.Size = new System.Drawing.Size(737, 547);
+            this.Links.TabIndex = 3;
+            this.Links.TabStop = false;
+            this.Links.Text = "Links";
+            this.Links.Enter += new System.EventHandler(this.Links_Enter);
+            // 
+            // btnDesktopApp
+            // 
+            this.btnDesktopApp.Location = new System.Drawing.Point(175, 176);
+            this.btnDesktopApp.Name = "btnDesktopApp";
+            this.btnDesktopApp.Size = new System.Drawing.Size(151, 47);
+            this.btnDesktopApp.TabIndex = 6;
+            this.btnDesktopApp.Text = "Desktop App";
+            this.btnDesktopApp.UseVisualStyleBackColor = true;
+            this.btnDesktopApp.Click += new System.EventHandler(this.btnDesktopApp_Click);
+            // 
+            // btnWebApp
+            // 
+            this.btnWebApp.Location = new System.Drawing.Point(12, 176);
+            this.btnWebApp.Name = "btnWebApp";
+            this.btnWebApp.Size = new System.Drawing.Size(156, 47);
+            this.btnWebApp.TabIndex = 5;
+            this.btnWebApp.Text = "Web App";
+            this.btnWebApp.UseVisualStyleBackColor = true;
+            this.btnWebApp.Click += new System.EventHandler(this.btnWebApp_Click);
+            // 
+            // btnScrumBoard
+            // 
+            this.btnScrumBoard.Location = new System.Drawing.Point(169, 65);
+            this.btnScrumBoard.Name = "btnScrumBoard";
+            this.btnScrumBoard.Size = new System.Drawing.Size(156, 47);
+            this.btnScrumBoard.TabIndex = 4;
+            this.btnScrumBoard.Text = "Scrum Board";
+            this.btnScrumBoard.UseVisualStyleBackColor = true;
+            this.btnScrumBoard.Click += new System.EventHandler(this.btnScrumBoard_Click);
+            // 
+            // btnTestCycles
+            // 
+            this.btnTestCycles.Location = new System.Drawing.Point(7, 65);
+            this.btnTestCycles.Name = "btnTestCycles";
+            this.btnTestCycles.Size = new System.Drawing.Size(156, 47);
+            this.btnTestCycles.TabIndex = 3;
+            this.btnTestCycles.Text = "Test Cycles";
+            this.btnTestCycles.UseVisualStyleBackColor = true;
+            this.btnTestCycles.Click += new System.EventHandler(this.btnTestCycles_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(16, 143);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(98, 25);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "C9 Slack";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(255, 377);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(187, 25);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "JIRA Scrum Board";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 29);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(176, 25);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "JIRA Test Cycles";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(2112, 572);
+            this.Controls.Add(this.Links);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -410,6 +496,8 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.Links.ResumeLayout(false);
+            this.Links.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -422,7 +510,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnSaveSettings;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label labely;
         private System.Windows.Forms.Label labelx;
         private System.Windows.Forms.Button btnChangeVPNClient;
         private System.Windows.Forms.Button btnDefaultVPNClient;
@@ -448,6 +535,14 @@
         private System.Windows.Forms.ComboBox cmbBoxUsers;
         private System.Windows.Forms.Button BtnLaunchApp;
         private System.Windows.Forms.Button MSI_Toggle;
+        private System.Windows.Forms.GroupBox Links;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnTestCycles;
+        private System.Windows.Forms.Button btnDesktopApp;
+        private System.Windows.Forms.Button btnWebApp;
+        private System.Windows.Forms.Button btnScrumBoard;
     }
 }
 

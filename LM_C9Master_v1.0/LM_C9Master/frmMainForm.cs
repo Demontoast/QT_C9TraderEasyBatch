@@ -11,6 +11,7 @@ using System.IO;
 using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading;
+
 //need to review the whole account retreival/saving system, the accounts get overwritten when saved.
 
 namespace LM_C9Master
@@ -41,15 +42,22 @@ namespace LM_C9Master
             LoadSettings("APPACCOUNTS");
 
             //VPN Manager Startup Setup
-            // Controls the state of the VPN background services
-            ServiceController service1 = new ServiceController("acumbrellaagent");
-            ServiceController service2 = new ServiceController("vpnagent");
-            if (service1.Status==ServiceControllerStatus.Running || service2.Status==ServiceControllerStatus.Running)
+
+            ServiceController svcAcumbrella = new ServiceController("acumbrellaagent");
+            ServiceController svcVPNAgent = new ServiceController("vpnagent");
+            if(svcAcumbrella.Status==ServiceControllerStatus.Stopped&&svcVPNAgent.Status==ServiceControllerStatus.Stopped)
             {
+                BtnVPNSwitch.Text = "OFF";
+                BtnVPNSwitch.BackColor = Color.LightCoral;
+                BtnVPNSwitch.ForeColor = Color.DarkRed;
+                //btnOpenSharedFolder.Enabled = false;
+                btnVPNClientLaunch.Enabled = false;
+            }
+            else if(svcAcumbrella.Status == ServiceControllerStatus.Running && svcVPNAgent.Status == ServiceControllerStatus.Running)
+            {
+                BtnVPNSwitch.Text = "ON";
                 BtnVPNSwitch.BackColor = Color.LightGreen;
                 BtnVPNSwitch.ForeColor = Color.DarkGreen;
-                BtnVPNSwitch.Text = "ON";
-                Thread.Sleep(1000);
                 btnVPNClientLaunch.Enabled = true;
             }
             ///
@@ -57,10 +65,7 @@ namespace LM_C9Master
             RefreshVersions();
             ///
             
-
-            
-
-            
+         
         }
 
         public void LoadSettings(string strWhat2Load)
@@ -280,33 +285,39 @@ namespace LM_C9Master
 
         private void BtnVPNSwitch_Click(object sender, EventArgs e)
         {
-            // Controls the state of the VPN background services
-            ServiceController service1 = new ServiceController("acumbrellaagent");
-            ServiceController service2 = new ServiceController("vpnagent");
-            if (BtnVPNSwitch.Text=="ON")
+            ServiceController svcAcumbrella = new ServiceController("acumbrellaagent");
+            ServiceController svcVPNAgent = new ServiceController("vpnagent");
+            try
             {
-                if (service1.Status != ServiceControllerStatus.Stopped)
+                if(svcAcumbrella.Status==ServiceControllerStatus.Stopped && svcVPNAgent.Status==ServiceControllerStatus.Stopped)
                 {
-                    service1.Stop();
+                    svcAcumbrella.Start();
+                    Thread.Sleep(1500);
+                    svcVPNAgent.Start();
+
+                    BtnVPNSwitch.Text = "ON";
+                    BtnVPNSwitch.BackColor = Color.LightGreen;
+                    BtnVPNSwitch.ForeColor = Color.DarkGreen;
+
+                    btnVPNClientLaunch.Enabled = true;
                 }
-                if (service2.Status != ServiceControllerStatus.Stopped)
+                if (svcAcumbrella.Status == ServiceControllerStatus.Running && svcVPNAgent.Status == ServiceControllerStatus.Running)
                 {
-                    service2.Stop();
+                    svcAcumbrella.Stop();
+                    svcVPNAgent.Stop();
+
+                    BtnVPNSwitch.Text = "OFF";
+                    BtnVPNSwitch.BackColor = Color.LightCoral;
+                    BtnVPNSwitch.ForeColor = Color.DarkRed;
+                    //btnOpenSharedFolder.Enabled = false;
+                    btnVPNClientLaunch.Enabled = false;
+
                 }
-                BtnVPNSwitch.Text = "OFF";
-                BtnVPNSwitch.BackColor = Color.LightCoral;
-                BtnVPNSwitch.ForeColor = Color.DarkRed;
-                btnVPNClientLaunch.Enabled = false;
             }
-            else
+            catch
             {
-                service1.Start();
-                service2.Start();
-                BtnVPNSwitch.Text = "ON";
-                BtnVPNSwitch.BackColor = Color.LightGreen;
-                BtnVPNSwitch.ForeColor = Color.DarkGreen;
-                
-                btnVPNClientLaunch.Enabled = true;
+                MessageBox.Show("VPN services are not working properly..." + Environment.NewLine + "Please verify their status in Windows Task Manager", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                BtnVPNSwitch.Enabled = false;
             }
         }
 
@@ -349,7 +360,6 @@ namespace LM_C9Master
                     startPath = @"C:\Program Files (x86)\Cloud9 Technologies LLC\C9Trader";
                     lblC9TraderRoot.Text = startPath;
                 }
-                    
             }
         }
 
@@ -477,10 +487,45 @@ namespace LM_C9Master
         private void Button1_Click(object sender, EventArgs e)
         {
             if (MSI_Toggle.Text == "Squirrel")
-                MSI_Toggle.Text = "MSI"; 
+                MSI_Toggle.Text = "MSI";
             else
                 MSI_Toggle.Text = "Squirrel";
             RefreshVersions();
+        }
+
+        private void Links_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnTestCycles_Click(object sender, EventArgs e)
+        {
+            //Opens the JIRA Test Cycles page in default browser
+            System.Diagnostics.Process.Start("https://6w46h65ghw56gh7.atlassian.net/projects/CTTEST?selectedItem=com.thed.zephyr.je__project-centric-view-tests-page&testsTab=test-cycles-tab");
+        }
+
+        private void btnScrumBoard_Click(object sender, EventArgs e)
+        {
+            //Opens the JIRA Scrum Board page in default browser
+            System.Diagnostics.Process.Start("https://6w46h65ghw56gh7.atlassian.net/secure/RapidBoard.jspa?rapidView=56");
+        }
+
+        private void btnWebApp_Click(object sender, EventArgs e)
+        {
+            //Opens the C9 Slack webapp in default browser
+            System.Diagnostics.Process.Start("https://cloud9tec.slack.com/messages/C4N3M42QP/details/");
+        }
+
+        private void btnDesktopApp_Click(object sender, EventArgs e)
+        {
+            //Opens Slack desktop app
+            String curUser = Environment.UserName;
+            System.Diagnostics.Process.Start("C:\\Users\\" + curUser + "\\AppData\\Local\\slack\\slack.exe");
         }
     }
 }
