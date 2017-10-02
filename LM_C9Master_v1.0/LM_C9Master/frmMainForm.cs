@@ -283,6 +283,7 @@ namespace LM_C9Master
 
         }
 
+        // VPN Services switch, turns VPN services on / off
         private void BtnVPNSwitch_Click(object sender, EventArgs e)
         {
             ServiceController svcAcumbrella = new ServiceController("acumbrellaagent");
@@ -339,6 +340,7 @@ namespace LM_C9Master
             catch (System.ComponentModel.Win32Exception)
             {
                 string startPath;
+                // Determines if user has settings for Squirrel or MSI build
                 if (MSI_Toggle.Text == "Squirrel")
                 {
                     string currUser = Environment.UserName;
@@ -394,23 +396,11 @@ namespace LM_C9Master
 
             foreach(AppAccount AC in AccountsFromSettings)
             {
-                if(AC.strUserName==cmbBoxUsers.Text)
+                if (AC.strUserName == cmbBoxUsers.Text)
                 {
-                    
-                    if(AC.strPassword!=txtBoxSetUsrPassword.Text)
-                    {
-                       
-                        AC.strPassword = txtBoxSetUsrPassword.Text;
-                    }
-                }
-                else
-                {
-                    flgMustAddNewUser = true;
-                    
-                    
-                   // AccountsFromSettings.Sort();
-                }
-
+                    flgMustAddNewUser = false;
+                    break;
+                }                   
             }
             if(flgMustAddNewUser)
             {
@@ -418,11 +408,11 @@ namespace LM_C9Master
                 tmpAcc.strUserName = cmbBoxUsers.Text;
                 tmpAcc.strPassword = txtBoxSetUsrPassword.Text;
                 AccountsFromSettings.Add(tmpAcc);
+                SaveAccountsToSettings();
             }
-            SaveAccountsToSettings();
-
-                      
-            
+            else
+                MessageBox.Show("User " + cmbBoxUsers.Text + " already exists.");
+    
         }
 
         public void SaveAccountsToSettings()
@@ -465,25 +455,43 @@ namespace LM_C9Master
 
         private void BtnLaunchApp_Click(object sender, EventArgs e)
         {
+            String parameters = "";
+            parameters += "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text + " -r https://qa1-rest.xhoot.com";
+            if (chkBoxMultiApp.Checked == true)
+                parameters += " -a";
+            if (chkBoxNoUpd.Checked == true)
+                parameters += " -x";
             //Launches the app using user settings
             if (MSI_Toggle.Text == "Squirrel")
-                Process.Start(lblC9TraderRoot.Text + "\\app-" + cmbBoxVersionsList.Text + "\\C9Shell.exe", "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text + " -r https://qa1-rest.xhoot.com");
+                Process.Start(lblC9TraderRoot.Text + "\\app-" + cmbBoxVersionsList.Text + "\\C9Shell.exe", parameters);
             else
             {
                 ProcessStartInfo psi = new ProcessStartInfo();
                 psi.FileName = "C9Shell.exe";
                 psi.WorkingDirectory = lblC9TraderRoot.Text;
-                psi.Arguments = "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text + " -r https://qa1-rest.xhoot.com";
+                psi.Arguments = parameters;
                 Process.Start(psi);
             }
-                
-        }
 
+            // Overwrites password in settings file with that currently used
+            foreach (AppAccount AC in AccountsFromSettings)
+            {
+                if (AC.strUserName == cmbBoxUsers.Text)
+                {
+                    if (AC.strPassword != txtBoxSetUsrPassword.Text)
+                    {
+                        AC.strPassword = txtBoxSetUsrPassword.Text;
+                    }
+                }
+            }
+            SaveAccountsToSettings();
+        }
         private void lblC9TraderRoot_Click(object sender, EventArgs e)
         {
 
         }
 
+        // Toggles between MSI and Squirrel build to launch
         private void Button1_Click(object sender, EventArgs e)
         {
             if (MSI_Toggle.Text == "Squirrel")
@@ -526,6 +534,25 @@ namespace LM_C9Master
             //Opens Slack desktop app
             String curUser = Environment.UserName;
             System.Diagnostics.Process.Start("C:\\Users\\" + curUser + "\\AppData\\Local\\slack\\slack.exe");
+        }
+
+        private void chkBoxMultiApp_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRemoveUser_Click(object sender, EventArgs e)
+        {
+            foreach (AppAccount AC in AccountsFromSettings)
+            {
+                if (AC.strUserName == cmbBoxUsers.Text)
+                {
+                    int index = AccountsFromSettings.IndexOf(AC);
+                    AccountsFromSettings.Remove(AC);
+                    SaveAccountsToSettings();
+                    break;
+                }
+            }
         }
     }
 }

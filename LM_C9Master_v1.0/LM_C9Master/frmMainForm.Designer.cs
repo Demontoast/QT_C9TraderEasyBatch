@@ -67,6 +67,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.chkBoxMultiApp = new System.Windows.Forms.CheckBox();
+            this.chkBoxNoUpd = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -256,6 +258,7 @@
             this.btnRemoveUser.TabIndex = 10;
             this.btnRemoveUser.Text = "-";
             this.btnRemoveUser.UseVisualStyleBackColor = true;
+            this.btnRemoveUser.Click += new System.EventHandler(this.btnRemoveUser_Click);
             // 
             // btnAddUser
             // 
@@ -303,6 +306,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.chkBoxNoUpd);
+            this.groupBox4.Controls.Add(this.chkBoxMultiApp);
             this.groupBox4.Controls.Add(this.MSI_Toggle);
             this.groupBox4.Controls.Add(this.BtnLaunchApp);
             this.groupBox4.Controls.Add(this.chkBoxSetViewPassword);
@@ -472,6 +477,27 @@
             this.label4.Text = "JIRA Test Cycles";
             this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
+            // chkBoxMultiApp
+            // 
+            this.chkBoxMultiApp.AutoSize = true;
+            this.chkBoxMultiApp.Location = new System.Drawing.Point(410, 156);
+            this.chkBoxMultiApp.Name = "chkBoxMultiApp";
+            this.chkBoxMultiApp.Size = new System.Drawing.Size(63, 29);
+            this.chkBoxMultiApp.TabIndex = 13;
+            this.chkBoxMultiApp.Text = "-a";
+            this.chkBoxMultiApp.UseVisualStyleBackColor = true;
+            this.chkBoxMultiApp.CheckedChanged += new System.EventHandler(this.chkBoxMultiApp_CheckedChanged);
+            // 
+            // chkBoxNoUpd
+            // 
+            this.chkBoxNoUpd.AutoSize = true;
+            this.chkBoxNoUpd.Location = new System.Drawing.Point(479, 158);
+            this.chkBoxNoUpd.Name = "chkBoxNoUpd";
+            this.chkBoxNoUpd.Size = new System.Drawing.Size(62, 29);
+            this.chkBoxNoUpd.TabIndex = 14;
+            this.chkBoxNoUpd.Text = "-x";
+            this.chkBoxNoUpd.UseVisualStyleBackColor = true;
+            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -543,6 +569,8 @@
         private System.Windows.Forms.Button btnDesktopApp;
         private System.Windows.Forms.Button btnWebApp;
         private System.Windows.Forms.Button btnScrumBoard;
+        private System.Windows.Forms.CheckBox chkBoxNoUpd;
+        private System.Windows.Forms.CheckBox chkBoxMultiApp;
     }
 }
 
