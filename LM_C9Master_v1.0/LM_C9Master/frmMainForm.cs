@@ -466,7 +466,7 @@ namespace LM_C9Master
         private void BtnLaunchApp_Click(object sender, EventArgs e)
         {
             //Launches the app using user settings
-            if (MSI_Toggle.Text == "MSI Toggle")
+            if (MSI_Toggle.Text == "Squirrel")
                 Process.Start(lblC9TraderRoot.Text + "\\app-" + cmbBoxVersionsList.Text + "\\C9Shell.exe", "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text + " -r https://qa1-rest.xhoot.com");
             else
             {
