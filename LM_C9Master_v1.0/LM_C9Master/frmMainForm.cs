@@ -11,7 +11,6 @@ using System.IO;
 using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading;
-using System.IO;
 //need to review the whole account retreival/saving system, the accounts get overwritten when saved.
 
 namespace LM_C9Master
@@ -37,47 +36,21 @@ namespace LM_C9Master
             this.Width = 1073;
             this.Height = 345;
             LoadSettings("VPNCLIENT");
-            LoadSettings("SHAREDFOLDER");
             LoadSettings("C9TRADERROOT");
             
             LoadSettings("APPACCOUNTS");
-            
+
             //VPN Manager Startup Setup
-            ServiceController[] scActiveServices=ServiceController.GetServices();
-            foreach(ServiceController service in scActiveServices)
+            // Controls the state of the VPN background services
+            ServiceController service1 = new ServiceController("acumbrellaagent");
+            ServiceController service2 = new ServiceController("vpnagent");
+            if (service1.Status==ServiceControllerStatus.Running || service2.Status==ServiceControllerStatus.Running)
             {
-                if(service.ServiceName== "acumbrellaagent"||service.ServiceName== "vpnagent")
-                {
-                    if(service.Status==ServiceControllerStatus.Running)
-                    {
-                        BtnVPNSwitch.BackColor = Color.LightGreen;
-                        BtnVPNSwitch.ForeColor = Color.DarkGreen;
-                        BtnVPNSwitch.Text = "ON";
-                        Thread.Sleep(1000);
-                        btnVPNClientLaunch.Enabled = true;
-                        break;
-                    }
-                    break;
-                }
-                             
-                
-            }
-            if (BtnVPNSwitch.Text == "ON")
-            {
-                try
-                {
-                    ProcessStartInfo ProcSharedTry = new ProcessStartInfo();
-                    ProcSharedTry.FileName = @"\\c9-fs01";
-                    ProcSharedTry.WindowStyle = ProcessWindowStyle.Hidden;
-                    ProcSharedTry.CreateNoWindow = true;
-                    Process.Start(ProcSharedTry);
-
-                    btnOpenSharedFolder.Enabled = true;
-                    
-
-                }
-                catch
-                { btnOpenSharedFolder.Enabled = false; }
+                BtnVPNSwitch.BackColor = Color.LightGreen;
+                BtnVPNSwitch.ForeColor = Color.DarkGreen;
+                BtnVPNSwitch.Text = "ON";
+                Thread.Sleep(1000);
+                btnVPNClientLaunch.Enabled = true;
             }
             ///
             //App Manager Startup Setup
@@ -114,24 +87,6 @@ namespace LM_C9Master
                         }
                     }
                     break;
-
-                
-                case "SHAREDFOLDER":
-                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
-                    {
-                        Line = SR.ReadLine();
-                        while (Line != "</VPNManager>")
-                        {
-                            LineSplit = Line.Split('=');
-                            if (LineSplit[0] == "SharedFolderLocation")
-                            {
-                                lblSharedFolderTarget.Text =  LineSplit[1];
-                                break;
-                            }
-                            Line = SR.ReadLine();
-                        }
-                    }
-                    break;
                 case "C9TRADERROOT":
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
@@ -142,7 +97,6 @@ namespace LM_C9Master
                             if (LineSplit[0] == "C9TraderRootLocation")
                             {
                                 lblC9TraderRoot.Text = LineSplit[1];
-                                break;
                             }
                             Line = SR.ReadLine();
                         }
@@ -228,34 +182,10 @@ namespace LM_C9Master
             DefaultButtonsCheck();
         }
 
-        private void btnChangeSharedFolder_Click(object sender, EventArgs e)
-        {
-            DialogResult SharedFolderSelectorResult = new DialogResult();
-            SharedFolderSelectorResult = fldBrwsDiagSharedFolder.ShowDialog();
-            if(SharedFolderSelectorResult==DialogResult.OK)
-            {
-                string strResultChangeCheck = fldBrwsDiagSharedFolder.SelectedPath;
-                if(strResultChangeCheck!=lblSharedFolderTarget.Text)
-                {
-                    lblSharedFolderTarget.Text = strResultChangeCheck;
-                    btnDefaultSharedFolder.Enabled = true;
-                    btnSaveSettings.Enabled = true;
-                }
-            }
-        }
-
-        private void btnDefaultSharedFolder_Click(object sender, EventArgs e)
-        {
-            LoadSettings("SHAREDFOLDER");
-            btnDefaultSharedFolder.Enabled = false;
-            //IF ALL OTHER DEFAULT BUTTONS ARE DISABLED, SAVE BUTTON SHOULD ALSO BE DISABLED
-            DefaultButtonsCheck();
-        }
-
         public void DefaultButtonsCheck()
         {
             btnSaveSettings.Enabled = false;
-            if (btnDefaultVPNClient.Enabled || btnDefaultSharedFolder.Enabled||btnDefaultC9TraderRoot.Enabled)
+            if (btnDefaultVPNClient.Enabled || btnDefaultC9TraderRoot.Enabled)
                 btnSaveSettings.Enabled = true;
         }
 
@@ -310,22 +240,6 @@ namespace LM_C9Master
                     intIndex++;
                 }
             }
-            if(btnDefaultSharedFolder.Enabled)
-            {
-                string[] strSplitCheck = null;
-                int intIndex = 0;
-                foreach (string s in strCurrentSettings)
-                {
-                    strSplitCheck = s.Split('=');
-                    if (strSplitCheck[0] == "SharedFolderLocation")
-                    {
-                        strCurrentSettings[intIndex] = "SharedFolderLocation=" + lblSharedFolderTarget.Text;
-                        break;
-                    }
-                    intIndex++;
-                }
-
-            }
             if (btnDefaultC9TraderRoot.Enabled)
             {
                 string[] strSplitCheck = null;
@@ -359,7 +273,6 @@ namespace LM_C9Master
             File.Delete("LM_C9MSettings.new");
 
             btnDefaultVPNClient.Enabled = false;
-            btnDefaultSharedFolder.Enabled = false;
             btnSaveSettings.Enabled = false;
 
 
@@ -367,42 +280,28 @@ namespace LM_C9Master
 
         private void BtnVPNSwitch_Click(object sender, EventArgs e)
         {
-            ServiceController[] scActiveServices = ServiceController.GetServices();
-
-            if(BtnVPNSwitch.Text=="ON")
+            // Controls the state of the VPN background services
+            ServiceController service1 = new ServiceController("acumbrellaagent");
+            ServiceController service2 = new ServiceController("vpnagent");
+            if (BtnVPNSwitch.Text=="ON")
             {
-                foreach(ServiceController service in scActiveServices)
+                if (service1.Status != ServiceControllerStatus.Stopped)
                 {
-                    if(service.ServiceName == "acumbrellaagent" || service.ServiceName == "vpnagent")
-                    {
-                        if(service.Status!=ServiceControllerStatus.Stopped)
-                        {
-                            service.Stop();
-                            
-                        }
-                        
-                    }
+                    service1.Stop();
+                }
+                if (service2.Status != ServiceControllerStatus.Stopped)
+                {
+                    service2.Stop();
                 }
                 BtnVPNSwitch.Text = "OFF";
                 BtnVPNSwitch.BackColor = Color.LightCoral;
                 BtnVPNSwitch.ForeColor = Color.DarkRed;
-                btnOpenSharedFolder.Enabled = false;
                 btnVPNClientLaunch.Enabled = false;
             }
             else
             {
-                foreach (ServiceController service in scActiveServices)
-                {
-                    if (service.ServiceName == "acumbrellaagent" || service.ServiceName == "vpnagent")
-                    {
-                        if (service.Status != ServiceControllerStatus.Running)
-                        {
-                            service.Start();
-                            
-                        }
-
-                    }
-                }
+                service1.Start();
+                service2.Start();
                 BtnVPNSwitch.Text = "ON";
                 BtnVPNSwitch.BackColor = Color.LightGreen;
                 BtnVPNSwitch.ForeColor = Color.DarkGreen;
@@ -417,28 +316,41 @@ namespace LM_C9Master
             ProcessStartInfo ProcVPNCli= new ProcessStartInfo();
             ProcVPNCli.FileName = lblVPNClientTarget.Text;
             Process.Start(ProcVPNCli);
-            btnOpenSharedFolder.Enabled = true;
-        }
-
-        private void btnOpenSharedFolder_Click(object sender, EventArgs e)
-        {
-            Process.Start("explorer.exe", lblSharedFolderTarget.Text);
-
         }
 
         public void RefreshVersions()
         {
-           
-            string[]strSubDirList= Directory.GetDirectories(lblC9TraderRoot.Text);
-            foreach(string s in strSubDirList)
+            // Tries the existing filepath for the C9Trader, otherwise looks in the expected folder
+            try
             {
-                string[] strPathSplit = s.Split('\\') ;
-                string[] strAppSplit = strPathSplit[strPathSplit.Length-1].Split('-');
-                if (strAppSplit[0] == "app")
-                   cmbBoxVersionsList.SelectedIndex= cmbBoxVersionsList.Items.Add(strAppSplit[1]);
+                Process.Start(lblC9TraderRoot.ToString());
             }
-            
-            
+            catch (System.ComponentModel.Win32Exception)
+            {
+                string startPath;
+                if (MSI_Toggle.Text == "Squirrel")
+                {
+                    string currUser = Environment.UserName;
+                    startPath = @"C:\Users\" + currUser + "\\AppData\\Local\\C9Trader";
+                    lblC9TraderRoot.Text = startPath;
+                    string[] strSubDirList = Directory.GetDirectories(lblC9TraderRoot.Text);
+                    foreach (string s in strSubDirList)
+                    {
+                        string[] strPathSplit = s.Split('\\');
+                        string[] strAppSplit = strPathSplit[strPathSplit.Length - 1].Split('-');
+                        if (strAppSplit[0] == "app" && !cmbBoxVersionsList.Items.Contains(strAppSplit[1]))
+                        {
+                            cmbBoxVersionsList.SelectedIndex = cmbBoxVersionsList.Items.Add(strAppSplit[1]);
+                        }   
+                    }
+                }
+                else
+                {
+                    startPath = @"C:\Program Files (x86)\Cloud9 Technologies LLC\C9Trader";
+                    lblC9TraderRoot.Text = startPath;
+                }
+                    
+            }
         }
 
         private void btnRefreshVersions_Click(object sender, EventArgs e)
@@ -539,6 +451,36 @@ namespace LM_C9Master
                 btnRemoveUser.Enabled = true;
             }
             AutoSetPWD(cmbBoxUsers.Text);
+        }
+
+        private void BtnLaunchApp_Click(object sender, EventArgs e)
+        {
+            //Launches the app using user settings
+            if (MSI_Toggle.Text == "MSI Toggle")
+                Process.Start(lblC9TraderRoot.Text + "\\app-" + cmbBoxVersionsList.Text + "\\C9Shell.exe", "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text + " -r https://qa1-rest.xhoot.com");
+            else
+            {
+                ProcessStartInfo psi = new ProcessStartInfo();
+                psi.FileName = "C9Shell.exe";
+                psi.WorkingDirectory = lblC9TraderRoot.Text;
+                psi.Arguments = "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text + " -r https://qa1-rest.xhoot.com";
+                Process.Start(psi);
+            }
+                
+        }
+
+        private void lblC9TraderRoot_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            if (MSI_Toggle.Text == "Squirrel")
+                MSI_Toggle.Text = "MSI"; 
+            else
+                MSI_Toggle.Text = "Squirrel";
+            RefreshVersions();
         }
     }
 }

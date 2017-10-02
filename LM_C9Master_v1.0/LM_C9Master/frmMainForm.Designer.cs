@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnOpenSharedFolder = new System.Windows.Forms.Button();
             this.btnVPNClientLaunch = new System.Windows.Forms.Button();
             this.BtnVPNSwitch = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,12 +40,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnSaveSettings = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.lblSharedFolderTarget = new System.Windows.Forms.Label();
             this.lblVPNClientTarget = new System.Windows.Forms.Label();
             this.labely = new System.Windows.Forms.Label();
             this.labelx = new System.Windows.Forms.Label();
-            this.btnDefaultSharedFolder = new System.Windows.Forms.Button();
-            this.btnChangeSharedFolder = new System.Windows.Forms.Button();
             this.btnChangeVPNClient = new System.Windows.Forms.Button();
             this.btnDefaultVPNClient = new System.Windows.Forms.Button();
             this.btnRemoveUser = new System.Windows.Forms.Button();
@@ -57,6 +53,8 @@
             this.opnFDVPNClientSelector = new System.Windows.Forms.OpenFileDialog();
             this.fldBrwsDiagSharedFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.MSI_Toggle = new System.Windows.Forms.Button();
+            this.BtnLaunchApp = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.cmbBoxUsers = new System.Windows.Forms.ComboBox();
             this.btnRefreshVersions = new System.Windows.Forms.Button();
@@ -71,7 +69,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnOpenSharedFolder);
             this.groupBox1.Controls.Add(this.btnVPNClientLaunch);
             this.groupBox1.Controls.Add(this.BtnVPNSwitch);
             this.groupBox1.Controls.Add(this.label1);
@@ -81,17 +78,6 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "VPN Manager";
-            // 
-            // btnOpenSharedFolder
-            // 
-            this.btnOpenSharedFolder.Enabled = false;
-            this.btnOpenSharedFolder.Location = new System.Drawing.Point(285, 107);
-            this.btnOpenSharedFolder.Name = "btnOpenSharedFolder";
-            this.btnOpenSharedFolder.Size = new System.Drawing.Size(273, 49);
-            this.btnOpenSharedFolder.TabIndex = 3;
-            this.btnOpenSharedFolder.Text = "Open Shared Folder";
-            this.btnOpenSharedFolder.UseVisualStyleBackColor = true;
-            this.btnOpenSharedFolder.Click += new System.EventHandler(this.btnOpenSharedFolder_Click);
             // 
             // btnVPNClientLaunch
             // 
@@ -177,9 +163,10 @@
             this.lblC9TraderRoot.AutoSize = true;
             this.lblC9TraderRoot.Location = new System.Drawing.Point(15, 81);
             this.lblC9TraderRoot.Name = "lblC9TraderRoot";
-            this.lblC9TraderRoot.Size = new System.Drawing.Size(70, 25);
+            this.lblC9TraderRoot.Size = new System.Drawing.Size(176, 25);
             this.lblC9TraderRoot.TabIndex = 1;
-            this.lblC9TraderRoot.Text = "label4";
+            this.lblC9TraderRoot.Text = "Trader Root Path";
+            this.lblC9TraderRoot.Click += new System.EventHandler(this.lblC9TraderRoot_Click);
             // 
             // label3
             // 
@@ -203,12 +190,9 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.lblSharedFolderTarget);
             this.groupBox3.Controls.Add(this.lblVPNClientTarget);
             this.groupBox3.Controls.Add(this.labely);
             this.groupBox3.Controls.Add(this.labelx);
-            this.groupBox3.Controls.Add(this.btnDefaultSharedFolder);
-            this.groupBox3.Controls.Add(this.btnChangeSharedFolder);
             this.groupBox3.Controls.Add(this.btnChangeVPNClient);
             this.groupBox3.Controls.Add(this.btnDefaultVPNClient);
             this.groupBox3.Location = new System.Drawing.Point(6, 35);
@@ -217,14 +201,6 @@
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "VPN Manager";
-            // 
-            // lblSharedFolderTarget
-            // 
-            this.lblSharedFolderTarget.AutoSize = true;
-            this.lblSharedFolderTarget.Location = new System.Drawing.Point(15, 157);
-            this.lblSharedFolderTarget.Name = "lblSharedFolderTarget";
-            this.lblSharedFolderTarget.Size = new System.Drawing.Size(0, 25);
-            this.lblSharedFolderTarget.TabIndex = 7;
             // 
             // lblVPNClientTarget
             // 
@@ -236,46 +212,23 @@
             // 
             // labely
             // 
-            this.labely.AutoSize = true;
-            this.labely.Location = new System.Drawing.Point(6, 115);
+            this.labely.Location = new System.Drawing.Point(356, 117);
             this.labely.Name = "labely";
-            this.labely.Size = new System.Drawing.Size(154, 25);
-            this.labely.TabIndex = 5;
-            this.labely.Text = "Shared Folder:";
+            this.labely.Size = new System.Drawing.Size(100, 23);
+            this.labely.TabIndex = 7;
             // 
             // labelx
             // 
             this.labelx.AutoSize = true;
-            this.labelx.Location = new System.Drawing.Point(6, 35);
+            this.labelx.Location = new System.Drawing.Point(6, 39);
             this.labelx.Name = "labelx";
             this.labelx.Size = new System.Drawing.Size(122, 25);
             this.labelx.TabIndex = 4;
             this.labelx.Text = "VPN Client:";
             // 
-            // btnDefaultSharedFolder
-            // 
-            this.btnDefaultSharedFolder.Enabled = false;
-            this.btnDefaultSharedFolder.Location = new System.Drawing.Point(1388, 142);
-            this.btnDefaultSharedFolder.Name = "btnDefaultSharedFolder";
-            this.btnDefaultSharedFolder.Size = new System.Drawing.Size(107, 40);
-            this.btnDefaultSharedFolder.TabIndex = 3;
-            this.btnDefaultSharedFolder.Text = "Default";
-            this.btnDefaultSharedFolder.UseVisualStyleBackColor = true;
-            this.btnDefaultSharedFolder.Click += new System.EventHandler(this.btnDefaultSharedFolder_Click);
-            // 
-            // btnChangeSharedFolder
-            // 
-            this.btnChangeSharedFolder.Location = new System.Drawing.Point(1275, 142);
-            this.btnChangeSharedFolder.Name = "btnChangeSharedFolder";
-            this.btnChangeSharedFolder.Size = new System.Drawing.Size(107, 40);
-            this.btnChangeSharedFolder.TabIndex = 2;
-            this.btnChangeSharedFolder.Text = "Change";
-            this.btnChangeSharedFolder.UseVisualStyleBackColor = true;
-            this.btnChangeSharedFolder.Click += new System.EventHandler(this.btnChangeSharedFolder_Click);
-            // 
             // btnChangeVPNClient
             // 
-            this.btnChangeVPNClient.Location = new System.Drawing.Point(1275, 57);
+            this.btnChangeVPNClient.Location = new System.Drawing.Point(1275, 39);
             this.btnChangeVPNClient.Name = "btnChangeVPNClient";
             this.btnChangeVPNClient.Size = new System.Drawing.Size(107, 40);
             this.btnChangeVPNClient.TabIndex = 1;
@@ -286,7 +239,7 @@
             // btnDefaultVPNClient
             // 
             this.btnDefaultVPNClient.Enabled = false;
-            this.btnDefaultVPNClient.Location = new System.Drawing.Point(1388, 57);
+            this.btnDefaultVPNClient.Location = new System.Drawing.Point(1388, 39);
             this.btnDefaultVPNClient.Name = "btnDefaultVPNClient";
             this.btnDefaultVPNClient.Size = new System.Drawing.Size(107, 40);
             this.btnDefaultVPNClient.TabIndex = 0;
@@ -350,6 +303,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.MSI_Toggle);
+            this.groupBox4.Controls.Add(this.BtnLaunchApp);
             this.groupBox4.Controls.Add(this.chkBoxSetViewPassword);
             this.groupBox4.Controls.Add(this.btnRemoveUser);
             this.groupBox4.Controls.Add(this.label5);
@@ -366,6 +321,26 @@
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "App Manager";
+            // 
+            // MSI_Toggle
+            // 
+            this.MSI_Toggle.Location = new System.Drawing.Point(416, 63);
+            this.MSI_Toggle.Name = "MSI_Toggle";
+            this.MSI_Toggle.Size = new System.Drawing.Size(143, 44);
+            this.MSI_Toggle.TabIndex = 12;
+            this.MSI_Toggle.Text = "Squirrel";
+            this.MSI_Toggle.UseVisualStyleBackColor = true;
+            this.MSI_Toggle.Click += new System.EventHandler(this.Button1_Click);
+            // 
+            // BtnLaunchApp
+            // 
+            this.BtnLaunchApp.Location = new System.Drawing.Point(155, 294);
+            this.BtnLaunchApp.Name = "BtnLaunchApp";
+            this.BtnLaunchApp.Size = new System.Drawing.Size(233, 45);
+            this.BtnLaunchApp.TabIndex = 11;
+            this.BtnLaunchApp.Text = "Launch Application";
+            this.BtnLaunchApp.UseVisualStyleBackColor = true;
+            this.BtnLaunchApp.Click += new System.EventHandler(this.BtnLaunchApp_Click);
             // 
             // label6
             // 
@@ -416,6 +391,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(2112, 572);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
@@ -448,15 +424,11 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label labely;
         private System.Windows.Forms.Label labelx;
-        private System.Windows.Forms.Button btnDefaultSharedFolder;
-        private System.Windows.Forms.Button btnChangeSharedFolder;
         private System.Windows.Forms.Button btnChangeVPNClient;
         private System.Windows.Forms.Button btnDefaultVPNClient;
         private System.Windows.Forms.OpenFileDialog opnFDVPNClientSelector;
         private System.Windows.Forms.FolderBrowserDialog fldBrwsDiagSharedFolder;
         private System.Windows.Forms.Label lblVPNClientTarget;
-        private System.Windows.Forms.Label lblSharedFolderTarget;
-        private System.Windows.Forms.Button btnOpenSharedFolder;
         private System.Windows.Forms.Button btnVPNClientLaunch;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button btnRefreshVersions;
@@ -474,6 +446,8 @@
         private System.Windows.Forms.Button btnAddUser;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox cmbBoxUsers;
+        private System.Windows.Forms.Button BtnLaunchApp;
+        private System.Windows.Forms.Button MSI_Toggle;
     }
 }
 
