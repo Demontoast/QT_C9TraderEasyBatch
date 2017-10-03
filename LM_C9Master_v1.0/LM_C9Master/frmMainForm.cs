@@ -390,7 +390,7 @@ namespace LM_C9Master
         {
             //EXECUTE CHECKS ON ACCOUNTSFROMSETTINGS LIST (THE USER DOESNT EXISTS ALREADY, ETC.) CAN EASILY BE DONE WITH FLAGS
 
-            bool flgMustAddNewUser = false;
+            bool flgMustAddNewUser = true;
             if (AccountsFromSettings[0].strUserName == "NoSavedAccounts")
                 AccountsFromSettings[0].strUserName = "";
 
