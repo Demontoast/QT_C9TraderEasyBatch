@@ -288,37 +288,54 @@ namespace LM_C9Master
         {
             ServiceController svcAcumbrella = new ServiceController("acumbrellaagent");
             ServiceController svcVPNAgent = new ServiceController("vpnagent");
-            try
+            if (BtnVPNSwitch.Text == "OFF")
             {
-                if(svcAcumbrella.Status==ServiceControllerStatus.Stopped && svcVPNAgent.Status==ServiceControllerStatus.Stopped)
+                try
                 {
-                    svcAcumbrella.Start();
-                    Thread.Sleep(1500);
-                    svcVPNAgent.Start();
+                    if (svcAcumbrella.Status == ServiceControllerStatus.Stopped)
+                    {
+                        svcAcumbrella.Start();
+                    }
+                    if (svcVPNAgent.Status == ServiceControllerStatus.Stopped)
+                    {
+                        svcVPNAgent.Start();
+                    }
 
                     BtnVPNSwitch.Text = "ON";
                     BtnVPNSwitch.BackColor = Color.LightGreen;
                     BtnVPNSwitch.ForeColor = Color.DarkGreen;
-
                     btnVPNClientLaunch.Enabled = true;
+                    Thread.Sleep(1500);
                 }
-                if (svcAcumbrella.Status == ServiceControllerStatus.Running && svcVPNAgent.Status == ServiceControllerStatus.Running)
+                catch
                 {
-                    svcAcumbrella.Stop();
-                    svcVPNAgent.Stop();
-
+                    MessageBox.Show("VPN services are not working properly..." + Environment.NewLine + "Please verify their status in Windows Task Manager", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    BtnVPNSwitch.Enabled = false;
+                }
+            }
+            else
+            {
+                try
+                {
+                    if (svcAcumbrella.Status == ServiceControllerStatus.Running)
+                    {
+                        svcAcumbrella.Stop();
+                    }
+                    if (svcVPNAgent.Status == ServiceControllerStatus.Running)
+                    {
+                        svcVPNAgent.Stop();
+                    }
                     BtnVPNSwitch.Text = "OFF";
                     BtnVPNSwitch.BackColor = Color.LightCoral;
                     BtnVPNSwitch.ForeColor = Color.DarkRed;
-                    //btnOpenSharedFolder.Enabled = false;
                     btnVPNClientLaunch.Enabled = false;
-
+                    Thread.Sleep(1500);
                 }
-            }
-            catch
-            {
-                MessageBox.Show("VPN services are not working properly..." + Environment.NewLine + "Please verify their status in Windows Task Manager", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                BtnVPNSwitch.Enabled = false;
+                catch
+                {
+                    MessageBox.Show("VPN services are not working properly..." + Environment.NewLine + "Please verify their status in Windows Task Manager", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    BtnVPNSwitch.Enabled = false;
+                }
             }
         }
 
