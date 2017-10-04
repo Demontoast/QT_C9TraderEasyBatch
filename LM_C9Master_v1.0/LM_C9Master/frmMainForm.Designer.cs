@@ -41,6 +41,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnSaveSettings = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnChangeVPNPath = new System.Windows.Forms.Button();
             this.lblVPNClientTarget = new System.Windows.Forms.TextBox();
             this.labelx = new System.Windows.Forms.Label();
             this.btnChangeVPNClient = new System.Windows.Forms.Button();
@@ -71,7 +72,7 @@
             this.btnTestCycles = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.reeMedia = new AxWMPLib.AxWindowsMediaPlayer();
+            this.btnCloseAppSelUser = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -79,7 +80,6 @@
             this.groupBox4.SuspendLayout();
             this.Links.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.reeEEE)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.reeMedia)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -97,7 +97,7 @@
             // btnVPNClientLaunch
             // 
             this.btnVPNClientLaunch.Enabled = false;
-            this.btnVPNClientLaunch.Location = new System.Drawing.Point(7, 107);
+            this.btnVPNClientLaunch.Location = new System.Drawing.Point(141, 101);
             this.btnVPNClientLaunch.Name = "btnVPNClientLaunch";
             this.btnVPNClientLaunch.Size = new System.Drawing.Size(273, 49);
             this.btnVPNClientLaunch.TabIndex = 2;
@@ -129,8 +129,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnCloseApp);
             this.groupBox2.Controls.Add(this.groupBox5);
-            this.groupBox2.Controls.Add(this.btnSaveSettings);
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Location = new System.Drawing.Point(587, 12);
             this.groupBox2.Name = "groupBox2";
@@ -143,6 +143,7 @@
             // 
             this.groupBox5.Controls.Add(this.btnChangeC9TraderRoot);
             this.groupBox5.Controls.Add(this.btnDefaultC9TraderRoot);
+            this.groupBox5.Controls.Add(this.btnSaveSettings);
             this.groupBox5.Controls.Add(this.lblC9TraderRoot);
             this.groupBox5.Controls.Add(this.label3);
             this.groupBox5.Location = new System.Drawing.Point(7, 250);
@@ -154,7 +155,7 @@
             // 
             // btnChangeC9TraderRoot
             // 
-            this.btnChangeC9TraderRoot.Location = new System.Drawing.Point(12, 72);
+            this.btnChangeC9TraderRoot.Location = new System.Drawing.Point(297, 43);
             this.btnChangeC9TraderRoot.Name = "btnChangeC9TraderRoot";
             this.btnChangeC9TraderRoot.Size = new System.Drawing.Size(107, 40);
             this.btnChangeC9TraderRoot.TabIndex = 3;
@@ -165,7 +166,7 @@
             // btnDefaultC9TraderRoot
             // 
             this.btnDefaultC9TraderRoot.Enabled = false;
-            this.btnDefaultC9TraderRoot.Location = new System.Drawing.Point(125, 72);
+            this.btnDefaultC9TraderRoot.Location = new System.Drawing.Point(410, 43);
             this.btnDefaultC9TraderRoot.Name = "btnDefaultC9TraderRoot";
             this.btnDefaultC9TraderRoot.Size = new System.Drawing.Size(107, 40);
             this.btnDefaultC9TraderRoot.TabIndex = 2;
@@ -175,7 +176,7 @@
             // 
             // lblC9TraderRoot
             // 
-            this.lblC9TraderRoot.Location = new System.Drawing.Point(15, 117);
+            this.lblC9TraderRoot.Location = new System.Drawing.Point(11, 89);
             this.lblC9TraderRoot.Name = "lblC9TraderRoot";
             this.lblC9TraderRoot.Size = new System.Drawing.Size(588, 31);
             this.lblC9TraderRoot.TabIndex = 1;
@@ -194,7 +195,7 @@
             // btnSaveSettings
             // 
             this.btnSaveSettings.Enabled = false;
-            this.btnSaveSettings.Location = new System.Drawing.Point(7, 495);
+            this.btnSaveSettings.Location = new System.Drawing.Point(251, 141);
             this.btnSaveSettings.Name = "btnSaveSettings";
             this.btnSaveSettings.Size = new System.Drawing.Size(134, 46);
             this.btnSaveSettings.TabIndex = 1;
@@ -204,6 +205,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnChangeVPNPath);
             this.groupBox3.Controls.Add(this.lblVPNClientTarget);
             this.groupBox3.Controls.Add(this.labelx);
             this.groupBox3.Controls.Add(this.btnChangeVPNClient);
@@ -215,9 +217,19 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "VPN Manager";
             // 
+            // btnChangeVPNPath
+            // 
+            this.btnChangeVPNPath.Location = new System.Drawing.Point(125, 36);
+            this.btnChangeVPNPath.Name = "btnChangeVPNPath";
+            this.btnChangeVPNPath.Size = new System.Drawing.Size(107, 40);
+            this.btnChangeVPNPath.TabIndex = 7;
+            this.btnChangeVPNPath.Text = "Change";
+            this.btnChangeVPNPath.UseVisualStyleBackColor = true;
+            this.btnChangeVPNPath.Click += new System.EventHandler(this.btnChangeVPNPath_Click);
+            // 
             // lblVPNClientTarget
             // 
-            this.lblVPNClientTarget.Location = new System.Drawing.Point(15, 72);
+            this.lblVPNClientTarget.Location = new System.Drawing.Point(15, 82);
             this.lblVPNClientTarget.Name = "lblVPNClientTarget";
             this.lblVPNClientTarget.Size = new System.Drawing.Size(588, 31);
             this.lblVPNClientTarget.TabIndex = 6;
@@ -310,7 +322,7 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.btnCloseApp);
+            this.groupBox4.Controls.Add(this.btnCloseAppSelUser);
             this.groupBox4.Controls.Add(this.chkBoxNoUpd);
             this.groupBox4.Controls.Add(this.chkBoxMultiApp);
             this.groupBox4.Controls.Add(this.MSI_Toggle);
@@ -335,11 +347,11 @@
             // btnCloseApp
             // 
             this.btnCloseApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnCloseApp.Location = new System.Drawing.Point(293, 299);
+            this.btnCloseApp.Location = new System.Drawing.Point(191, 476);
             this.btnCloseApp.Name = "btnCloseApp";
             this.btnCloseApp.Size = new System.Drawing.Size(265, 51);
             this.btnCloseApp.TabIndex = 15;
-            this.btnCloseApp.Text = "Close Open Applications";
+            this.btnCloseApp.Text = "Close All Open Apps";
             this.btnCloseApp.UseVisualStyleBackColor = false;
             this.btnCloseApp.Click += new System.EventHandler(this.btnCloseApp_Click);
             // 
@@ -372,7 +384,7 @@
             this.MSI_Toggle.TabIndex = 12;
             this.MSI_Toggle.Text = "Squirrel";
             this.MSI_Toggle.UseVisualStyleBackColor = true;
-            this.MSI_Toggle.Click += new System.EventHandler(this.Button1_Click);
+            this.MSI_Toggle.Click += new System.EventHandler(this.BuildToggle_Click);
             // 
             // BtnLaunchApp
             // 
@@ -439,7 +451,6 @@
             this.Links.Controls.Add(this.btnTestCycles);
             this.Links.Controls.Add(this.label8);
             this.Links.Controls.Add(this.label4);
-            this.Links.Controls.Add(this.reeMedia);
             this.Links.Location = new System.Drawing.Point(1238, 12);
             this.Links.Name = "Links";
             this.Links.Size = new System.Drawing.Size(737, 547);
@@ -518,14 +529,15 @@
             this.label4.Text = "JIRA Test Cycles";
             this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
-            // reeMedia
+            // btnCloseAppSelUser
             // 
-            this.reeMedia.Enabled = true;
-            this.reeMedia.Location = new System.Drawing.Point(0, 0);
-            this.reeMedia.Name = "reeMedia";
-            this.reeMedia.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("reeMedia.OcxState")));
-            this.reeMedia.Size = new System.Drawing.Size(75, 23);
-            this.reeMedia.TabIndex = 8;
+            this.btnCloseAppSelUser.Location = new System.Drawing.Point(283, 299);
+            this.btnCloseAppSelUser.Name = "btnCloseAppSelUser";
+            this.btnCloseAppSelUser.Size = new System.Drawing.Size(275, 50);
+            this.btnCloseAppSelUser.TabIndex = 15;
+            this.btnCloseAppSelUser.Text = "Close App Selected User";
+            this.btnCloseAppSelUser.UseVisualStyleBackColor = true;
+            this.btnCloseAppSelUser.Click += new System.EventHandler(this.btnCloseAppSelUser_Click);
             // 
             // frmMainForm
             // 
@@ -554,7 +566,6 @@
             this.Links.ResumeLayout(false);
             this.Links.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.reeEEE)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.reeMedia)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -603,7 +614,8 @@
         private System.Windows.Forms.CheckBox chkBoxMultiApp;
         private System.Windows.Forms.Button btnCloseApp;
         private System.Windows.Forms.PictureBox reeEEE;
-        private AxWMPLib.AxWindowsMediaPlayer reeMedia;
+        private System.Windows.Forms.Button btnChangeVPNPath;
+        private System.Windows.Forms.Button btnCloseAppSelUser;
     }
 }
 
