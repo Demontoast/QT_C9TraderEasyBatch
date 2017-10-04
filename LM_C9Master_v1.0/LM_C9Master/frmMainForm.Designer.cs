@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnVPNClientLaunch = new System.Windows.Forms.Button();
             this.BtnVPNSwitch = new System.Windows.Forms.Button();
@@ -36,11 +37,11 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnChangeC9TraderRoot = new System.Windows.Forms.Button();
             this.btnDefaultC9TraderRoot = new System.Windows.Forms.Button();
-            this.lblC9TraderRoot = new System.Windows.Forms.Label();
+            this.lblC9TraderRoot = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnSaveSettings = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.lblVPNClientTarget = new System.Windows.Forms.Label();
+            this.lblVPNClientTarget = new System.Windows.Forms.TextBox();
             this.labelx = new System.Windows.Forms.Label();
             this.btnChangeVPNClient = new System.Windows.Forms.Button();
             this.btnDefaultVPNClient = new System.Windows.Forms.Button();
@@ -52,6 +53,9 @@
             this.opnFDVPNClientSelector = new System.Windows.Forms.OpenFileDialog();
             this.fldBrwsDiagSharedFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnCloseApp = new System.Windows.Forms.Button();
+            this.chkBoxNoUpd = new System.Windows.Forms.CheckBox();
+            this.chkBoxMultiApp = new System.Windows.Forms.CheckBox();
             this.MSI_Toggle = new System.Windows.Forms.Button();
             this.BtnLaunchApp = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -60,21 +64,22 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cmbBoxVersionsList = new System.Windows.Forms.ComboBox();
             this.Links = new System.Windows.Forms.GroupBox();
+            this.reeEEE = new System.Windows.Forms.PictureBox();
             this.btnDesktopApp = new System.Windows.Forms.Button();
             this.btnWebApp = new System.Windows.Forms.Button();
             this.btnScrumBoard = new System.Windows.Forms.Button();
             this.btnTestCycles = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.chkBoxMultiApp = new System.Windows.Forms.CheckBox();
-            this.chkBoxNoUpd = new System.Windows.Forms.CheckBox();
+            this.reeMedia = new AxWMPLib.AxWindowsMediaPlayer();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.Links.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.reeEEE)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.reeMedia)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -170,10 +175,9 @@
             // 
             // lblC9TraderRoot
             // 
-            this.lblC9TraderRoot.AutoSize = true;
             this.lblC9TraderRoot.Location = new System.Drawing.Point(15, 117);
             this.lblC9TraderRoot.Name = "lblC9TraderRoot";
-            this.lblC9TraderRoot.Size = new System.Drawing.Size(176, 25);
+            this.lblC9TraderRoot.Size = new System.Drawing.Size(588, 31);
             this.lblC9TraderRoot.TabIndex = 1;
             this.lblC9TraderRoot.Text = "Trader Root Path";
             this.lblC9TraderRoot.Click += new System.EventHandler(this.lblC9TraderRoot_Click);
@@ -213,11 +217,11 @@
             // 
             // lblVPNClientTarget
             // 
-            this.lblVPNClientTarget.AutoSize = true;
             this.lblVPNClientTarget.Location = new System.Drawing.Point(15, 72);
             this.lblVPNClientTarget.Name = "lblVPNClientTarget";
-            this.lblVPNClientTarget.Size = new System.Drawing.Size(0, 25);
+            this.lblVPNClientTarget.Size = new System.Drawing.Size(588, 31);
             this.lblVPNClientTarget.TabIndex = 6;
+            this.lblVPNClientTarget.Text = "xxxxxxxx";
             // 
             // labelx
             // 
@@ -306,6 +310,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnCloseApp);
             this.groupBox4.Controls.Add(this.chkBoxNoUpd);
             this.groupBox4.Controls.Add(this.chkBoxMultiApp);
             this.groupBox4.Controls.Add(this.MSI_Toggle);
@@ -327,11 +332,43 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "App Manager";
             // 
+            // btnCloseApp
+            // 
+            this.btnCloseApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnCloseApp.Location = new System.Drawing.Point(293, 299);
+            this.btnCloseApp.Name = "btnCloseApp";
+            this.btnCloseApp.Size = new System.Drawing.Size(265, 51);
+            this.btnCloseApp.TabIndex = 15;
+            this.btnCloseApp.Text = "Close Open Applications";
+            this.btnCloseApp.UseVisualStyleBackColor = false;
+            this.btnCloseApp.Click += new System.EventHandler(this.btnCloseApp_Click);
+            // 
+            // chkBoxNoUpd
+            // 
+            this.chkBoxNoUpd.AutoSize = true;
+            this.chkBoxNoUpd.Location = new System.Drawing.Point(479, 158);
+            this.chkBoxNoUpd.Name = "chkBoxNoUpd";
+            this.chkBoxNoUpd.Size = new System.Drawing.Size(62, 29);
+            this.chkBoxNoUpd.TabIndex = 14;
+            this.chkBoxNoUpd.Text = "-x";
+            this.chkBoxNoUpd.UseVisualStyleBackColor = true;
+            // 
+            // chkBoxMultiApp
+            // 
+            this.chkBoxMultiApp.AutoSize = true;
+            this.chkBoxMultiApp.Location = new System.Drawing.Point(410, 156);
+            this.chkBoxMultiApp.Name = "chkBoxMultiApp";
+            this.chkBoxMultiApp.Size = new System.Drawing.Size(63, 29);
+            this.chkBoxMultiApp.TabIndex = 13;
+            this.chkBoxMultiApp.Text = "-a";
+            this.chkBoxMultiApp.UseVisualStyleBackColor = true;
+            this.chkBoxMultiApp.CheckedChanged += new System.EventHandler(this.chkBoxMultiApp_CheckedChanged);
+            // 
             // MSI_Toggle
             // 
-            this.MSI_Toggle.Location = new System.Drawing.Point(416, 63);
+            this.MSI_Toggle.Location = new System.Drawing.Point(417, 62);
             this.MSI_Toggle.Name = "MSI_Toggle";
-            this.MSI_Toggle.Size = new System.Drawing.Size(143, 44);
+            this.MSI_Toggle.Size = new System.Drawing.Size(142, 44);
             this.MSI_Toggle.TabIndex = 12;
             this.MSI_Toggle.Text = "Squirrel";
             this.MSI_Toggle.UseVisualStyleBackColor = true;
@@ -339,12 +376,13 @@
             // 
             // BtnLaunchApp
             // 
-            this.BtnLaunchApp.Location = new System.Drawing.Point(155, 294);
+            this.BtnLaunchApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.BtnLaunchApp.Location = new System.Drawing.Point(7, 299);
             this.BtnLaunchApp.Name = "BtnLaunchApp";
-            this.BtnLaunchApp.Size = new System.Drawing.Size(233, 45);
+            this.BtnLaunchApp.Size = new System.Drawing.Size(270, 51);
             this.BtnLaunchApp.TabIndex = 11;
             this.BtnLaunchApp.Text = "Launch Application";
-            this.BtnLaunchApp.UseVisualStyleBackColor = true;
+            this.BtnLaunchApp.UseVisualStyleBackColor = false;
             this.BtnLaunchApp.Click += new System.EventHandler(this.BtnLaunchApp_Click);
             // 
             // label6
@@ -394,13 +432,14 @@
             // 
             // Links
             // 
+            this.Links.Controls.Add(this.reeEEE);
             this.Links.Controls.Add(this.btnDesktopApp);
             this.Links.Controls.Add(this.btnWebApp);
             this.Links.Controls.Add(this.btnScrumBoard);
             this.Links.Controls.Add(this.btnTestCycles);
             this.Links.Controls.Add(this.label8);
-            this.Links.Controls.Add(this.label7);
             this.Links.Controls.Add(this.label4);
+            this.Links.Controls.Add(this.reeMedia);
             this.Links.Location = new System.Drawing.Point(1238, 12);
             this.Links.Name = "Links";
             this.Links.Size = new System.Drawing.Size(737, 547);
@@ -408,6 +447,17 @@
             this.Links.TabStop = false;
             this.Links.Text = "Links";
             this.Links.Enter += new System.EventHandler(this.Links_Enter);
+            // 
+            // reeEEE
+            // 
+            this.reeEEE.Image = ((System.Drawing.Image)(resources.GetObject("reeEEE.Image")));
+            this.reeEEE.Location = new System.Drawing.Point(336, 474);
+            this.reeEEE.Name = "reeEEE";
+            this.reeEEE.Size = new System.Drawing.Size(57, 53);
+            this.reeEEE.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.reeEEE.TabIndex = 7;
+            this.reeEEE.TabStop = false;
+            this.reeEEE.Click += new System.EventHandler(this.reeEEE_Click);
             // 
             // btnDesktopApp
             // 
@@ -458,15 +508,6 @@
             this.label8.TabIndex = 2;
             this.label8.Text = "C9 Slack";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(255, 377);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(187, 25);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "JIRA Scrum Board";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -477,26 +518,14 @@
             this.label4.Text = "JIRA Test Cycles";
             this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
-            // chkBoxMultiApp
+            // reeMedia
             // 
-            this.chkBoxMultiApp.AutoSize = true;
-            this.chkBoxMultiApp.Location = new System.Drawing.Point(410, 156);
-            this.chkBoxMultiApp.Name = "chkBoxMultiApp";
-            this.chkBoxMultiApp.Size = new System.Drawing.Size(63, 29);
-            this.chkBoxMultiApp.TabIndex = 13;
-            this.chkBoxMultiApp.Text = "-a";
-            this.chkBoxMultiApp.UseVisualStyleBackColor = true;
-            this.chkBoxMultiApp.CheckedChanged += new System.EventHandler(this.chkBoxMultiApp_CheckedChanged);
-            // 
-            // chkBoxNoUpd
-            // 
-            this.chkBoxNoUpd.AutoSize = true;
-            this.chkBoxNoUpd.Location = new System.Drawing.Point(479, 158);
-            this.chkBoxNoUpd.Name = "chkBoxNoUpd";
-            this.chkBoxNoUpd.Size = new System.Drawing.Size(62, 29);
-            this.chkBoxNoUpd.TabIndex = 14;
-            this.chkBoxNoUpd.Text = "-x";
-            this.chkBoxNoUpd.UseVisualStyleBackColor = true;
+            this.reeMedia.Enabled = true;
+            this.reeMedia.Location = new System.Drawing.Point(0, 0);
+            this.reeMedia.Name = "reeMedia";
+            this.reeMedia.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("reeMedia.OcxState")));
+            this.reeMedia.Size = new System.Drawing.Size(75, 23);
+            this.reeMedia.TabIndex = 8;
             // 
             // frmMainForm
             // 
@@ -524,6 +553,8 @@
             this.groupBox4.PerformLayout();
             this.Links.ResumeLayout(false);
             this.Links.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.reeEEE)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.reeMedia)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -541,14 +572,14 @@
         private System.Windows.Forms.Button btnDefaultVPNClient;
         private System.Windows.Forms.OpenFileDialog opnFDVPNClientSelector;
         private System.Windows.Forms.FolderBrowserDialog fldBrwsDiagSharedFolder;
-        private System.Windows.Forms.Label lblVPNClientTarget;
+        private System.Windows.Forms.TextBox lblVPNClientTarget;
         private System.Windows.Forms.Button btnVPNClientLaunch;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button btnRefreshVersions;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbBoxVersionsList;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Label lblC9TraderRoot;
+        private System.Windows.Forms.TextBox lblC9TraderRoot;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnChangeC9TraderRoot;
         private System.Windows.Forms.Button btnDefaultC9TraderRoot;
@@ -563,7 +594,6 @@
         private System.Windows.Forms.Button MSI_Toggle;
         private System.Windows.Forms.GroupBox Links;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnTestCycles;
         private System.Windows.Forms.Button btnDesktopApp;
@@ -571,6 +601,9 @@
         private System.Windows.Forms.Button btnScrumBoard;
         private System.Windows.Forms.CheckBox chkBoxNoUpd;
         private System.Windows.Forms.CheckBox chkBoxMultiApp;
+        private System.Windows.Forms.Button btnCloseApp;
+        private System.Windows.Forms.PictureBox reeEEE;
+        private AxWMPLib.AxWindowsMediaPlayer reeMedia;
     }
 }
 

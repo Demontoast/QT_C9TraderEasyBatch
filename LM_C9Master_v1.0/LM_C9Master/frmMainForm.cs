@@ -11,6 +11,7 @@ using System.IO;
 using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading;
+using System.Media;
 
 //need to review the whole account retreival/saving system, the accounts get overwritten when saved.
 
@@ -301,11 +302,13 @@ namespace LM_C9Master
                         svcVPNAgent.Start();
                     }
 
+                    BtnVPNSwitch.Enabled = false;
+                    Thread.Sleep(1500);
                     BtnVPNSwitch.Text = "ON";
                     BtnVPNSwitch.BackColor = Color.LightGreen;
                     BtnVPNSwitch.ForeColor = Color.DarkGreen;
                     btnVPNClientLaunch.Enabled = true;
-                    Thread.Sleep(1500);
+                    BtnVPNSwitch.Enabled = true;
                 }
                 catch
                 {
@@ -325,11 +328,13 @@ namespace LM_C9Master
                     {
                         svcVPNAgent.Stop();
                     }
+                    BtnVPNSwitch.Enabled = false;
+                    Thread.Sleep(1500);
                     BtnVPNSwitch.Text = "OFF";
                     BtnVPNSwitch.BackColor = Color.LightCoral;
                     BtnVPNSwitch.ForeColor = Color.DarkRed;
                     btnVPNClientLaunch.Enabled = false;
-                    Thread.Sleep(1500);
+                    BtnVPNSwitch.Enabled = true;
                 }
                 catch
                 {
@@ -502,6 +507,10 @@ namespace LM_C9Master
                 }
             }
             SaveAccountsToSettings();
+
+            BtnLaunchApp.Enabled = false;
+            Thread.Sleep(1500);
+            BtnLaunchApp.Enabled = true;
         }
         private void lblC9TraderRoot_Click(object sender, EventArgs e)
         {
@@ -570,6 +579,24 @@ namespace LM_C9Master
                     break;
                 }
             }
+        }
+
+        private void btnCloseApp_Click(object sender, EventArgs e)
+        {
+            foreach(Process p in Process.GetProcesses())
+            {
+                if (p.ProcessName.Contains("C9Shell"))
+                    p.Kill();
+            }
+            btnCloseApp.Enabled = false;
+            Thread.Sleep(1500);
+            btnCloseApp.Enabled = true;
+        }
+
+        private void reeEEE_Click(object sender, EventArgs e)
+        {
+            SoundPlayer simpleSound = new SoundPlayer("reeeeeeeee2.wav");
+            simpleSound.Play();
         }
     }
 }
