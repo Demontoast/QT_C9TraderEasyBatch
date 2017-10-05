@@ -55,7 +55,7 @@ namespace LM_C9Master
             this.Height = 345;
             foreach (Process p in System.Diagnostics.Process.GetProcesses())
             {
-                if (p.ProcessName.Equals("C9Shell.exe"))
+                if (p.ProcessName.Contains("C9Shell"))
                 {
                     ProcessUser x = new ProcessUser();
                     x.userProcess = p;
@@ -389,7 +389,9 @@ namespace LM_C9Master
             
             ProcessStartInfo ProcVPNCli= new ProcessStartInfo();
             ProcVPNCli.FileName = lblVPNClientTarget.Text;
-            if (ProcVPNCli.FileName != "vpnui.exe")
+
+            String[] fileNameSplitter = lblVPNClientTarget.Text.Split('\\');
+            if (fileNameSplitter[fileNameSplitter.Length-1] != "vpnui.exe")
             {
                 MessageBox.Show("Error: vpnui.exe not selected.");
                 btnDefaultVPNClient_Click(sender, e);      
@@ -682,8 +684,24 @@ namespace LM_C9Master
                 {
                     while (ActiveProcesses.Count!=0)
                     {
-                        ActiveProcesses.ElementAt(0).userProcess.Kill();
-                        ActiveProcesses.Remove(ActiveProcesses.ElementAt(0));
+                        try
+                        {
+                            ActiveProcesses.ElementAt(0).userProcess.Kill();
+                            ActiveProcesses.Remove(ActiveProcesses.ElementAt(0));
+                        }
+                        catch
+                        {
+                            if (!ActiveProcesses.ElementAt(0).userProcess.Responding)
+                            {
+                                ActiveProcesses.Remove(ActiveProcesses.ElementAt(0));
+                            }
+                            else
+                            {
+                                ActiveProcesses.ElementAt(0).userProcess.Kill();
+                                ActiveProcesses.Remove(ActiveProcesses.ElementAt(0));
+                            }
+                        }
+                        
                     }
                 }
             }
@@ -698,6 +716,7 @@ namespace LM_C9Master
         // For fun button
         private void reeEEE_Click(object sender, EventArgs e)
         {
+            //String soundLoc = 
             SoundPlayer simpleSound = new SoundPlayer("reeeeeeeee2.wav");
             simpleSound.Play();
         }
