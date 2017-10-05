@@ -34,18 +34,19 @@
             this.BtnVPNSwitch = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnCloseApp = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnChangeC9TraderRoot = new System.Windows.Forms.Button();
             this.btnDefaultC9TraderRoot = new System.Windows.Forms.Button();
+            this.btnSaveSettings = new System.Windows.Forms.Button();
             this.lblC9TraderRoot = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnSaveSettings = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnDefaultVPN = new System.Windows.Forms.Button();
             this.btnChangeVPNPath = new System.Windows.Forms.Button();
             this.lblVPNClientTarget = new System.Windows.Forms.TextBox();
             this.labelx = new System.Windows.Forms.Label();
             this.btnChangeVPNClient = new System.Windows.Forms.Button();
-            this.btnDefaultVPNClient = new System.Windows.Forms.Button();
             this.btnRemoveUser = new System.Windows.Forms.Button();
             this.btnAddUser = new System.Windows.Forms.Button();
             this.chkBoxSetViewPassword = new System.Windows.Forms.CheckBox();
@@ -54,7 +55,7 @@
             this.opnFDVPNClientSelector = new System.Windows.Forms.OpenFileDialog();
             this.fldBrwsDiagSharedFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.btnCloseApp = new System.Windows.Forms.Button();
+            this.btnCloseAppSelUser = new System.Windows.Forms.Button();
             this.chkBoxNoUpd = new System.Windows.Forms.CheckBox();
             this.chkBoxMultiApp = new System.Windows.Forms.CheckBox();
             this.MSI_Toggle = new System.Windows.Forms.Button();
@@ -72,7 +73,6 @@
             this.btnTestCycles = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnCloseAppSelUser = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -139,6 +139,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Settings";
             // 
+            // btnCloseApp
+            // 
+            this.btnCloseApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnCloseApp.Location = new System.Drawing.Point(191, 476);
+            this.btnCloseApp.Name = "btnCloseApp";
+            this.btnCloseApp.Size = new System.Drawing.Size(265, 51);
+            this.btnCloseApp.TabIndex = 15;
+            this.btnCloseApp.Text = "Close All Open Apps";
+            this.btnCloseApp.UseVisualStyleBackColor = false;
+            this.btnCloseApp.Click += new System.EventHandler(this.btnCloseApp_Click);
+            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.btnChangeC9TraderRoot);
@@ -174,24 +185,6 @@
             this.btnDefaultC9TraderRoot.UseVisualStyleBackColor = true;
             this.btnDefaultC9TraderRoot.Click += new System.EventHandler(this.btnDefaultC9TraderRoot_Click);
             // 
-            // lblC9TraderRoot
-            // 
-            this.lblC9TraderRoot.Location = new System.Drawing.Point(11, 89);
-            this.lblC9TraderRoot.Name = "lblC9TraderRoot";
-            this.lblC9TraderRoot.Size = new System.Drawing.Size(588, 31);
-            this.lblC9TraderRoot.TabIndex = 1;
-            this.lblC9TraderRoot.Text = "Trader Root Path";
-            this.lblC9TraderRoot.Click += new System.EventHandler(this.lblC9TraderRoot_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 43);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(284, 25);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "App Root Folder (C9Trader):";
-            // 
             // btnSaveSettings
             // 
             this.btnSaveSettings.Enabled = false;
@@ -203,19 +196,49 @@
             this.btnSaveSettings.UseVisualStyleBackColor = true;
             this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
             // 
+            // lblC9TraderRoot
+            // 
+            this.lblC9TraderRoot.Location = new System.Drawing.Point(11, 89);
+            this.lblC9TraderRoot.Name = "lblC9TraderRoot";
+            this.lblC9TraderRoot.Size = new System.Drawing.Size(588, 31);
+            this.lblC9TraderRoot.TabIndex = 1;
+            this.lblC9TraderRoot.Text = "Trader Root Path";
+            this.lblC9TraderRoot.Click += new System.EventHandler(this.lblC9TraderRoot_Click);
+            this.lblC9TraderRoot.TextChanged += new System.EventHandler(this.lblC9TraderRoot_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 43);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(284, 25);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "App Root Folder (C9Trader):";
+            // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnDefaultVPN);
             this.groupBox3.Controls.Add(this.btnChangeVPNPath);
             this.groupBox3.Controls.Add(this.lblVPNClientTarget);
             this.groupBox3.Controls.Add(this.labelx);
             this.groupBox3.Controls.Add(this.btnChangeVPNClient);
-            this.groupBox3.Controls.Add(this.btnDefaultVPNClient);
             this.groupBox3.Location = new System.Drawing.Point(7, 29);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(626, 215);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "VPN Manager";
+            // 
+            // btnDefaultVPN
+            // 
+            this.btnDefaultVPN.Enabled = false;
+            this.btnDefaultVPN.Location = new System.Drawing.Point(238, 36);
+            this.btnDefaultVPN.Name = "btnDefaultVPN";
+            this.btnDefaultVPN.Size = new System.Drawing.Size(107, 40);
+            this.btnDefaultVPN.TabIndex = 8;
+            this.btnDefaultVPN.Text = "Default";
+            this.btnDefaultVPN.UseVisualStyleBackColor = true;
+            this.btnDefaultVPN.Click += new System.EventHandler(this.btnDefaultVPN_Click);
             // 
             // btnChangeVPNPath
             // 
@@ -234,6 +257,7 @@
             this.lblVPNClientTarget.Size = new System.Drawing.Size(588, 31);
             this.lblVPNClientTarget.TabIndex = 6;
             this.lblVPNClientTarget.Text = "xxxxxxxx";
+            this.lblVPNClientTarget.TextChanged += new System.EventHandler(this.lblVPNClientTarget_TextChanged);
             // 
             // labelx
             // 
@@ -253,17 +277,6 @@
             this.btnChangeVPNClient.Text = "Change";
             this.btnChangeVPNClient.UseVisualStyleBackColor = true;
             this.btnChangeVPNClient.Click += new System.EventHandler(this.btnChangeVPNClient_Click);
-            // 
-            // btnDefaultVPNClient
-            // 
-            this.btnDefaultVPNClient.Enabled = false;
-            this.btnDefaultVPNClient.Location = new System.Drawing.Point(1388, 39);
-            this.btnDefaultVPNClient.Name = "btnDefaultVPNClient";
-            this.btnDefaultVPNClient.Size = new System.Drawing.Size(107, 40);
-            this.btnDefaultVPNClient.TabIndex = 0;
-            this.btnDefaultVPNClient.Text = "Default";
-            this.btnDefaultVPNClient.UseVisualStyleBackColor = true;
-            this.btnDefaultVPNClient.Click += new System.EventHandler(this.btnDefaultVPNClient_Click);
             // 
             // btnRemoveUser
             // 
@@ -344,16 +357,15 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "App Manager";
             // 
-            // btnCloseApp
+            // btnCloseAppSelUser
             // 
-            this.btnCloseApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnCloseApp.Location = new System.Drawing.Point(191, 476);
-            this.btnCloseApp.Name = "btnCloseApp";
-            this.btnCloseApp.Size = new System.Drawing.Size(265, 51);
-            this.btnCloseApp.TabIndex = 15;
-            this.btnCloseApp.Text = "Close All Open Apps";
-            this.btnCloseApp.UseVisualStyleBackColor = false;
-            this.btnCloseApp.Click += new System.EventHandler(this.btnCloseApp_Click);
+            this.btnCloseAppSelUser.Location = new System.Drawing.Point(283, 299);
+            this.btnCloseAppSelUser.Name = "btnCloseAppSelUser";
+            this.btnCloseAppSelUser.Size = new System.Drawing.Size(275, 50);
+            this.btnCloseAppSelUser.TabIndex = 15;
+            this.btnCloseAppSelUser.Text = "Close App Selected User";
+            this.btnCloseAppSelUser.UseVisualStyleBackColor = true;
+            this.btnCloseAppSelUser.Click += new System.EventHandler(this.btnCloseAppSelUser_Click);
             // 
             // chkBoxNoUpd
             // 
@@ -529,16 +541,6 @@
             this.label4.Text = "JIRA Test Cycles";
             this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
-            // btnCloseAppSelUser
-            // 
-            this.btnCloseAppSelUser.Location = new System.Drawing.Point(283, 299);
-            this.btnCloseAppSelUser.Name = "btnCloseAppSelUser";
-            this.btnCloseAppSelUser.Size = new System.Drawing.Size(275, 50);
-            this.btnCloseAppSelUser.TabIndex = 15;
-            this.btnCloseAppSelUser.Text = "Close App Selected User";
-            this.btnCloseAppSelUser.UseVisualStyleBackColor = true;
-            this.btnCloseAppSelUser.Click += new System.EventHandler(this.btnCloseAppSelUser_Click);
-            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -580,7 +582,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label labelx;
         private System.Windows.Forms.Button btnChangeVPNClient;
-        private System.Windows.Forms.Button btnDefaultVPNClient;
         private System.Windows.Forms.OpenFileDialog opnFDVPNClientSelector;
         private System.Windows.Forms.FolderBrowserDialog fldBrwsDiagSharedFolder;
         private System.Windows.Forms.TextBox lblVPNClientTarget;
@@ -616,6 +617,7 @@
         private System.Windows.Forms.PictureBox reeEEE;
         private System.Windows.Forms.Button btnChangeVPNPath;
         private System.Windows.Forms.Button btnCloseAppSelUser;
+        private System.Windows.Forms.Button btnDefaultVPN;
     }
 }
 

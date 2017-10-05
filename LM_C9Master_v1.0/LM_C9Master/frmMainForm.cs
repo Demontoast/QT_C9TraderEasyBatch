@@ -78,7 +78,6 @@ namespace LM_C9Master
                 BtnVPNSwitch.Text = "OFF";
                 BtnVPNSwitch.BackColor = Color.LightCoral;
                 BtnVPNSwitch.ForeColor = Color.DarkRed;
-                //btnOpenSharedFolder.Enabled = false;
                 btnVPNClientLaunch.Enabled = false;
             }
             else if(svcAcumbrella.Status == ServiceControllerStatus.Running && svcVPNAgent.Status == ServiceControllerStatus.Running)
@@ -96,12 +95,33 @@ namespace LM_C9Master
          
         }
 
+        // Function generates a new settings file from scratch
+        public void generateSettings()
+        {
+            File.Create("LM_C9MSettings.set");
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set"))
+            {
+                SW.WriteLine("<VPNMANAGER>");
+                SW.WriteLine(@"VPNClientLocation=C:\Program Files (x86)\Cisco\Cisco AnyConnect Secure Mobility Client\vpnui.exe");
+                SW.WriteLine("<APPMANAGER>");
+                String currUser = Environment.UserName.ToString();
+                SW.WriteLine(@"C9TraderRootLocation=C:\Users\" + currUser + @"\AppData\Local\C9Trader");
+                SW.WriteLine("</APPMANAGER>");
+                SW.WriteLine("<USERCOLLECTION>");
+                SW.WriteLine("</USERCOLLECTION>");
+                SW.Close();
+            }
+        }
+
         // Loads all settings from the LM_C9Settings.set file
         // @string strWhat2Load: denotes the specific section of the .set file to read to load
         public void LoadSettings(string strWhat2Load)
         {
             string[] LineSplit=null;
             string Line=null;
+
+            /*if (!File.Exists(@"\bin\LM_C9MSettings.set"))
+                generateSettings();*/
 
             switch(strWhat2Load)
             {
@@ -174,8 +194,8 @@ namespace LM_C9Master
 
                         cmbBoxUsers.SelectedIndex = 0;
                         AutoSetPWD(cmbBoxUsers.Text); //works
-                        btnAddUser.Enabled = false;
-                        btnRemoveUser.Enabled = false;
+                        //btnAddUser.Enabled = false;
+                        //btnRemoveUser.Enabled = false;
                     }
                     break;
             }
@@ -205,28 +225,11 @@ namespace LM_C9Master
                 if(strResultChangeCheck!=lblVPNClientTarget.Text)
                 {
                     lblVPNClientTarget.Text = strResultChangeCheck;
-                    btnDefaultVPNClient.Enabled = true;
+                    btnDefaultVPN.Enabled = true;
                     btnSaveSettings.Enabled = true;
                 }
                 
             }
-        }
-
-        // @Leo Same with this one
-        private void btnDefaultVPNClient_Click(object sender, EventArgs e)
-        {
-            LoadSettings("VPNCLIENT");
-            btnDefaultVPNClient.Enabled = false;
-            //IF ALL OTHER DEFAULT BUTTONS ARE DISABLED, SAVE BUTTON SHOULD ALSO BE DISABLED
-            DefaultButtonsCheck();
-        }
-
-        // @Leo Not entirely sure what this method does
-        public void DefaultButtonsCheck()
-        {
-            btnSaveSettings.Enabled = false;
-            if (btnDefaultVPNClient.Enabled || btnDefaultC9TraderRoot.Enabled)
-                btnSaveSettings.Enabled = true;
         }
 
         // Action Listener for the Change button used to change the C9 Trader root directory
@@ -253,7 +256,8 @@ namespace LM_C9Master
         {
             LoadSettings("C9TRADERROOT");
             btnDefaultC9TraderRoot.Enabled = false;
-            DefaultButtonsCheck();
+            btnSaveSettings.Enabled = false;
+            lblC9TraderRoot.Select();
         }
 
         // @Leo not sure about this one
@@ -270,7 +274,7 @@ namespace LM_C9Master
                     Line = SR.ReadLine();
                 }
             }
-            if(btnDefaultVPNClient.Enabled)
+            if(btnDefaultVPN.Enabled)
             {
                 string[] strSplitCheck = null;
                 int intIndex = 0;
@@ -317,7 +321,6 @@ namespace LM_C9Master
             File.Copy("LM_C9MSettings.new", "LM_C9MSettings.set");
             File.Delete("LM_C9MSettings.new");
 
-            btnDefaultVPNClient.Enabled = false;
             btnSaveSettings.Enabled = false;
 
 
@@ -394,7 +397,7 @@ namespace LM_C9Master
             if (fileNameSplitter[fileNameSplitter.Length-1] != "vpnui.exe")
             {
                 MessageBox.Show("Error: vpnui.exe not selected.");
-                btnDefaultVPNClient_Click(sender, e);      
+                btnDefaultVPN_Click(sender, e);      
             }
             else
             {
@@ -733,11 +736,12 @@ namespace LM_C9Master
                 {
                     lblVPNClientTarget.Clear();
                     lblVPNClientTarget.Text = strResultChangeCheck;
-                    btnDefaultVPNClient.Enabled = true;
+                    btnDefaultVPN.Enabled = true;
                     btnSaveSettings.Enabled = true;
                 }
 
             }
+            lblVPNClientTarget.Select();
         }
 
         // Action listener for the Close Selected User App button that closes an active C9 Trader based on user
@@ -774,6 +778,29 @@ namespace LM_C9Master
             }
             else
                 MessageBox.Show("Error: No active applications.");
+        }
+
+        // Action Listener for the VPN Default button, reverts the text box for the VPN filepath to known defaults
+        private void btnDefaultVPN_Click(object sender, EventArgs e)
+        {
+            LoadSettings("VPNCLIENT");
+            btnDefaultVPN.Enabled = false;
+            btnSaveSettings.Enabled = false;
+            lblVPNClientTarget.Select();
+        }
+
+        // Action Listener for the trader root text box, enables the save settings and default trader root buttons
+        private void lblC9TraderRoot_TextChanged(object sender, EventArgs e)
+        {
+            btnSaveSettings.Enabled = true;
+            btnDefaultC9TraderRoot.Enabled = true;
+        }
+
+        // Action Listener for the vpn target text box, enables the save settings and default vpn buttons
+        private void lblVPNClientTarget_TextChanged(object sender, EventArgs e)
+        {
+            btnSaveSettings.Enabled = true;
+            btnDefaultVPN.Enabled = true;
         }
     }
 }
