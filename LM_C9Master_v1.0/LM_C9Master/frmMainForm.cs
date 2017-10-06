@@ -31,8 +31,18 @@ namespace LM_C9Master
         // @strPassword: String containing a user's password
         public class AppAccount
         {
-           public string strUserName{get;set;}
-           public string strPassword{get;set;}
+            public string strUserName = "";
+            public string strPassword = "";
+
+            public String getUserName()
+            {
+                return strUserName;
+            }
+
+           public string getPassword()
+            {
+                return strPassword;
+            }
         }
 
         // ProcessUser is a tuple of username and the process associated with it
@@ -41,7 +51,18 @@ namespace LM_C9Master
         public class ProcessUser
         {
             public Process userProcess { get; set; }
-            public String userName { get; set; }
+            public String userName = ""; 
+            
+            public String getUserName()
+            {
+                return userName;
+            }
+
+            public Process getUserProcess()
+            {
+                return userProcess;
+            }
+                
         }
 
         // Data lists containing app accounts and active processes used in the executable
@@ -59,7 +80,6 @@ namespace LM_C9Master
                 {
                     ProcessUser x = new ProcessUser();
                     x.userProcess = p;
-
                     ActiveProcesses.Add(x);
                 }
             }
@@ -556,7 +576,8 @@ namespace LM_C9Master
             try
             {
                 if (MSI_Toggle.Text == "Squirrel")
-                { 
+                {
+                    p.StartInfo.Arguments = parameters;
                     p = Process.Start(lblC9TraderRoot.Text + "\\app-" + cmbBoxVersionsList.Text + "\\C9Shell.exe", parameters);
                 }
                 else
@@ -592,8 +613,7 @@ namespace LM_C9Master
                 MessageBox.Show("Error: Invalid path, C9Trader not found.");
                 if (MSI_Toggle.Text == "Squirrel")
                 {
-                    string currUser = Environment.UserName;
-                    lblC9TraderRoot.Text = @"C:\Users\" + currUser + "\\AppData\\Local\\C9Trader";
+                    btnDefaultC9TraderRoot_Click(sender, e);
                 }
                 else
                 {
@@ -683,28 +703,24 @@ namespace LM_C9Master
         {
             if (ActiveProcesses.Count != 0)
             {
-                foreach (Process p in System.Diagnostics.Process.GetProcesses())
+                while (ActiveProcesses.Count!=0)
                 {
-                    while (ActiveProcesses.Count!=0)
+                    try
                     {
-                        try
+                        ActiveProcesses.ElementAt(0).userProcess.Kill();
+                        ActiveProcesses.Remove(ActiveProcesses.ElementAt(0));
+                    }
+                    catch
+                    {
+                        if (ActiveProcesses.ElementAt(0).userProcess.HasExited)
+                        {
+                            ActiveProcesses.Remove(ActiveProcesses.ElementAt(0));
+                        }
+                        else
                         {
                             ActiveProcesses.ElementAt(0).userProcess.Kill();
                             ActiveProcesses.Remove(ActiveProcesses.ElementAt(0));
                         }
-                        catch
-                        {
-                            if (!ActiveProcesses.ElementAt(0).userProcess.Responding)
-                            {
-                                ActiveProcesses.Remove(ActiveProcesses.ElementAt(0));
-                            }
-                            else
-                            {
-                                ActiveProcesses.ElementAt(0).userProcess.Kill();
-                                ActiveProcesses.Remove(ActiveProcesses.ElementAt(0));
-                            }
-                        }
-                        
                     }
                 }
             }
@@ -758,7 +774,9 @@ namespace LM_C9Master
                         try
                         {
                             exists = true;
-                            p.userProcess.Kill();
+                            if (!p.userProcess.HasExited)
+                                p.userProcess.Kill();
+
                             ActiveProcesses.Remove(p);
                         }
                         catch
