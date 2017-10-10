@@ -512,6 +512,12 @@ namespace LM_C9Master
                 tmpAcc.strPassword = txtBoxSetUsrPassword.Text;
                 AccountsFromSettings.Add(tmpAcc);
                 SaveAccountsToSettings();
+                cmbBoxUsers.Text = "";
+                txtBoxSetUsrPassword.Text = "";
+                cmbBoxUsers.SelectedItem = tmpAcc.strUserName;
+                //cmbBoxUsers.SelectedText = tmpAcc.strUserName;
+                //cmbBoxUsers.Text = tmpAcc.strUserName;
+                //txtBoxSetUsrPassword.Text = tmpAcc.strPassword;
             }
             else
                 MessageBox.Show("User " + cmbBoxUsers.Text + " already exists.");
@@ -601,6 +607,8 @@ namespace LM_C9Master
                     }
                 }
                 SaveAccountsToSettings();
+                cmbBoxUsers.Text = "";
+                cmbBoxUsers.Text = pram.userName;
 
                 pram.userProcess = p;
                 ActiveProcesses.Add(pram);
