@@ -396,8 +396,17 @@ namespace LM_C9Master
             ProcessStartInfo ProcVPNCli= new ProcessStartInfo();
             ProcVPNCli.FileName = lblVPNClientTarget.Text;
 
+
+            //@Will had to slightly modify this because the app was giving me the vpnui.exe not found error.
+            //The reason for this is that ProcVPNCli.FileName contains the FULL PATH of the executable, so it can never match up to "vpnui.exe" only.
+            //So, I split out the full path of the textbox and compared the last item from the split to "vpnui.exe". 
+            //This step can stay here for now, but i have a few ideas on how to optimize the code a little and have it run in the form loading function,
+            //instead of having it run every single time the user clicks this button. 
+
+           
             String[] fileNameSplitter = lblVPNClientTarget.Text.Split('\\');
             if (fileNameSplitter[fileNameSplitter.Length-1] != "vpnui.exe")
+
             {
                 MessageBox.Show("Error: vpnui.exe not selected.");
                 btnDefaultVPN_Click(sender, e);      
