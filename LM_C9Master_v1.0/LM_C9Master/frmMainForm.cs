@@ -246,7 +246,7 @@ namespace LM_C9Master
                 {
                     lblVPNClientTarget.Text = strResultChangeCheck;
                     btnDefaultVPN.Enabled = true;
-                    btnSaveSettings.Enabled = true;
+                    btnVPNSaveSettings.Enabled = true;
                 }
                 
             }
@@ -265,7 +265,7 @@ namespace LM_C9Master
                     lblC9TraderRoot.Clear();
                     lblC9TraderRoot.Text = strResultChangeCheck;
                     btnDefaultC9TraderRoot.Enabled = true;
-                    btnSaveSettings.Enabled = true;
+                    btnTraderRootSave.Enabled = true;
                 }
             }
         }
@@ -276,12 +276,12 @@ namespace LM_C9Master
         {
             LoadSettings("C9TRADERROOT");
             btnDefaultC9TraderRoot.Enabled = false;
-            btnSaveSettings.Enabled = false;
+            btnTraderRootSave.Enabled = false;
             lblC9TraderRoot.Select();
         }
 
         // @Leo not sure about this one
-        private void btnSaveSettings_Click(object sender, EventArgs e)
+        private void btnVPNSaveSettings_Click(object sender, EventArgs e)
         {
             List<string> strCurrentSettings = new List<string>();
             
@@ -309,23 +309,6 @@ namespace LM_C9Master
                     intIndex++;
                 }
             }
-            if (btnDefaultC9TraderRoot.Enabled)
-            {
-                string[] strSplitCheck = null;
-                int intIndex = 0;
-                foreach (string s in strCurrentSettings)
-                {
-                    strSplitCheck = s.Split('=');
-                    if (strSplitCheck[0] == "C9TraderRootLocation")
-                    {
-                        strCurrentSettings[intIndex] = "C9TraderRootLocation=" + lblC9TraderRoot.Text;
-                        break;
-                    }
-                    intIndex++;
-                }
-
-            }
-            //add more settings here
 
             using (StreamWriter SW = new StreamWriter("LM_C9MSettings.new"))
             {
@@ -341,7 +324,7 @@ namespace LM_C9Master
             File.Copy("LM_C9MSettings.new", "LM_C9MSettings.set");
             File.Delete("LM_C9MSettings.new");
 
-            btnSaveSettings.Enabled = false;
+            btnVPNSaveSettings.Enabled = false;
 
 
         }
@@ -570,7 +553,11 @@ namespace LM_C9Master
         private void BtnLaunchApp_Click(object sender, EventArgs e)
         {
             String parameters = "";
-            parameters += "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text + " -r https://qa1-rest.xhoot.com";
+
+            if (txtBoxServerName.Text.Equals("") || txtBoxServerName.Text.Equals(null))
+                txtBoxServerName.Text = "https://qa1-rest.xhoot.com";
+
+            parameters += "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text + " -r " + txtBoxServerName.Text;
             ProcessUser pram = new ProcessUser();
             Process p = new Process();
             pram.userName = cmbBoxUsers.Text;
@@ -743,8 +730,12 @@ namespace LM_C9Master
         // For fun button
         private void reeEEE_Click(object sender, EventArgs e)
         {
-            //String soundLoc = 
-            SoundPlayer simpleSound = new SoundPlayer("reeeeeeeee2.wav");
+            //String soundLoc =
+            //SoundPlayer simpleSound = new SoundPlayer("reeeeeeeee2.wav");
+            String strAppPath = Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            String strFilePath = Path.Combine(strAppPath, "Resources");
+            String strFullFilename = Path.Combine(strFilePath, "reeeeeeeee2.wav");
+            SoundPlayer simpleSound = new SoundPlayer(strFullFilename);
             simpleSound.Play();
         }
 
@@ -761,7 +752,7 @@ namespace LM_C9Master
                     lblVPNClientTarget.Clear();
                     lblVPNClientTarget.Text = strResultChangeCheck;
                     btnDefaultVPN.Enabled = true;
-                    btnSaveSettings.Enabled = true;
+                    btnVPNSaveSettings.Enabled = true;
                 }
 
             }
@@ -811,22 +802,116 @@ namespace LM_C9Master
         {
             LoadSettings("VPNCLIENT");
             btnDefaultVPN.Enabled = false;
-            btnSaveSettings.Enabled = false;
+            btnVPNSaveSettings.Enabled = false;
             lblVPNClientTarget.Select();
         }
 
         // Action Listener for the trader root text box, enables the save settings and default trader root buttons
         private void lblC9TraderRoot_TextChanged(object sender, EventArgs e)
         {
-            btnSaveSettings.Enabled = true;
+            btnTraderRootSave.Enabled = true;
             btnDefaultC9TraderRoot.Enabled = true;
         }
 
         // Action Listener for the vpn target text box, enables the save settings and default vpn buttons
         private void lblVPNClientTarget_TextChanged(object sender, EventArgs e)
         {
-            btnSaveSettings.Enabled = true;
+            btnVPNSaveSettings.Enabled = true;
             btnDefaultVPN.Enabled = true;
+        }
+
+        // Action Listener for the Server Default button which defaults the server text box to https://qa1-rest.xhoot.com
+        private void btnServerDefault_Click(object sender, EventArgs e)
+        {
+            txtBoxServerName.Text = "https://qa1-rest.xhoot.com";
+        }
+
+        // Action Listener for the Trader Root Save button which saves the current trader root in the settings file
+        private void btnTraderRootSave_Click(object sender, EventArgs e)
+        {
+            List<string> strCurrentSettings = new List<string>();
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                string Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+
+            if (btnDefaultC9TraderRoot.Enabled)
+            {
+                string[] strSplitCheck = null;
+                int intIndex = 0;
+                foreach (string s in strCurrentSettings)
+                {
+                    strSplitCheck = s.Split('=');
+                    if (strSplitCheck[0] == "C9TraderRootLocation")
+                    {
+                        strCurrentSettings[intIndex] = "C9TraderRootLocation=" + lblC9TraderRoot.Text;
+                        break;
+                    }
+                    intIndex++;
+                }
+
+            }
+
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.new"))
+            {
+                if (strCurrentSettings != null)
+                {
+                    foreach (string s in strCurrentSettings)
+                    {
+                        SW.WriteLine(s);
+                    }
+                }
+            }
+            File.Delete("LM_C9MSettings.set");
+            File.Copy("LM_C9MSettings.new", "LM_C9MSettings.set");
+            File.Delete("LM_C9MSettings.new");
+
+            btnTraderRootSave.Enabled = false;
+        }
+
+        // Action Listener for the button that links the user to the C9 Portal
+        private void btnPortalLink_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://qa1-portal.xhoot.com");
+        }
+
+        // Action Listener for the button that starts the local server for the user (api_server.py)
+        private void btnStartLocalServer_Click(object sender, EventArgs e)
+        {
+            string tempFilename = Path.ChangeExtension(Path.GetTempFileName(), ".bat");
+
+            string currUser = Environment.UserName;
+
+            if (!Directory.Exists(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\"))
+                Directory.CreateDirectory(@"C: \Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\");
+
+            String strAppPath = Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            String strFilePath = Path.Combine(strAppPath, "Resources");
+            String strFullFilename = Path.Combine(strFilePath, "api_server.py");
+            System.IO.File.Copy(strFullFilename, @"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\api_server.py", true);
+            strFullFilename = Path.Combine(strFilePath, "requirements.txt");
+            System.IO.File.Copy(strFullFilename, @"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\requirements.txt", true);
+            strFullFilename = Path.Combine(strFilePath, "c9localhost.crt");
+            System.IO.File.Copy(strFullFilename, @"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\c9localhost.crt", true);
+            strFullFilename = Path.Combine(strFilePath, "nopasskey.pem");
+            System.IO.File.Copy(strFullFilename, @"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\nopasskey.pem", true);
+
+            using (StreamWriter writer = new StreamWriter(tempFilename))
+            {
+                writer.WriteLine(@"@echo off");
+                writer.WriteLine("c:");
+                writer.WriteLine(@"cd C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\");
+                writer.WriteLine("pip install setuptools");
+                writer.WriteLine("pip install -r requirements.txt");
+                writer.WriteLine("python api_server.py");
+            }
+            Process.Start(tempFilename);
         }
     }
 }
