@@ -12,6 +12,8 @@ using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading;
 using System.Media;
+using System.Runtime.InteropServices;
+using System.Net;
 
 //need to review the whole account retreival/saving system, the accounts get overwritten when saved.
 
@@ -19,7 +21,7 @@ namespace LM_C9Master
 {
     public partial class frmMainForm : Form
     {
-        
+
         // Initialization
         public frmMainForm()
         {
@@ -39,7 +41,7 @@ namespace LM_C9Master
                 return strUserName;
             }
 
-           public string getPassword()
+            public string getPassword()
             {
                 return strPassword;
             }
@@ -51,8 +53,8 @@ namespace LM_C9Master
         public class ProcessUser
         {
             public Process userProcess { get; set; }
-            public String userName = ""; 
-            
+            public String userName = "";
+
             public String getUserName()
             {
                 return userName;
@@ -62,12 +64,14 @@ namespace LM_C9Master
             {
                 return userProcess;
             }
-                
+
         }
 
         // Data lists containing app accounts and active processes used in the executable
         List<AppAccount> AccountsFromSettings = new List<AppAccount>();
         List<ProcessUser> ActiveProcesses = new List<ProcessUser>();
+
+        const int WM_DEVICECHANGE = 0x0219;
 
         // Main method, loads all forms and settings
         private void frmMainForm_Load(object sender, EventArgs e)
@@ -83,36 +87,44 @@ namespace LM_C9Master
                     ActiveProcesses.Add(x);
                 }
             }
-                
+
             LoadSettings("VPNCLIENT");
             LoadSettings("C9TRADERROOT");
-            
+
             LoadSettings("APPACCOUNTS");
 
             //VPN Manager Startup Setup
 
             ServiceController svcAcumbrella = new ServiceController("acumbrellaagent");
             ServiceController svcVPNAgent = new ServiceController("vpnagent");
-            if(svcAcumbrella.Status==ServiceControllerStatus.Stopped&&svcVPNAgent.Status==ServiceControllerStatus.Stopped)
+            if (svcAcumbrella.Status == ServiceControllerStatus.Stopped || svcVPNAgent.Status == ServiceControllerStatus.Stopped)
             {
                 BtnVPNSwitch.Text = "OFF";
                 BtnVPNSwitch.BackColor = Color.LightCoral;
                 BtnVPNSwitch.ForeColor = Color.DarkRed;
                 btnVPNClientLaunch.Enabled = false;
+                BtnLaunchApp.Enabled = false;
+                btnCloseApp.Enabled = false;
+                btnCloseAppSelUser.Enabled = false;
+                btnVersionManager.Enabled = false;
             }
-            else if(svcAcumbrella.Status == ServiceControllerStatus.Running && svcVPNAgent.Status == ServiceControllerStatus.Running)
+            else if (svcAcumbrella.Status == ServiceControllerStatus.Running && svcVPNAgent.Status == ServiceControllerStatus.Running)
             {
                 BtnVPNSwitch.Text = "ON";
                 BtnVPNSwitch.BackColor = Color.LightGreen;
                 BtnVPNSwitch.ForeColor = Color.DarkGreen;
                 btnVPNClientLaunch.Enabled = true;
+                BtnLaunchApp.Enabled = true;
+                btnCloseApp.Enabled = true;
+                btnCloseAppSelUser.Enabled = true;
+                btnVersionManager.Enabled = true;
             }
             ///
             //App Manager Startup Setup
             RefreshVersions();
             ///
-            
-         
+
+
         }
 
         // Function generates a new settings file from scratch
@@ -137,23 +149,23 @@ namespace LM_C9Master
         // @string strWhat2Load: denotes the specific section of the .set file to read to load
         public void LoadSettings(string strWhat2Load)
         {
-            string[] LineSplit=null;
-            string Line=null;
+            string[] LineSplit = null;
+            string Line = null;
 
             /*if (!File.Exists(@"\bin\LM_C9MSettings.set"))
                 generateSettings();*/
 
-            switch(strWhat2Load)
+            switch (strWhat2Load)
             {
-                
+
                 case "VPNCLIENT":
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
                         Line = SR.ReadLine();
-                        while(Line!="</VPNManager>")
+                        while (Line != "</VPNManager>")
                         {
                             LineSplit = Line.Split('=');
-                            if(LineSplit[0]== "VPNClientLocation")
+                            if (LineSplit[0] == "VPNClientLocation")
                             {
                                 lblVPNClientTarget.Text = LineSplit[1];
                                 break;
@@ -184,9 +196,9 @@ namespace LM_C9Master
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
                         while ((Line = SR.ReadLine()) != "<UserCollection>") ;
-                        if((Line = SR.ReadLine())!="</UserCollection>")
+                        if ((Line = SR.ReadLine()) != "</UserCollection>")
                         {
-                            while (Line!= "</UserCollection>")
+                            while (Line != "</UserCollection>")
                             {
                                 AppAccount TmpAccount = new AppAccount();
                                 LineSplit = Line.Split(':');
@@ -196,7 +208,7 @@ namespace LM_C9Master
 
                                 Line = SR.ReadLine();
                             }
-                            
+
 
                         }
                         else
@@ -227,7 +239,7 @@ namespace LM_C9Master
         {
             foreach (AppAccount AC in AccountsFromSettings)
             {
-                if(AC.strUserName==usrname)
+                if (AC.strUserName == usrname)
                 {
                     txtBoxSetUsrPassword.Text = AC.strPassword;
                 }
@@ -239,16 +251,16 @@ namespace LM_C9Master
         {
             DialogResult VPNSelectorResult = new DialogResult();
             VPNSelectorResult = opnFDVPNClientSelector.ShowDialog();
-            if(VPNSelectorResult==DialogResult.OK)
+            if (VPNSelectorResult == DialogResult.OK)
             {
                 string strResultChangeCheck = opnFDVPNClientSelector.FileName;
-                if(strResultChangeCheck!=lblVPNClientTarget.Text)
+                if (strResultChangeCheck != lblVPNClientTarget.Text)
                 {
                     lblVPNClientTarget.Text = strResultChangeCheck;
                     btnDefaultVPN.Enabled = true;
                     btnVPNSaveSettings.Enabled = true;
                 }
-                
+
             }
         }
 
@@ -284,24 +296,24 @@ namespace LM_C9Master
         private void btnVPNSaveSettings_Click(object sender, EventArgs e)
         {
             List<string> strCurrentSettings = new List<string>();
-            
+
             using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
             {
                 string Line = SR.ReadLine();
-                while(Line!=null)
+                while (Line != null)
                 {
                     strCurrentSettings.Add(Line);
                     Line = SR.ReadLine();
                 }
             }
-            if(btnDefaultVPN.Enabled)
+            if (btnDefaultVPN.Enabled)
             {
                 string[] strSplitCheck = null;
                 int intIndex = 0;
                 foreach (string s in strCurrentSettings)
                 {
                     strSplitCheck = s.Split('=');
-                    if(strSplitCheck[0]=="VPNClientLocation")
+                    if (strSplitCheck[0] == "VPNClientLocation")
                     {
                         strCurrentSettings[intIndex] = "VPNClientLocation=" + lblVPNClientTarget.Text;
                         break;
@@ -314,7 +326,7 @@ namespace LM_C9Master
             {
                 if (strCurrentSettings != null)
                 {
-                    foreach(string s in strCurrentSettings)
+                    foreach (string s in strCurrentSettings)
                     {
                         SW.WriteLine(s);
                     }
@@ -354,6 +366,10 @@ namespace LM_C9Master
                     BtnVPNSwitch.ForeColor = Color.DarkGreen;
                     btnVPNClientLaunch.Enabled = true;
                     BtnVPNSwitch.Enabled = true;
+                    BtnLaunchApp.Enabled = true;
+                    btnCloseApp.Enabled = true;
+                    btnCloseAppSelUser.Enabled = true;
+                    btnVersionManager.Enabled = true;
                 }
                 catch
                 {
@@ -380,6 +396,10 @@ namespace LM_C9Master
                     BtnVPNSwitch.ForeColor = Color.DarkRed;
                     btnVPNClientLaunch.Enabled = false;
                     BtnVPNSwitch.Enabled = true;
+                    BtnLaunchApp.Enabled = false;
+                    btnCloseApp.Enabled = false;
+                    btnCloseAppSelUser.Enabled = false;
+                    btnVersionManager.Enabled = false;
                 }
                 catch
                 {
@@ -392,8 +412,8 @@ namespace LM_C9Master
         // Action Listener for the Launch Client button that will start the VPN client executable
         private void btnVPNClientLaunch_Click(object sender, EventArgs e)
         {
-            
-            ProcessStartInfo ProcVPNCli= new ProcessStartInfo();
+
+            ProcessStartInfo ProcVPNCli = new ProcessStartInfo();
             ProcVPNCli.FileName = lblVPNClientTarget.Text;
 
 
@@ -403,13 +423,13 @@ namespace LM_C9Master
             //This step can stay here for now, but i have a few ideas on how to optimize the code a little and have it run in the form loading function,
             //instead of having it run every single time the user clicks this button. 
 
-           
+
             String[] fileNameSplitter = lblVPNClientTarget.Text.Split('\\');
-            if (fileNameSplitter[fileNameSplitter.Length-1] != "vpnui.exe")
+            if (fileNameSplitter[fileNameSplitter.Length - 1] != "vpnui.exe")
 
             {
                 MessageBox.Show("Error: vpnui.exe not selected.");
-                btnDefaultVPN_Click(sender, e);      
+                btnDefaultVPN_Click(sender, e);
             }
             else
             {
@@ -442,7 +462,7 @@ namespace LM_C9Master
                         if (strAppSplit[0] == "app" && !cmbBoxVersionsList.Items.Contains(strAppSplit[1]))
                         {
                             cmbBoxVersionsList.SelectedIndex = cmbBoxVersionsList.Items.Add(strAppSplit[1]);
-                        }   
+                        }
                     }
                 }
                 else
@@ -465,7 +485,7 @@ namespace LM_C9Master
         {
             txtBoxSetUsrPassword.UseSystemPasswordChar = !chkBoxSetViewPassword.Checked;
         }
-         
+
         // Action Listener for the user password text box that tracks any changes made in user password allowing
         // a new user to be added or an old user to be removed
         private void txtBoxSetUsrPassword_TextChanged(object sender, EventArgs e)
@@ -489,15 +509,15 @@ namespace LM_C9Master
             if (AccountsFromSettings[0].strUserName == "NoSavedAccounts")
                 AccountsFromSettings[0].strUserName = "";
 
-            foreach(AppAccount AC in AccountsFromSettings)
+            foreach (AppAccount AC in AccountsFromSettings)
             {
                 if (AC.strUserName == cmbBoxUsers.Text)
                 {
                     flgMustAddNewUser = false;
                     break;
-                }                   
+                }
             }
-            if(flgMustAddNewUser)
+            if (flgMustAddNewUser)
             {
                 AppAccount tmpAcc = new AppAccount();
                 tmpAcc.strUserName = cmbBoxUsers.Text;
@@ -513,13 +533,13 @@ namespace LM_C9Master
             }
             else
                 MessageBox.Show("User " + cmbBoxUsers.Text + " already exists.");
-    
+
         }
 
         // Function used to write new or modified accounts to the LM_C9Settings.set file
         public void SaveAccountsToSettings()
         {
-            
+
             string Line = null;
             using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
             {
@@ -528,7 +548,7 @@ namespace LM_C9Master
                     while ((Line = SR.ReadLine()) != "<UserCollection>")
                         SW.WriteLine(Line);
                     SW.WriteLine("<UserCollection>");
-                    foreach(AppAccount AC in AccountsFromSettings)
+                    foreach (AppAccount AC in AccountsFromSettings)
                     {
                         SW.WriteLine(AC.strUserName + ":" + AC.strPassword);
                     }
@@ -707,7 +727,7 @@ namespace LM_C9Master
         {
             if (ActiveProcesses.Count != 0)
             {
-                while (ActiveProcesses.Count!=0)
+                while (ActiveProcesses.Count != 0)
                 {
                     try
                     {
@@ -730,7 +750,7 @@ namespace LM_C9Master
             }
             else
                 MessageBox.Show("Error: No active applications.");
-            
+
             btnCloseApp.Enabled = false;
             Thread.Sleep(1500);
             btnCloseApp.Enabled = true;
@@ -795,7 +815,7 @@ namespace LM_C9Master
                         Thread.Sleep(1500);
                         btnCloseAppSelUser.Enabled = true;
                         break;
-                    }   
+                    }
                 }
                 if (!exists)
                 {
@@ -921,6 +941,35 @@ namespace LM_C9Master
                 writer.WriteLine("python api_server.py");
             }
             Process.Start(tempFilename);
+        }
+
+        private void btnVersionManager_Click(object sender, EventArgs e)
+        {
+            String filePath = VMDirSearch("C:\\Program Files (x86)\\Cloud9 Technologies LLC\\");
+            try
+            {
+                Process.Start(filePath, "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text);
+            }
+            catch
+            {
+                MessageBox.Show("C9 Version Manager not found");
+            }
+
+        }
+
+        public String VMDirSearch(String a)
+        {
+            String filePath = "";
+            foreach (string d in Directory.GetDirectories(a))
+            {
+                foreach (string f in Directory.GetFiles(d, "*.exe"))
+                {
+                    filePath = Path.GetFullPath(f);
+                    if (filePath.Contains("C9VersionManager"))
+                        return filePath;
+                }
+            }
+            return "";
         }
     }
 }

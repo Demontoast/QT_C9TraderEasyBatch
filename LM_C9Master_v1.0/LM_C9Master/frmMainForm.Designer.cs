@@ -34,6 +34,8 @@
             this.BtnVPNSwitch = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.btnStartLocalServer = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnTraderRootSave = new System.Windows.Forms.Button();
             this.btnChangeC9TraderRoot = new System.Windows.Forms.Button();
@@ -79,16 +81,15 @@
             this.btnTestCycles = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.btnStartLocalServer = new System.Windows.Forms.Button();
+            this.btnVersionManager = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.Links.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.reeEEE)).BeginInit();
-            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -148,6 +149,27 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Settings";
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.btnVersionManager);
+            this.groupBox6.Controls.Add(this.btnStartLocalServer);
+            this.groupBox6.Location = new System.Drawing.Point(6, 432);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(627, 95);
+            this.groupBox6.TabIndex = 3;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "C9 Trader Accessories Manager";
+            // 
+            // btnStartLocalServer
+            // 
+            this.btnStartLocalServer.Location = new System.Drawing.Point(16, 42);
+            this.btnStartLocalServer.Name = "btnStartLocalServer";
+            this.btnStartLocalServer.Size = new System.Drawing.Size(261, 45);
+            this.btnStartLocalServer.TabIndex = 0;
+            this.btnStartLocalServer.Text = "Start Local Server";
+            this.btnStartLocalServer.UseVisualStyleBackColor = true;
+            this.btnStartLocalServer.Click += new System.EventHandler(this.btnStartLocalServer_Click);
+            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.btnTraderRootSave);
@@ -175,7 +197,7 @@
             // 
             // btnChangeC9TraderRoot
             // 
-            this.btnChangeC9TraderRoot.Location = new System.Drawing.Point(297, 43);
+            this.btnChangeC9TraderRoot.Location = new System.Drawing.Point(286, 38);
             this.btnChangeC9TraderRoot.Name = "btnChangeC9TraderRoot";
             this.btnChangeC9TraderRoot.Size = new System.Drawing.Size(107, 40);
             this.btnChangeC9TraderRoot.TabIndex = 3;
@@ -186,7 +208,7 @@
             // btnDefaultC9TraderRoot
             // 
             this.btnDefaultC9TraderRoot.Enabled = false;
-            this.btnDefaultC9TraderRoot.Location = new System.Drawing.Point(410, 43);
+            this.btnDefaultC9TraderRoot.Location = new System.Drawing.Point(399, 38);
             this.btnDefaultC9TraderRoot.Name = "btnDefaultC9TraderRoot";
             this.btnDefaultC9TraderRoot.Size = new System.Drawing.Size(107, 40);
             this.btnDefaultC9TraderRoot.TabIndex = 2;
@@ -198,7 +220,7 @@
             // 
             this.lblC9TraderRoot.Location = new System.Drawing.Point(11, 89);
             this.lblC9TraderRoot.Name = "lblC9TraderRoot";
-            this.lblC9TraderRoot.Size = new System.Drawing.Size(588, 31);
+            this.lblC9TraderRoot.Size = new System.Drawing.Size(592, 31);
             this.lblC9TraderRoot.TabIndex = 1;
             this.lblC9TraderRoot.Text = "Trader Root Path";
             this.lblC9TraderRoot.Click += new System.EventHandler(this.lblC9TraderRoot_Click);
@@ -613,25 +635,15 @@
             this.label4.Text = "JIRA Test Cycles";
             this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
-            // groupBox6
+            // btnVersionManager
             // 
-            this.groupBox6.Controls.Add(this.btnStartLocalServer);
-            this.groupBox6.Location = new System.Drawing.Point(6, 432);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(627, 95);
-            this.groupBox6.TabIndex = 3;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Local Server Manager";
-            // 
-            // btnStartLocalServer
-            // 
-            this.btnStartLocalServer.Location = new System.Drawing.Point(16, 37);
-            this.btnStartLocalServer.Name = "btnStartLocalServer";
-            this.btnStartLocalServer.Size = new System.Drawing.Size(216, 45);
-            this.btnStartLocalServer.TabIndex = 0;
-            this.btnStartLocalServer.Text = "Start Local Server";
-            this.btnStartLocalServer.UseVisualStyleBackColor = true;
-            this.btnStartLocalServer.Click += new System.EventHandler(this.btnStartLocalServer_Click);
+            this.btnVersionManager.Location = new System.Drawing.Point(341, 42);
+            this.btnVersionManager.Name = "btnVersionManager";
+            this.btnVersionManager.Size = new System.Drawing.Size(263, 45);
+            this.btnVersionManager.TabIndex = 1;
+            this.btnVersionManager.Text = "Version Manager";
+            this.btnVersionManager.UseVisualStyleBackColor = true;
+            this.btnVersionManager.Click += new System.EventHandler(this.btnVersionManager_Click);
             // 
             // frmMainForm
             // 
@@ -651,6 +663,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -660,7 +673,6 @@
             this.Links.ResumeLayout(false);
             this.Links.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.reeEEE)).EndInit();
-            this.groupBox6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -719,6 +731,7 @@
         private System.Windows.Forms.Label lblPortal;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Button btnStartLocalServer;
+        private System.Windows.Forms.Button btnVersionManager;
     }
 }
 
