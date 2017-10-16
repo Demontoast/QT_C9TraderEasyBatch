@@ -71,13 +71,11 @@ namespace LM_C9Master
         List<AppAccount> AccountsFromSettings = new List<AppAccount>();
         List<ProcessUser> ActiveProcesses = new List<ProcessUser>();
 
-        const int WM_DEVICECHANGE = 0x0219;
-
         // Main method, loads all forms and settings
         private void frmMainForm_Load(object sender, EventArgs e)
         {
-            this.Width = 1073;
-            this.Height = 345;
+            this.Width = 1015;
+            this.Height = 365;
             foreach (Process p in System.Diagnostics.Process.GetProcesses())
             {
                 if (p.ProcessName.Contains("C9Shell"))
@@ -88,10 +86,24 @@ namespace LM_C9Master
                 }
             }
 
+            if (!File.Exists("LM_C9MSettings.set"))
+                generateSettings();
+
             LoadSettings("VPNCLIENT");
             LoadSettings("C9TRADERROOT");
 
             LoadSettings("APPACCOUNTS");
+            LoadSettings("VERSIONMANAGER");
+            LoadSettings("TCPVIEW");
+
+            btnDefaultC9TraderRoot.Enabled = false;
+            btnTraderRootSave.Enabled = false;
+            btnDefaultVPN.Enabled = false;
+            btnVPNSaveSettings.Enabled = false;
+            btnSaveTCPView.Enabled = false;
+            btnDefaultTCPView.Enabled = false;
+            btnDefaultVM.Enabled = false;
+            btnSaveVM.Enabled = false;
 
             //VPN Manager Startup Setup
 
@@ -130,17 +142,23 @@ namespace LM_C9Master
         // Function generates a new settings file from scratch
         public void generateSettings()
         {
-            File.Create("LM_C9MSettings.set");
-            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set"))
+            using (StreamWriter SW = File.CreateText("LM_C9MSettings.set"))
             {
-                SW.WriteLine("<VPNMANAGER>");
+                SW.WriteLine("<VPNManager>");
                 SW.WriteLine(@"VPNClientLocation=C:\Program Files (x86)\Cisco\Cisco AnyConnect Secure Mobility Client\vpnui.exe");
-                SW.WriteLine("<APPMANAGER>");
+                SW.WriteLine("</VPNManager>");
+                SW.WriteLine("<AppManager>");
                 String currUser = Environment.UserName.ToString();
                 SW.WriteLine(@"C9TraderRootLocation=C:\Users\" + currUser + @"\AppData\Local\C9Trader");
-                SW.WriteLine("</APPMANAGER>");
-                SW.WriteLine("<USERCOLLECTION>");
-                SW.WriteLine("</USERCOLLECTION>");
+                SW.WriteLine("</AppManager>");
+                SW.WriteLine("<VersionManager>");
+                SW.WriteLine("VMLocation=");
+                SW.WriteLine("</VersionManager>");
+                SW.WriteLine("<TCPView>");
+                SW.WriteLine("TCPViewLocation=");
+                SW.WriteLine("</TCPView>");
+                SW.WriteLine("<UserCollection>");
+                SW.WriteLine("</UserCollection>");
                 SW.Close();
             }
         }
@@ -149,12 +167,8 @@ namespace LM_C9Master
         // @string strWhat2Load: denotes the specific section of the .set file to read to load
         public void LoadSettings(string strWhat2Load)
         {
-            string[] LineSplit = null;
-            string Line = null;
-
-            /*if (!File.Exists(@"\bin\LM_C9MSettings.set"))
-                generateSettings();*/
-
+            string[] LineSplit= null;
+            string Line = "";
             switch (strWhat2Load)
             {
 
@@ -170,6 +184,7 @@ namespace LM_C9Master
                                 lblVPNClientTarget.Text = LineSplit[1];
                                 break;
                             }
+                            
                             Line = SR.ReadLine();
                         }
                     }
@@ -184,6 +199,7 @@ namespace LM_C9Master
                             if (LineSplit[0] == "C9TraderRootLocation")
                             {
                                 lblC9TraderRoot.Text = LineSplit[1];
+                                break;
                             }
                             Line = SR.ReadLine();
                         }
@@ -228,6 +244,42 @@ namespace LM_C9Master
                         AutoSetPWD(cmbBoxUsers.Text); //works
                         //btnAddUser.Enabled = false;
                         //btnRemoveUser.Enabled = false;
+                    }
+                    
+                    break;
+                case "VERSIONMANAGER":
+                    txtBoxVMPath.Clear();
+                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                    {
+                        Line = SR.ReadLine();
+                        while (Line != "</VersionManager>")
+                        {
+                            LineSplit = Line.Split('=');
+                            if (LineSplit[0] == "VMLocation")
+                            {
+                                txtBoxVMPath.Text = LineSplit[1];
+                                break;
+                            }
+                            Line = SR.ReadLine();
+                        }
+                    }
+                    
+                    break;
+                case "TCPVIEW":
+                    txtBoxTCPViewPath.Clear();
+                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                    {
+                        Line = SR.ReadLine();
+                        while (Line != "</TCPView>")
+                        {
+                            LineSplit = Line.Split('=');
+                            if (LineSplit[0] == "TCPViewLocation")
+                            {
+                                txtBoxTCPViewPath.Text = LineSplit[1];
+                                break;
+                            }
+                            Line = SR.ReadLine();
+                        }
                     }
                     break;
             }
@@ -526,7 +578,7 @@ namespace LM_C9Master
                 SaveAccountsToSettings();
                 cmbBoxUsers.Text = "";
                 txtBoxSetUsrPassword.Text = "";
-                cmbBoxUsers.SelectedItem = tmpAcc.strUserName;
+                cmbBoxUsers.SelectedText = tmpAcc.strUserName;
                 //cmbBoxUsers.SelectedText = tmpAcc.strUserName;
                 //cmbBoxUsers.Text = tmpAcc.strUserName;
                 //txtBoxSetUsrPassword.Text = tmpAcc.strPassword;
@@ -550,7 +602,8 @@ namespace LM_C9Master
                     SW.WriteLine("<UserCollection>");
                     foreach (AppAccount AC in AccountsFromSettings)
                     {
-                        SW.WriteLine(AC.strUserName + ":" + AC.strPassword);
+                        if (!AC.strUserName.Equals("") && !AC.strUserName.Equals("NoSavedAccounts"))
+                            SW.WriteLine(AC.strUserName + ":" + AC.strPassword);
                     }
                     SW.WriteLine("</UserCollection>");
                 }
@@ -945,16 +998,30 @@ namespace LM_C9Master
 
         private void btnVersionManager_Click(object sender, EventArgs e)
         {
-            String filePath = VMDirSearch("C:\\Program Files (x86)\\Cloud9 Technologies LLC\\");
-            try
+            if (!txtBoxVMPath.Text.Equals("Enter Custom Path") && !txtBoxVMPath.Text.Equals(""))
             {
-                Process.Start(filePath, "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text);
+                try
+                {
+                    Process.Start(txtBoxVMPath.Text, "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Error: C9 Version Manager not found");
+                }
             }
-            catch
+            else
             {
-                MessageBox.Show("C9 Version Manager not found");
+                String filePath = VMDirSearch("C:\\Program Files (x86)\\Cloud9 Technologies LLC\\");
+                txtBoxVMPath.Text = filePath;
+                try
+                {
+                    Process.Start(filePath, "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Error: C9 Version Manager not found");
+                }
             }
-
         }
 
         public String VMDirSearch(String a)
@@ -970,6 +1037,176 @@ namespace LM_C9Master
                 }
             }
             return "";
+        }
+
+        private void btnTCPView_Click(object sender, EventArgs e)
+        {
+            String filePath = "";
+            try
+            {
+                filePath = txtBoxTCPViewPath.Text;
+                Process.Start(filePath);
+            }
+            catch
+            {
+                MessageBox.Show("Error: TCPView not found");
+            }          
+        }
+
+        private void btnChangeVMPath_Click(object sender, EventArgs e)
+        {
+            DialogResult VMSelectorResult = new DialogResult();
+            VMSelectorResult = openFileDialogVM.ShowDialog();
+            if (VMSelectorResult == DialogResult.OK)
+            {
+                string strResultChangeCheck = openFileDialogVM.FileName;
+                if (strResultChangeCheck != txtBoxVMPath.Text)
+                {
+                    txtBoxVMPath.Text = strResultChangeCheck;
+                    btnDefaultVM.Enabled = true;
+                    btnSaveVM.Enabled = true;
+                }
+
+            }
+        }
+
+        private void btnDefaultVM_Click(object sender, EventArgs e)
+        {
+            LoadSettings("VERSIONMANAGER");
+            btnDefaultVM.Enabled = false;
+            btnSaveVM.Enabled = false;
+            txtBoxVMPath.Select();
+        }
+
+        private void btnSaveVM_Click(object sender, EventArgs e)
+        {
+            List<string> strCurrentSettings = new List<string>();
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                string Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+            if (btnDefaultVM.Enabled)
+            {
+                string[] strSplitCheck = null;
+                int intIndex = 0;
+                foreach (string s in strCurrentSettings)
+                {
+                    strSplitCheck = s.Split('=');
+                    if (strSplitCheck[0] == "VMLocation")
+                    {
+                        strCurrentSettings[intIndex] = "VMLocation=" + txtBoxVMPath.Text;
+                        break;
+                    }
+                    intIndex++;
+                }
+            }
+
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.new"))
+            {
+                if (strCurrentSettings != null)
+                {
+                    foreach (string s in strCurrentSettings)
+                    {
+                        SW.WriteLine(s);
+                    }
+                }
+            }
+            File.Delete("LM_C9MSettings.set");
+            File.Copy("LM_C9MSettings.new", "LM_C9MSettings.set");
+            File.Delete("LM_C9MSettings.new");
+
+            btnSaveVM.Enabled = false;
+            btnDefaultVM.Enabled = false;
+        }
+
+        private void btnChangeTCPView_Click(object sender, EventArgs e)
+        {
+            DialogResult VMSelectorResult = new DialogResult();
+            VMSelectorResult = openFileDialogTCPView.ShowDialog();
+            if (VMSelectorResult == DialogResult.OK)
+            {
+                string strResultChangeCheck = openFileDialogTCPView.FileName;
+                if (strResultChangeCheck != txtBoxTCPViewPath.Text)
+                {
+                    txtBoxTCPViewPath.Text = strResultChangeCheck;
+                    btnDefaultTCPView.Enabled = true;
+                    btnSaveTCPView.Enabled = true;
+                }
+
+            }
+        }
+
+        private void btnDefaultTCPView_Click(object sender, EventArgs e)
+        {
+            LoadSettings("TCPVIEW");
+            btnDefaultTCPView.Enabled = false;
+            btnSaveTCPView.Enabled = false;
+            txtBoxTCPViewPath.Select();
+        }
+
+        private void btnSaveTCPView_Click(object sender, EventArgs e)
+        {
+            List<string> strCurrentSettings = new List<string>();
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                string Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+            if (btnDefaultTCPView.Enabled)
+            {
+                string[] strSplitCheck = null;
+                int intIndex = 0;
+                foreach (string s in strCurrentSettings)
+                {
+                    strSplitCheck = s.Split('=');
+                    if (strSplitCheck[0] == "TCPViewLocation")
+                    {
+                        strCurrentSettings[intIndex] = "TCPViewLocation=" + txtBoxTCPViewPath.Text;
+                        break;
+                    }
+                    intIndex++;
+                }
+            }
+
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.new"))
+            {
+                if (strCurrentSettings != null)
+                {
+                    foreach (string s in strCurrentSettings)
+                    {
+                        SW.WriteLine(s);
+                    }
+                }
+            }
+            File.Delete("LM_C9MSettings.set");
+            File.Copy("LM_C9MSettings.new", "LM_C9MSettings.set");
+            File.Delete("LM_C9MSettings.new");
+
+            btnSaveTCPView.Enabled = false;
+            btnDefaultTCPView.Enabled = false;
+        }
+
+        private void txtBoxVMPath_TextChanged(object sender, EventArgs e)
+        {
+            btnSaveVM.Enabled = true;
+            btnDefaultVM.Enabled = true;
+        }
+
+        private void txtBoxTCPViewPath_TextChanged(object sender, EventArgs e)
+        {
+            btnSaveTCPView.Enabled = true;
+            btnDefaultTCPView.Enabled = true;
         }
     }
 }
