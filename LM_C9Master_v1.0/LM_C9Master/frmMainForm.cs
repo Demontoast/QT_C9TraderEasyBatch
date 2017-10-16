@@ -74,7 +74,7 @@ namespace LM_C9Master
         // Main method, loads all forms and settings
         private void frmMainForm_Load(object sender, EventArgs e)
         {
-            this.Width = 1015;
+            this.Width = 1035;
             this.Height = 365;
             foreach (Process p in System.Diagnostics.Process.GetProcesses())
             {
@@ -1207,6 +1207,18 @@ namespace LM_C9Master
         {
             btnSaveTCPView.Enabled = true;
             btnDefaultTCPView.Enabled = true;
+        }
+
+        private void btnRecordingFolder_Click(object sender, EventArgs e)
+        {
+            String currUser = Environment.UserName;
+            Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\C9Trader\recording");
+        }
+
+        private void btnAnalyticsUploads_Click(object sender, EventArgs e)
+        {
+            String currUser = Environment.UserName;
+            Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics");
         }
     }
 }

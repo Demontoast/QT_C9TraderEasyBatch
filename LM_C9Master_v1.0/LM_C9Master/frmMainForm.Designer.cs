@@ -85,7 +85,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lblServer = new System.Windows.Forms.Label();
             this.Links = new System.Windows.Forms.GroupBox();
-            this.lblLocalServer = new System.Windows.Forms.Label();
             this.btnPortalLink = new System.Windows.Forms.Button();
             this.lblPortal = new System.Windows.Forms.Label();
             this.reeEEE = new System.Windows.Forms.PictureBox();
@@ -109,6 +108,8 @@
             this.serverDefaultTT = new System.Windows.Forms.ToolTip(this.components);
             this.openFileDialogVM = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogTCPView = new System.Windows.Forms.OpenFileDialog();
+            this.btnRecordingFolder = new System.Windows.Forms.Button();
+            this.btnAnalyticsUploads = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -462,11 +463,11 @@
             // 
             // btnStartLocalServer
             // 
-            this.btnStartLocalServer.Location = new System.Drawing.Point(12, 387);
+            this.btnStartLocalServer.Location = new System.Drawing.Point(165, 283);
             this.btnStartLocalServer.Name = "btnStartLocalServer";
-            this.btnStartLocalServer.Size = new System.Drawing.Size(261, 45);
+            this.btnStartLocalServer.Size = new System.Drawing.Size(172, 49);
             this.btnStartLocalServer.TabIndex = 0;
-            this.btnStartLocalServer.Text = "Start Local Server";
+            this.btnStartLocalServer.Text = "Local Server";
             this.localServerTT.SetToolTip(this.btnStartLocalServer, "Runs api_server.py enabling a local server for the user, intended for testing API" +
         " Analytics");
             this.btnStartLocalServer.UseVisualStyleBackColor = true;
@@ -702,7 +703,8 @@
             // 
             // Links
             // 
-            this.Links.Controls.Add(this.lblLocalServer);
+            this.Links.Controls.Add(this.btnAnalyticsUploads);
+            this.Links.Controls.Add(this.btnRecordingFolder);
             this.Links.Controls.Add(this.btnPortalLink);
             this.Links.Controls.Add(this.lblPortal);
             this.Links.Controls.Add(this.reeEEE);
@@ -715,28 +717,19 @@
             this.Links.Controls.Add(this.label4);
             this.Links.Location = new System.Drawing.Point(1238, 12);
             this.Links.Name = "Links";
-            this.Links.Size = new System.Drawing.Size(737, 592);
+            this.Links.Size = new System.Drawing.Size(767, 592);
             this.Links.TabIndex = 3;
             this.Links.TabStop = false;
             this.Links.Text = "Links";
             this.Links.Enter += new System.EventHandler(this.Links_Enter);
             // 
-            // lblLocalServer
-            // 
-            this.lblLocalServer.AutoSize = true;
-            this.lblLocalServer.Location = new System.Drawing.Point(16, 357);
-            this.lblLocalServer.Name = "lblLocalServer";
-            this.lblLocalServer.Size = new System.Drawing.Size(206, 25);
-            this.lblLocalServer.TabIndex = 10;
-            this.lblLocalServer.Text = "Local Python Server";
-            // 
             // btnPortalLink
             // 
-            this.btnPortalLink.Location = new System.Drawing.Point(12, 282);
+            this.btnPortalLink.Location = new System.Drawing.Point(12, 285);
             this.btnPortalLink.Name = "btnPortalLink";
-            this.btnPortalLink.Size = new System.Drawing.Size(156, 47);
+            this.btnPortalLink.Size = new System.Drawing.Size(147, 47);
             this.btnPortalLink.TabIndex = 9;
-            this.btnPortalLink.Text = "Web App";
+            this.btnPortalLink.Text = "C9 Portal";
             this.btnPortalLink.UseVisualStyleBackColor = true;
             this.btnPortalLink.Click += new System.EventHandler(this.btnPortalLink_Click);
             // 
@@ -745,14 +738,14 @@
             this.lblPortal.AutoSize = true;
             this.lblPortal.Location = new System.Drawing.Point(16, 247);
             this.lblPortal.Name = "lblPortal";
-            this.lblPortal.Size = new System.Drawing.Size(101, 25);
+            this.lblPortal.Size = new System.Drawing.Size(316, 25);
             this.lblPortal.TabIndex = 8;
-            this.lblPortal.Text = "C9 Portal";
+            this.lblPortal.Text = "API Analytics / Cloud Recording";
             // 
             // reeEEE
             // 
             this.reeEEE.Image = ((System.Drawing.Image)(resources.GetObject("reeEEE.Image")));
-            this.reeEEE.Location = new System.Drawing.Point(331, 515);
+            this.reeEEE.Location = new System.Drawing.Point(669, 530);
             this.reeEEE.Name = "reeEEE";
             this.reeEEE.Size = new System.Drawing.Size(57, 53);
             this.reeEEE.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -883,6 +876,26 @@
             // 
             this.openFileDialogVM.Filter = "C9VersionManager.exe | *.exe";
             // 
+            // btnRecordingFolder
+            // 
+            this.btnRecordingFolder.Location = new System.Drawing.Point(343, 284);
+            this.btnRecordingFolder.Name = "btnRecordingFolder";
+            this.btnRecordingFolder.Size = new System.Drawing.Size(191, 48);
+            this.btnRecordingFolder.TabIndex = 10;
+            this.btnRecordingFolder.Text = "Recording Folder";
+            this.btnRecordingFolder.UseVisualStyleBackColor = true;
+            this.btnRecordingFolder.Click += new System.EventHandler(this.btnRecordingFolder_Click);
+            // 
+            // btnAnalyticsUploads
+            // 
+            this.btnAnalyticsUploads.Location = new System.Drawing.Point(540, 285);
+            this.btnAnalyticsUploads.Name = "btnAnalyticsUploads";
+            this.btnAnalyticsUploads.Size = new System.Drawing.Size(209, 48);
+            this.btnAnalyticsUploads.TabIndex = 11;
+            this.btnAnalyticsUploads.Text = "Analytics\\Uploads";
+            this.btnAnalyticsUploads.UseVisualStyleBackColor = true;
+            this.btnAnalyticsUploads.Click += new System.EventHandler(this.btnAnalyticsUploads_Click);
+            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -991,12 +1004,13 @@
         private System.Windows.Forms.Button btnChangeVMPath;
         private System.Windows.Forms.Label lblVersionManager;
         private System.Windows.Forms.OpenFileDialog openFileDialogVM;
-        private System.Windows.Forms.Label lblLocalServer;
         private System.Windows.Forms.Button btnSaveTCPView;
         private System.Windows.Forms.Button btnDefaultTCPView;
         private System.Windows.Forms.Button btnChangeTCPView;
         private System.Windows.Forms.Label lblTCPView;
         private System.Windows.Forms.OpenFileDialog openFileDialogTCPView;
+        private System.Windows.Forms.Button btnAnalyticsUploads;
+        private System.Windows.Forms.Button btnRecordingFolder;
     }
 }
 
