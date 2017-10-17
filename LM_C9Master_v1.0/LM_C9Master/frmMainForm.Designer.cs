@@ -85,6 +85,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lblServer = new System.Windows.Forms.Label();
             this.Links = new System.Windows.Forms.GroupBox();
+            this.btnAnalyticsUploads = new System.Windows.Forms.Button();
+            this.btnRecordingFolder = new System.Windows.Forms.Button();
             this.btnPortalLink = new System.Windows.Forms.Button();
             this.lblPortal = new System.Windows.Forms.Label();
             this.reeEEE = new System.Windows.Forms.PictureBox();
@@ -108,8 +110,8 @@
             this.serverDefaultTT = new System.Windows.Forms.ToolTip(this.components);
             this.openFileDialogVM = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogTCPView = new System.Windows.Forms.OpenFileDialog();
-            this.btnRecordingFolder = new System.Windows.Forms.Button();
-            this.btnAnalyticsUploads = new System.Windows.Forms.Button();
+            this.btnPortalGateway = new System.Windows.Forms.Button();
+            this.btnSaveServer = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -215,7 +217,7 @@
             this.btnDefaultTCPView.Enabled = false;
             this.btnDefaultTCPView.Location = new System.Drawing.Point(342, 135);
             this.btnDefaultTCPView.Name = "btnDefaultTCPView";
-            this.btnDefaultTCPView.Size = new System.Drawing.Size(102, 41);
+            this.btnDefaultTCPView.Size = new System.Drawing.Size(102, 42);
             this.btnDefaultTCPView.TabIndex = 11;
             this.btnDefaultTCPView.Text = "Default";
             this.btnDefaultTCPView.UseVisualStyleBackColor = true;
@@ -223,7 +225,7 @@
             // 
             // btnChangeTCPView
             // 
-            this.btnChangeTCPView.Location = new System.Drawing.Point(233, 136);
+            this.btnChangeTCPView.Location = new System.Drawing.Point(233, 135);
             this.btnChangeTCPView.Name = "btnChangeTCPView";
             this.btnChangeTCPView.Size = new System.Drawing.Size(103, 41);
             this.btnChangeTCPView.TabIndex = 10;
@@ -546,6 +548,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnSaveServer);
             this.groupBox4.Controls.Add(this.btnServerDefault);
             this.groupBox4.Controls.Add(this.btnCloseApp);
             this.groupBox4.Controls.Add(this.BtnLaunchApp);
@@ -574,9 +577,9 @@
             // 
             // btnServerDefault
             // 
-            this.btnServerDefault.Location = new System.Drawing.Point(351, 269);
+            this.btnServerDefault.Location = new System.Drawing.Point(281, 267);
             this.btnServerDefault.Name = "btnServerDefault";
-            this.btnServerDefault.Size = new System.Drawing.Size(128, 46);
+            this.btnServerDefault.Size = new System.Drawing.Size(128, 51);
             this.btnServerDefault.TabIndex = 18;
             this.btnServerDefault.Text = "Default";
             this.serverDefaultTT.SetToolTip(this.btnServerDefault, "Reverts the server field to https://qa1-rest.xhoot.com");
@@ -612,6 +615,7 @@
             this.txtBoxServerName.Name = "txtBoxServerName";
             this.txtBoxServerName.Size = new System.Drawing.Size(269, 31);
             this.txtBoxServerName.TabIndex = 17;
+            this.txtBoxServerName.TextChanged += new System.EventHandler(this.txtBoxServerName_TextChanged);
             // 
             // chkBoxNoUpd
             // 
@@ -638,9 +642,9 @@
             // 
             // MSI_Toggle
             // 
-            this.MSI_Toggle.Location = new System.Drawing.Point(415, 60);
+            this.MSI_Toggle.Location = new System.Drawing.Point(415, 53);
             this.MSI_Toggle.Name = "MSI_Toggle";
-            this.MSI_Toggle.Size = new System.Drawing.Size(142, 45);
+            this.MSI_Toggle.Size = new System.Drawing.Size(142, 53);
             this.MSI_Toggle.TabIndex = 12;
             this.MSI_Toggle.Text = "Squirrel";
             this.SquirrelMSIToggle.SetToolTip(this.MSI_Toggle, "Toggles between Squirrel and MSI versions of the application");
@@ -658,9 +662,9 @@
             // 
             // btnRefreshVersions
             // 
-            this.btnRefreshVersions.Location = new System.Drawing.Point(281, 60);
+            this.btnRefreshVersions.Location = new System.Drawing.Point(281, 54);
             this.btnRefreshVersions.Name = "btnRefreshVersions";
-            this.btnRefreshVersions.Size = new System.Drawing.Size(128, 45);
+            this.btnRefreshVersions.Size = new System.Drawing.Size(128, 52);
             this.btnRefreshVersions.TabIndex = 2;
             this.btnRefreshVersions.Text = "Refresh";
             this.btnRefreshVersions.UseVisualStyleBackColor = true;
@@ -703,6 +707,7 @@
             // 
             // Links
             // 
+            this.Links.Controls.Add(this.btnPortalGateway);
             this.Links.Controls.Add(this.btnAnalyticsUploads);
             this.Links.Controls.Add(this.btnRecordingFolder);
             this.Links.Controls.Add(this.btnPortalLink);
@@ -722,6 +727,26 @@
             this.Links.TabStop = false;
             this.Links.Text = "Links";
             this.Links.Enter += new System.EventHandler(this.Links_Enter);
+            // 
+            // btnAnalyticsUploads
+            // 
+            this.btnAnalyticsUploads.Location = new System.Drawing.Point(540, 285);
+            this.btnAnalyticsUploads.Name = "btnAnalyticsUploads";
+            this.btnAnalyticsUploads.Size = new System.Drawing.Size(209, 48);
+            this.btnAnalyticsUploads.TabIndex = 11;
+            this.btnAnalyticsUploads.Text = "Analytics\\Uploads";
+            this.btnAnalyticsUploads.UseVisualStyleBackColor = true;
+            this.btnAnalyticsUploads.Click += new System.EventHandler(this.btnAnalyticsUploads_Click);
+            // 
+            // btnRecordingFolder
+            // 
+            this.btnRecordingFolder.Location = new System.Drawing.Point(343, 284);
+            this.btnRecordingFolder.Name = "btnRecordingFolder";
+            this.btnRecordingFolder.Size = new System.Drawing.Size(191, 48);
+            this.btnRecordingFolder.TabIndex = 10;
+            this.btnRecordingFolder.Text = "Recording Folder";
+            this.btnRecordingFolder.UseVisualStyleBackColor = true;
+            this.btnRecordingFolder.Click += new System.EventHandler(this.btnRecordingFolder_Click);
             // 
             // btnPortalLink
             // 
@@ -876,25 +901,29 @@
             // 
             this.openFileDialogVM.Filter = "C9VersionManager.exe | *.exe";
             // 
-            // btnRecordingFolder
+            // openFileDialogTCPView
             // 
-            this.btnRecordingFolder.Location = new System.Drawing.Point(343, 284);
-            this.btnRecordingFolder.Name = "btnRecordingFolder";
-            this.btnRecordingFolder.Size = new System.Drawing.Size(191, 48);
-            this.btnRecordingFolder.TabIndex = 10;
-            this.btnRecordingFolder.Text = "Recording Folder";
-            this.btnRecordingFolder.UseVisualStyleBackColor = true;
-            this.btnRecordingFolder.Click += new System.EventHandler(this.btnRecordingFolder_Click);
+            this.openFileDialogTCPView.Filter = "Tcpview.exe | *.exe";
             // 
-            // btnAnalyticsUploads
+            // btnPortalGateway
             // 
-            this.btnAnalyticsUploads.Location = new System.Drawing.Point(540, 285);
-            this.btnAnalyticsUploads.Name = "btnAnalyticsUploads";
-            this.btnAnalyticsUploads.Size = new System.Drawing.Size(209, 48);
-            this.btnAnalyticsUploads.TabIndex = 11;
-            this.btnAnalyticsUploads.Text = "Analytics\\Uploads";
-            this.btnAnalyticsUploads.UseVisualStyleBackColor = true;
-            this.btnAnalyticsUploads.Click += new System.EventHandler(this.btnAnalyticsUploads_Click);
+            this.btnPortalGateway.Location = new System.Drawing.Point(12, 338);
+            this.btnPortalGateway.Name = "btnPortalGateway";
+            this.btnPortalGateway.Size = new System.Drawing.Size(147, 49);
+            this.btnPortalGateway.TabIndex = 12;
+            this.btnPortalGateway.Text = "Gateways";
+            this.btnPortalGateway.UseVisualStyleBackColor = true;
+            this.btnPortalGateway.Click += new System.EventHandler(this.btnPortalGateway_Click);
+            // 
+            // btnSaveServer
+            // 
+            this.btnSaveServer.Location = new System.Drawing.Point(415, 267);
+            this.btnSaveServer.Name = "btnSaveServer";
+            this.btnSaveServer.Size = new System.Drawing.Size(142, 51);
+            this.btnSaveServer.TabIndex = 19;
+            this.btnSaveServer.Text = "Save";
+            this.btnSaveServer.UseVisualStyleBackColor = true;
+            this.btnSaveServer.Click += new System.EventHandler(this.btnSaveServer_Click);
             // 
             // frmMainForm
             // 
@@ -1011,6 +1040,8 @@
         private System.Windows.Forms.OpenFileDialog openFileDialogTCPView;
         private System.Windows.Forms.Button btnAnalyticsUploads;
         private System.Windows.Forms.Button btnRecordingFolder;
+        private System.Windows.Forms.Button btnPortalGateway;
+        private System.Windows.Forms.Button btnSaveServer;
     }
 }
 

@@ -91,6 +91,7 @@ namespace LM_C9Master
 
             LoadSettings("VPNCLIENT");
             LoadSettings("C9TRADERROOT");
+            LoadSettings("SERVER");
 
             LoadSettings("APPACCOUNTS");
             LoadSettings("VERSIONMANAGER");
@@ -104,6 +105,8 @@ namespace LM_C9Master
             btnDefaultTCPView.Enabled = false;
             btnDefaultVM.Enabled = false;
             btnSaveVM.Enabled = false;
+            btnServerDefault.Enabled = false;
+            btnSaveServer.Enabled = false;
 
             //VPN Manager Startup Setup
 
@@ -157,6 +160,9 @@ namespace LM_C9Master
                 SW.WriteLine("<TCPView>");
                 SW.WriteLine("TCPViewLocation=");
                 SW.WriteLine("</TCPView>");
+                SW.WriteLine("<DesignatedServer>");
+                SW.WriteLine("Server=https://qa1-rest.xhoot.com");
+                SW.WriteLine("</DesignatedServer>");
                 SW.WriteLine("<UserCollection>");
                 SW.WriteLine("</UserCollection>");
                 SW.Close();
@@ -282,6 +288,23 @@ namespace LM_C9Master
                         }
                     }
                     break;
+                case "SERVER":
+                    txtBoxServerName.Clear();
+                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                    {
+                        Line = SR.ReadLine();
+                        while (Line != "</DesignatedServer>")
+                        {
+                            LineSplit = Line.Split('=');
+                            if (LineSplit[0] == "Server")
+                            {
+                                txtBoxServerName.Text = LineSplit[1];
+                                break;
+                            }
+                            Line = SR.ReadLine();
+                        }
+                    }
+                    break;
             }
         }
 
@@ -361,16 +384,14 @@ namespace LM_C9Master
             if (btnDefaultVPN.Enabled)
             {
                 string[] strSplitCheck = null;
-                int intIndex = 0;
                 foreach (string s in strCurrentSettings)
                 {
                     strSplitCheck = s.Split('=');
                     if (strSplitCheck[0] == "VPNClientLocation")
                     {
-                        strCurrentSettings[intIndex] = "VPNClientLocation=" + lblVPNClientTarget.Text;
+                        strCurrentSettings[1] = "VPNClientLocation=" + lblVPNClientTarget.Text;
                         break;
                     }
-                    intIndex++;
                 }
             }
 
@@ -905,7 +926,10 @@ namespace LM_C9Master
         // Action Listener for the Server Default button which defaults the server text box to https://qa1-rest.xhoot.com
         private void btnServerDefault_Click(object sender, EventArgs e)
         {
-            txtBoxServerName.Text = "https://qa1-rest.xhoot.com";
+            LoadSettings("SERVER");
+            btnServerDefault.Enabled = false;
+            btnSaveServer.Enabled = false;
+            txtBoxServerName.Select();
         }
 
         // Action Listener for the Trader Root Save button which saves the current trader root in the settings file
@@ -926,16 +950,14 @@ namespace LM_C9Master
             if (btnDefaultC9TraderRoot.Enabled)
             {
                 string[] strSplitCheck = null;
-                int intIndex = 0;
                 foreach (string s in strCurrentSettings)
                 {
                     strSplitCheck = s.Split('=');
                     if (strSplitCheck[0] == "C9TraderRootLocation")
                     {
-                        strCurrentSettings[intIndex] = "C9TraderRootLocation=" + lblC9TraderRoot.Text;
+                        strCurrentSettings[1] = "C9TraderRootLocation=" + lblC9TraderRoot.Text;
                         break;
                     }
-                    intIndex++;
                 }
 
             }
@@ -1094,16 +1116,14 @@ namespace LM_C9Master
             if (btnDefaultVM.Enabled)
             {
                 string[] strSplitCheck = null;
-                int intIndex = 0;
                 foreach (string s in strCurrentSettings)
                 {
                     strSplitCheck = s.Split('=');
                     if (strSplitCheck[0] == "VMLocation")
                     {
-                        strCurrentSettings[intIndex] = "VMLocation=" + txtBoxVMPath.Text;
+                        strCurrentSettings[1] = "VMLocation=" + txtBoxVMPath.Text;
                         break;
                     }
-                    intIndex++;
                 }
             }
 
@@ -1166,16 +1186,14 @@ namespace LM_C9Master
             if (btnDefaultTCPView.Enabled)
             {
                 string[] strSplitCheck = null;
-                int intIndex = 0;
                 foreach (string s in strCurrentSettings)
                 {
                     strSplitCheck = s.Split('=');
                     if (strSplitCheck[0] == "TCPViewLocation")
                     {
-                        strCurrentSettings[intIndex] = "TCPViewLocation=" + txtBoxTCPViewPath.Text;
+                        strCurrentSettings[1] = "TCPViewLocation=" + txtBoxTCPViewPath.Text;
                         break;
                     }
-                    intIndex++;
                 }
             }
 
@@ -1219,6 +1237,62 @@ namespace LM_C9Master
         {
             String currUser = Environment.UserName;
             Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics");
+        }
+
+        private void btnPortalGateway_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://qa1-portal.xhoot.com/c9portal/#/gateways");
+        }
+
+        private void btnSaveServer_Click(object sender, EventArgs e)
+        {
+            List<string> strCurrentSettings = new List<string>();
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                string Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+            if (btnServerDefault.Enabled)
+            {
+                string[] strSplitCheck = null;
+                foreach (string s in strCurrentSettings)
+                {
+                    strSplitCheck = s.Split('=');
+                    if (strSplitCheck[0] == "Server")
+                    {
+                        strCurrentSettings[1] = "Server=" + txtBoxServerName.Text;
+                        break;
+                    }
+                }
+            }
+
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.new"))
+            {
+                if (strCurrentSettings != null)
+                {
+                    foreach (string s in strCurrentSettings)
+                    {
+                        SW.WriteLine(s);
+                    }
+                }
+            }
+            File.Delete("LM_C9MSettings.set");
+            File.Copy("LM_C9MSettings.new", "LM_C9MSettings.set");
+            File.Delete("LM_C9MSettings.new");
+
+            btnSaveServer.Enabled = false;
+            btnServerDefault.Enabled = false;
+        }
+
+        private void txtBoxServerName_TextChanged(object sender, EventArgs e)
+        {
+            btnSaveServer.Enabled = true;
+            btnServerDefault.Enabled = true;
         }
     }
 }
