@@ -1294,5 +1294,23 @@ namespace LM_C9Master
             btnSaveServer.Enabled = true;
             btnServerDefault.Enabled = true;
         }
+
+        private void btnDeleteShout_Click(object sender, EventArgs e)
+        {
+            string currUser = Environment.UserName;
+            foreach (String s in Directory.GetFiles(@"C:\Users\"+currUser+ @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\shoutdowns"))
+            {
+                File.Delete(s);
+            }
+        }
+
+        private void btnDeleteRD_Click(object sender, EventArgs e)
+        {
+            string currUser = Environment.UserName;
+            foreach (String s in Directory.GetFiles(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\ringdowns"))
+            {
+                File.Delete(s);
+            }
+        }
     }
 }

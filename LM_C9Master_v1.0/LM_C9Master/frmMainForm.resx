@@ -117,49 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="toolTipVPNSwitch.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="toolTipVPNSwitch.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>708, 13</value>
-  </data>
-  <data name="saveAppRootDefaultTT.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="saveAppRootDefaultTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1340, 67</value>
-  </data>
-  <data name="vpnChangeSave.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="vpnChangeSave.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1116, 65</value>
-  </data>
-  <data name="localServerTT.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="localServerTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>924, 69</value>
-  </data>
-  <data name="closeAllTT.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="closeAllTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>759, 65</value>
-  </data>
-  <data name="removeUserTT.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="removeUserTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1436, 13</value>
-  </data>
-  <data name="addUserTT.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="addUserTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1248, 13</value>
-  </data>
-  <data name="opnFDVPNClientSelector.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="opnFDVPNClientSelector.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
-  </data>
-  <data name="fldBrwsDiagSharedFolder.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="fldBrwsDiagSharedFolder.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>359, 17</value>
-  </data>
-  <data name="serverDefaultTT.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="serverDefaultTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 62</value>
-  </data>
-  <data name="closeUserTT.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="closeUserTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>566, 67</value>
-  </data>
-  <data name="noUpdateTT.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="noUpdateTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>407, 71</value>
-  </data>
-  <data name="multiUserTT.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="multiUserTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 69</value>
-  </data>
-  <data name="SquirrelMSIToggle.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="SquirrelMSIToggle.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>975, 13</value>
-  </data>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="reeEEE.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         R0lGODlhPAM8A/f/AN9jYqwpE8xGRtdJRLkaEPYkJLpFIM0pGOg2OLZFINxiW+VWV70hE+ZGR9NbS+Nk
@@ -19166,21 +19166,49 @@
         njHQohScwRkYwyMAwgxMA5I0h0UsBAMGBAA7
 </value>
   </data>
-  <data name="openFileDialogVM.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="toolTipVPNSwitch.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>708, 13</value>
+  </metadata>
+  <metadata name="SquirrelMSIToggle.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>975, 13</value>
+  </metadata>
+  <metadata name="addUserTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1248, 13</value>
+  </metadata>
+  <metadata name="removeUserTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1436, 13</value>
+  </metadata>
+  <metadata name="multiUserTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 69</value>
+  </metadata>
+  <metadata name="noUpdateTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>407, 71</value>
+  </metadata>
+  <metadata name="closeUserTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>566, 67</value>
+  </metadata>
+  <metadata name="closeAllTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>759, 65</value>
+  </metadata>
+  <metadata name="localServerTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>924, 69</value>
+  </metadata>
+  <metadata name="vpnChangeSave.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1116, 65</value>
+  </metadata>
+  <metadata name="saveAppRootDefaultTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1340, 67</value>
+  </metadata>
+  <metadata name="serverDefaultTT.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 62</value>
+  </metadata>
+  <metadata name="openFileDialogVM.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>33, 110</value>
-  </data>
-  <data name="openFileDialogTCPView.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="openFileDialogTCPView.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>237, 113</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="$this.TrayHeight" type="System.Int32, mscorlib">
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>88</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="api_server" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\api_server.py;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="requirements" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\requirements.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
+  </metadata>
 </root>

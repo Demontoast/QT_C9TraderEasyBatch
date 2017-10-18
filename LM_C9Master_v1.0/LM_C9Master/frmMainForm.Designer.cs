@@ -112,6 +112,8 @@
             this.serverDefaultTT = new System.Windows.Forms.ToolTip(this.components);
             this.openFileDialogVM = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogTCPView = new System.Windows.Forms.OpenFileDialog();
+            this.btnDeleteShout = new System.Windows.Forms.Button();
+            this.btnDeleteRD = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -465,9 +467,9 @@
             // 
             // btnStartLocalServer
             // 
-            this.btnStartLocalServer.Location = new System.Drawing.Point(165, 283);
+            this.btnStartLocalServer.Location = new System.Drawing.Point(165, 338);
             this.btnStartLocalServer.Name = "btnStartLocalServer";
-            this.btnStartLocalServer.Size = new System.Drawing.Size(172, 49);
+            this.btnStartLocalServer.Size = new System.Drawing.Size(209, 49);
             this.btnStartLocalServer.TabIndex = 0;
             this.btnStartLocalServer.Text = "Local Server";
             this.localServerTT.SetToolTip(this.btnStartLocalServer, "Runs api_server.py enabling a local server for the user, intended for testing API" +
@@ -717,6 +719,8 @@
             // 
             // Links
             // 
+            this.Links.Controls.Add(this.btnDeleteRD);
+            this.Links.Controls.Add(this.btnDeleteShout);
             this.Links.Controls.Add(this.btnPortalGateway);
             this.Links.Controls.Add(this.btnAnalyticsUploads);
             this.Links.Controls.Add(this.btnRecordingFolder);
@@ -750,7 +754,7 @@
             // 
             // btnAnalyticsUploads
             // 
-            this.btnAnalyticsUploads.Location = new System.Drawing.Point(540, 282);
+            this.btnAnalyticsUploads.Location = new System.Drawing.Point(165, 282);
             this.btnAnalyticsUploads.Name = "btnAnalyticsUploads";
             this.btnAnalyticsUploads.Size = new System.Drawing.Size(209, 50);
             this.btnAnalyticsUploads.TabIndex = 11;
@@ -760,7 +764,7 @@
             // 
             // btnRecordingFolder
             // 
-            this.btnRecordingFolder.Location = new System.Drawing.Point(343, 282);
+            this.btnRecordingFolder.Location = new System.Drawing.Point(380, 282);
             this.btnRecordingFolder.Name = "btnRecordingFolder";
             this.btnRecordingFolder.Size = new System.Drawing.Size(191, 50);
             this.btnRecordingFolder.TabIndex = 10;
@@ -925,6 +929,26 @@
             // 
             this.openFileDialogTCPView.Filter = "Tcpview.exe | *.exe";
             // 
+            // btnDeleteShout
+            // 
+            this.btnDeleteShout.Location = new System.Drawing.Point(165, 393);
+            this.btnDeleteShout.Name = "btnDeleteShout";
+            this.btnDeleteShout.Size = new System.Drawing.Size(209, 49);
+            this.btnDeleteShout.TabIndex = 13;
+            this.btnDeleteShout.Text = "Flush ShoutDowns";
+            this.btnDeleteShout.UseVisualStyleBackColor = true;
+            this.btnDeleteShout.Click += new System.EventHandler(this.btnDeleteShout_Click);
+            // 
+            // btnDeleteRD
+            // 
+            this.btnDeleteRD.Location = new System.Drawing.Point(165, 448);
+            this.btnDeleteRD.Name = "btnDeleteRD";
+            this.btnDeleteRD.Size = new System.Drawing.Size(209, 49);
+            this.btnDeleteRD.TabIndex = 14;
+            this.btnDeleteRD.Text = "Flush RingDowns";
+            this.btnDeleteRD.UseVisualStyleBackColor = true;
+            this.btnDeleteRD.Click += new System.EventHandler(this.btnDeleteRD_Click);
+            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -1042,6 +1066,8 @@
         private System.Windows.Forms.Button btnRecordingFolder;
         private System.Windows.Forms.Button btnPortalGateway;
         private System.Windows.Forms.Button btnSaveServer;
+        private System.Windows.Forms.Button btnDeleteRD;
+        private System.Windows.Forms.Button btnDeleteShout;
     }
 }
 
