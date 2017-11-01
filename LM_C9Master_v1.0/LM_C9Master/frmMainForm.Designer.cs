@@ -36,6 +36,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.btnSavePathSQDBLite = new System.Windows.Forms.Button();
+            this.btnDefaultSQDBLite = new System.Windows.Forms.Button();
+            this.btnChangePathSQDBLite = new System.Windows.Forms.Button();
+            this.btnLaunchSQDBLite = new System.Windows.Forms.Button();
+            this.txtBoxSQDBLite = new System.Windows.Forms.TextBox();
+            this.lblSQDBLite = new System.Windows.Forms.Label();
             this.btnSaveTCPView = new System.Windows.Forms.Button();
             this.btnDefaultTCPView = new System.Windows.Forms.Button();
             this.btnChangeTCPView = new System.Windows.Forms.Button();
@@ -86,6 +92,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lblServer = new System.Windows.Forms.Label();
             this.Links = new System.Windows.Forms.GroupBox();
+            this.btnAudioCodes = new System.Windows.Forms.Button();
+            this.btnDeleteRD = new System.Windows.Forms.Button();
+            this.btnDeleteShout = new System.Windows.Forms.Button();
             this.btnPortalGateway = new System.Windows.Forms.Button();
             this.btnAnalyticsUploads = new System.Windows.Forms.Button();
             this.btnRecordingFolder = new System.Windows.Forms.Button();
@@ -112,8 +121,7 @@
             this.serverDefaultTT = new System.Windows.Forms.ToolTip(this.components);
             this.openFileDialogVM = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogTCPView = new System.Windows.Forms.OpenFileDialog();
-            this.btnDeleteShout = new System.Windows.Forms.Button();
-            this.btnDeleteRD = new System.Windows.Forms.Button();
+            this.openFileDialogSQDBLite = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -177,13 +185,19 @@
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Location = new System.Drawing.Point(587, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(645, 592);
+            this.groupBox2.Size = new System.Drawing.Size(645, 687);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Settings";
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.btnSavePathSQDBLite);
+            this.groupBox6.Controls.Add(this.btnDefaultSQDBLite);
+            this.groupBox6.Controls.Add(this.btnChangePathSQDBLite);
+            this.groupBox6.Controls.Add(this.btnLaunchSQDBLite);
+            this.groupBox6.Controls.Add(this.txtBoxSQDBLite);
+            this.groupBox6.Controls.Add(this.lblSQDBLite);
             this.groupBox6.Controls.Add(this.btnSaveTCPView);
             this.groupBox6.Controls.Add(this.btnDefaultTCPView);
             this.groupBox6.Controls.Add(this.btnChangeTCPView);
@@ -198,10 +212,70 @@
             this.groupBox6.Controls.Add(this.btnChangeVMPath);
             this.groupBox6.Location = new System.Drawing.Point(7, 347);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(627, 227);
+            this.groupBox6.Size = new System.Drawing.Size(627, 334);
             this.groupBox6.TabIndex = 3;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "C9 Trader Accessories Manager";
+            // 
+            // btnSavePathSQDBLite
+            // 
+            this.btnSavePathSQDBLite.Enabled = false;
+            this.btnSavePathSQDBLite.Location = new System.Drawing.Point(460, 235);
+            this.btnSavePathSQDBLite.Name = "btnSavePathSQDBLite";
+            this.btnSavePathSQDBLite.Size = new System.Drawing.Size(102, 41);
+            this.btnSavePathSQDBLite.TabIndex = 18;
+            this.btnSavePathSQDBLite.Text = "Save";
+            this.btnSavePathSQDBLite.UseVisualStyleBackColor = true;
+            this.btnSavePathSQDBLite.Click += new System.EventHandler(this.btnSavePathSQDBLite_Click);
+            // 
+            // btnDefaultSQDBLite
+            // 
+            this.btnDefaultSQDBLite.Enabled = false;
+            this.btnDefaultSQDBLite.Location = new System.Drawing.Point(352, 234);
+            this.btnDefaultSQDBLite.Name = "btnDefaultSQDBLite";
+            this.btnDefaultSQDBLite.Size = new System.Drawing.Size(102, 42);
+            this.btnDefaultSQDBLite.TabIndex = 17;
+            this.btnDefaultSQDBLite.Text = "Default";
+            this.btnDefaultSQDBLite.UseVisualStyleBackColor = true;
+            this.btnDefaultSQDBLite.Click += new System.EventHandler(this.btnDefaultSQDBLite_Click);
+            // 
+            // btnChangePathSQDBLite
+            // 
+            this.btnChangePathSQDBLite.Location = new System.Drawing.Point(243, 234);
+            this.btnChangePathSQDBLite.Name = "btnChangePathSQDBLite";
+            this.btnChangePathSQDBLite.Size = new System.Drawing.Size(103, 41);
+            this.btnChangePathSQDBLite.TabIndex = 16;
+            this.btnChangePathSQDBLite.Text = "Change";
+            this.btnChangePathSQDBLite.UseVisualStyleBackColor = true;
+            this.btnChangePathSQDBLite.Click += new System.EventHandler(this.btnChangePathSQDBLite_Click);
+            // 
+            // btnLaunchSQDBLite
+            // 
+            this.btnLaunchSQDBLite.Location = new System.Drawing.Point(134, 234);
+            this.btnLaunchSQDBLite.Name = "btnLaunchSQDBLite";
+            this.btnLaunchSQDBLite.Size = new System.Drawing.Size(103, 41);
+            this.btnLaunchSQDBLite.TabIndex = 15;
+            this.btnLaunchSQDBLite.Text = "Launch";
+            this.btnLaunchSQDBLite.UseVisualStyleBackColor = true;
+            this.btnLaunchSQDBLite.Click += new System.EventHandler(this.btnLaunchSQDBLite_Click);
+            // 
+            // txtBoxSQDBLite
+            // 
+            this.txtBoxSQDBLite.Location = new System.Drawing.Point(11, 281);
+            this.txtBoxSQDBLite.Name = "txtBoxSQDBLite";
+            this.txtBoxSQDBLite.Size = new System.Drawing.Size(595, 31);
+            this.txtBoxSQDBLite.TabIndex = 14;
+            this.txtBoxSQDBLite.Text = "Enter Custom Path";
+            this.txtBoxSQDBLite.TextChanged += new System.EventHandler(this.txtBoxSQDBLite_TextChanged);
+            // 
+            // lblSQDBLite
+            // 
+            this.lblSQDBLite.AutoSize = true;
+            this.lblSQDBLite.Location = new System.Drawing.Point(14, 243);
+            this.lblSQDBLite.Name = "lblSQDBLite";
+            this.lblSQDBLite.Size = new System.Drawing.Size(118, 25);
+            this.lblSQDBLite.TabIndex = 13;
+            this.lblSQDBLite.Text = "SQDB Lite:";
             // 
             // btnSaveTCPView
             // 
@@ -467,7 +541,7 @@
             // 
             // btnStartLocalServer
             // 
-            this.btnStartLocalServer.Location = new System.Drawing.Point(165, 338);
+            this.btnStartLocalServer.Location = new System.Drawing.Point(165, 394);
             this.btnStartLocalServer.Name = "btnStartLocalServer";
             this.btnStartLocalServer.Size = new System.Drawing.Size(209, 49);
             this.btnStartLocalServer.TabIndex = 0;
@@ -480,7 +554,7 @@
             // btnCloseApp
             // 
             this.btnCloseApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnCloseApp.Location = new System.Drawing.Point(399, 338);
+            this.btnCloseApp.Location = new System.Drawing.Point(401, 445);
             this.btnCloseApp.Name = "btnCloseApp";
             this.btnCloseApp.Size = new System.Drawing.Size(158, 59);
             this.btnCloseApp.TabIndex = 15;
@@ -493,7 +567,7 @@
             // btnRemoveUser
             // 
             this.btnRemoveUser.Enabled = false;
-            this.btnRemoveUser.Location = new System.Drawing.Point(351, 130);
+            this.btnRemoveUser.Location = new System.Drawing.Point(351, 161);
             this.btnRemoveUser.Name = "btnRemoveUser";
             this.btnRemoveUser.Size = new System.Drawing.Size(42, 36);
             this.btnRemoveUser.TabIndex = 10;
@@ -505,7 +579,7 @@
             // btnAddUser
             // 
             this.btnAddUser.Enabled = false;
-            this.btnAddUser.Location = new System.Drawing.Point(288, 130);
+            this.btnAddUser.Location = new System.Drawing.Point(288, 161);
             this.btnAddUser.Name = "btnAddUser";
             this.btnAddUser.Size = new System.Drawing.Size(40, 36);
             this.btnAddUser.TabIndex = 9;
@@ -518,7 +592,7 @@
             // chkBoxSetViewPassword
             // 
             this.chkBoxSetViewPassword.AutoSize = true;
-            this.chkBoxSetViewPassword.Location = new System.Drawing.Point(327, 210);
+            this.chkBoxSetViewPassword.Location = new System.Drawing.Point(333, 271);
             this.chkBoxSetViewPassword.Name = "chkBoxSetViewPassword";
             this.chkBoxSetViewPassword.Size = new System.Drawing.Size(190, 29);
             this.chkBoxSetViewPassword.TabIndex = 8;
@@ -529,7 +603,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 180);
+            this.label5.Location = new System.Drawing.Point(6, 241);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(106, 25);
             this.label5.TabIndex = 7;
@@ -537,7 +611,7 @@
             // 
             // txtBoxSetUsrPassword
             // 
-            this.txtBoxSetUsrPassword.Location = new System.Drawing.Point(6, 208);
+            this.txtBoxSetUsrPassword.Location = new System.Drawing.Point(6, 269);
             this.txtBoxSetUsrPassword.Name = "txtBoxSetUsrPassword";
             this.txtBoxSetUsrPassword.Size = new System.Drawing.Size(269, 31);
             this.txtBoxSetUsrPassword.TabIndex = 6;
@@ -572,14 +646,14 @@
             this.groupBox4.Controls.Add(this.lblServer);
             this.groupBox4.Location = new System.Drawing.Point(15, 189);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(565, 415);
+            this.groupBox4.Size = new System.Drawing.Size(565, 510);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "App Manager";
             // 
             // btnSaveServer
             // 
-            this.btnSaveServer.Location = new System.Drawing.Point(415, 267);
+            this.btnSaveServer.Location = new System.Drawing.Point(415, 356);
             this.btnSaveServer.Name = "btnSaveServer";
             this.btnSaveServer.Size = new System.Drawing.Size(142, 51);
             this.btnSaveServer.TabIndex = 19;
@@ -589,7 +663,7 @@
             // 
             // btnServerDefault
             // 
-            this.btnServerDefault.Location = new System.Drawing.Point(281, 267);
+            this.btnServerDefault.Location = new System.Drawing.Point(281, 356);
             this.btnServerDefault.Name = "btnServerDefault";
             this.btnServerDefault.Size = new System.Drawing.Size(128, 51);
             this.btnServerDefault.TabIndex = 18;
@@ -601,7 +675,7 @@
             // BtnLaunchApp
             // 
             this.BtnLaunchApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.BtnLaunchApp.Location = new System.Drawing.Point(6, 338);
+            this.BtnLaunchApp.Location = new System.Drawing.Point(6, 445);
             this.BtnLaunchApp.Name = "BtnLaunchApp";
             this.BtnLaunchApp.Size = new System.Drawing.Size(165, 59);
             this.BtnLaunchApp.TabIndex = 11;
@@ -611,7 +685,7 @@
             // 
             // btnCloseAppSelUser
             // 
-            this.btnCloseAppSelUser.Location = new System.Drawing.Point(204, 338);
+            this.btnCloseAppSelUser.Location = new System.Drawing.Point(204, 445);
             this.btnCloseAppSelUser.Name = "btnCloseAppSelUser";
             this.btnCloseAppSelUser.Size = new System.Drawing.Size(163, 59);
             this.btnCloseAppSelUser.TabIndex = 15;
@@ -623,7 +697,7 @@
             // 
             // txtBoxServerName
             // 
-            this.txtBoxServerName.Location = new System.Drawing.Point(6, 277);
+            this.txtBoxServerName.Location = new System.Drawing.Point(6, 366);
             this.txtBoxServerName.Name = "txtBoxServerName";
             this.txtBoxServerName.Size = new System.Drawing.Size(269, 31);
             this.txtBoxServerName.TabIndex = 17;
@@ -632,7 +706,7 @@
             // chkBoxNoUpd
             // 
             this.chkBoxNoUpd.AutoSize = true;
-            this.chkBoxNoUpd.Location = new System.Drawing.Point(495, 135);
+            this.chkBoxNoUpd.Location = new System.Drawing.Point(484, 166);
             this.chkBoxNoUpd.Name = "chkBoxNoUpd";
             this.chkBoxNoUpd.Size = new System.Drawing.Size(62, 29);
             this.chkBoxNoUpd.TabIndex = 14;
@@ -643,7 +717,7 @@
             // chkBoxMultiApp
             // 
             this.chkBoxMultiApp.AutoSize = true;
-            this.chkBoxMultiApp.Location = new System.Drawing.Point(426, 135);
+            this.chkBoxMultiApp.Location = new System.Drawing.Point(415, 166);
             this.chkBoxMultiApp.Name = "chkBoxMultiApp";
             this.chkBoxMultiApp.Size = new System.Drawing.Size(63, 29);
             this.chkBoxMultiApp.TabIndex = 13;
@@ -666,7 +740,7 @@
             // cmbBoxUsers
             // 
             this.cmbBoxUsers.FormattingEnabled = true;
-            this.cmbBoxUsers.Location = new System.Drawing.Point(6, 133);
+            this.cmbBoxUsers.Location = new System.Drawing.Point(6, 161);
             this.cmbBoxUsers.Name = "cmbBoxUsers";
             this.cmbBoxUsers.Size = new System.Drawing.Size(269, 33);
             this.cmbBoxUsers.TabIndex = 3;
@@ -702,7 +776,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 105);
+            this.label6.Location = new System.Drawing.Point(7, 133);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(57, 25);
             this.label6.TabIndex = 4;
@@ -711,7 +785,7 @@
             // lblServer
             // 
             this.lblServer.AutoSize = true;
-            this.lblServer.Location = new System.Drawing.Point(6, 249);
+            this.lblServer.Location = new System.Drawing.Point(7, 338);
             this.lblServer.Name = "lblServer";
             this.lblServer.Size = new System.Drawing.Size(75, 25);
             this.lblServer.TabIndex = 16;
@@ -719,6 +793,7 @@
             // 
             // Links
             // 
+            this.Links.Controls.Add(this.btnAudioCodes);
             this.Links.Controls.Add(this.btnDeleteRD);
             this.Links.Controls.Add(this.btnDeleteShout);
             this.Links.Controls.Add(this.btnPortalGateway);
@@ -736,17 +811,47 @@
             this.Links.Controls.Add(this.label4);
             this.Links.Location = new System.Drawing.Point(1238, 12);
             this.Links.Name = "Links";
-            this.Links.Size = new System.Drawing.Size(767, 592);
+            this.Links.Size = new System.Drawing.Size(765, 687);
             this.Links.TabIndex = 3;
             this.Links.TabStop = false;
             this.Links.Text = "Links";
             this.Links.Enter += new System.EventHandler(this.Links_Enter);
             // 
+            // btnAudioCodes
+            // 
+            this.btnAudioCodes.Location = new System.Drawing.Point(380, 282);
+            this.btnAudioCodes.Name = "btnAudioCodes";
+            this.btnAudioCodes.Size = new System.Drawing.Size(170, 50);
+            this.btnAudioCodes.TabIndex = 15;
+            this.btnAudioCodes.Text = "Audio Codes";
+            this.btnAudioCodes.UseVisualStyleBackColor = true;
+            this.btnAudioCodes.Click += new System.EventHandler(this.btnAudioCodes_Click);
+            // 
+            // btnDeleteRD
+            // 
+            this.btnDeleteRD.Location = new System.Drawing.Point(165, 504);
+            this.btnDeleteRD.Name = "btnDeleteRD";
+            this.btnDeleteRD.Size = new System.Drawing.Size(209, 49);
+            this.btnDeleteRD.TabIndex = 14;
+            this.btnDeleteRD.Text = "Flush RingDowns";
+            this.btnDeleteRD.UseVisualStyleBackColor = true;
+            this.btnDeleteRD.Click += new System.EventHandler(this.btnDeleteRD_Click);
+            // 
+            // btnDeleteShout
+            // 
+            this.btnDeleteShout.Location = new System.Drawing.Point(165, 449);
+            this.btnDeleteShout.Name = "btnDeleteShout";
+            this.btnDeleteShout.Size = new System.Drawing.Size(209, 49);
+            this.btnDeleteShout.TabIndex = 13;
+            this.btnDeleteShout.Text = "Flush ShoutDowns";
+            this.btnDeleteShout.UseVisualStyleBackColor = true;
+            this.btnDeleteShout.Click += new System.EventHandler(this.btnDeleteShout_Click);
+            // 
             // btnPortalGateway
             // 
-            this.btnPortalGateway.Location = new System.Drawing.Point(12, 338);
+            this.btnPortalGateway.Location = new System.Drawing.Point(380, 338);
             this.btnPortalGateway.Name = "btnPortalGateway";
-            this.btnPortalGateway.Size = new System.Drawing.Size(147, 49);
+            this.btnPortalGateway.Size = new System.Drawing.Size(170, 50);
             this.btnPortalGateway.TabIndex = 12;
             this.btnPortalGateway.Text = "Gateways";
             this.btnPortalGateway.UseVisualStyleBackColor = true;
@@ -758,15 +863,15 @@
             this.btnAnalyticsUploads.Name = "btnAnalyticsUploads";
             this.btnAnalyticsUploads.Size = new System.Drawing.Size(209, 50);
             this.btnAnalyticsUploads.TabIndex = 11;
-            this.btnAnalyticsUploads.Text = "Analytics\\Uploads";
+            this.btnAnalyticsUploads.Text = "c9analytics";
             this.btnAnalyticsUploads.UseVisualStyleBackColor = true;
             this.btnAnalyticsUploads.Click += new System.EventHandler(this.btnAnalyticsUploads_Click);
             // 
             // btnRecordingFolder
             // 
-            this.btnRecordingFolder.Location = new System.Drawing.Point(380, 282);
+            this.btnRecordingFolder.Location = new System.Drawing.Point(165, 338);
             this.btnRecordingFolder.Name = "btnRecordingFolder";
-            this.btnRecordingFolder.Size = new System.Drawing.Size(191, 50);
+            this.btnRecordingFolder.Size = new System.Drawing.Size(209, 50);
             this.btnRecordingFolder.TabIndex = 10;
             this.btnRecordingFolder.Text = "Recording Folder";
             this.btnRecordingFolder.UseVisualStyleBackColor = true;
@@ -787,14 +892,14 @@
             this.lblPortal.AutoSize = true;
             this.lblPortal.Location = new System.Drawing.Point(16, 247);
             this.lblPortal.Name = "lblPortal";
-            this.lblPortal.Size = new System.Drawing.Size(316, 25);
+            this.lblPortal.Size = new System.Drawing.Size(457, 25);
             this.lblPortal.TabIndex = 8;
-            this.lblPortal.Text = "API Analytics / Cloud Recording";
+            this.lblPortal.Text = "API Analytics / Cloud Recording / Gateway SIP";
             // 
             // reeEEE
             // 
             this.reeEEE.Image = ((System.Drawing.Image)(resources.GetObject("reeEEE.Image")));
-            this.reeEEE.Location = new System.Drawing.Point(669, 530);
+            this.reeEEE.Location = new System.Drawing.Point(702, 628);
             this.reeEEE.Name = "reeEEE";
             this.reeEEE.Size = new System.Drawing.Size(57, 53);
             this.reeEEE.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -859,7 +964,6 @@
             this.label4.Size = new System.Drawing.Size(176, 25);
             this.label4.TabIndex = 0;
             this.label4.Text = "JIRA Test Cycles";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // toolTipVPNSwitch
             // 
@@ -929,32 +1033,16 @@
             // 
             this.openFileDialogTCPView.Filter = "Tcpview.exe | *.exe";
             // 
-            // btnDeleteShout
+            // openFileDialogSQDBLite
             // 
-            this.btnDeleteShout.Location = new System.Drawing.Point(165, 393);
-            this.btnDeleteShout.Name = "btnDeleteShout";
-            this.btnDeleteShout.Size = new System.Drawing.Size(209, 49);
-            this.btnDeleteShout.TabIndex = 13;
-            this.btnDeleteShout.Text = "Flush ShoutDowns";
-            this.btnDeleteShout.UseVisualStyleBackColor = true;
-            this.btnDeleteShout.Click += new System.EventHandler(this.btnDeleteShout_Click);
-            // 
-            // btnDeleteRD
-            // 
-            this.btnDeleteRD.Location = new System.Drawing.Point(165, 448);
-            this.btnDeleteRD.Name = "btnDeleteRD";
-            this.btnDeleteRD.Size = new System.Drawing.Size(209, 49);
-            this.btnDeleteRD.TabIndex = 14;
-            this.btnDeleteRD.Text = "Flush RingDowns";
-            this.btnDeleteRD.UseVisualStyleBackColor = true;
-            this.btnDeleteRD.Click += new System.EventHandler(this.btnDeleteRD_Click);
+            this.openFileDialogSQDBLite.Filter = "|*.exe";
             // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(2112, 631);
+            this.ClientSize = new System.Drawing.Size(2112, 803);
             this.Controls.Add(this.Links);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -1068,6 +1156,14 @@
         private System.Windows.Forms.Button btnSaveServer;
         private System.Windows.Forms.Button btnDeleteRD;
         private System.Windows.Forms.Button btnDeleteShout;
+        private System.Windows.Forms.Button btnAudioCodes;
+        private System.Windows.Forms.Button btnSavePathSQDBLite;
+        private System.Windows.Forms.Button btnDefaultSQDBLite;
+        private System.Windows.Forms.Button btnChangePathSQDBLite;
+        private System.Windows.Forms.Button btnLaunchSQDBLite;
+        private System.Windows.Forms.TextBox txtBoxSQDBLite;
+        private System.Windows.Forms.Label lblSQDBLite;
+        private System.Windows.Forms.OpenFileDialog openFileDialogSQDBLite;
     }
 }
 

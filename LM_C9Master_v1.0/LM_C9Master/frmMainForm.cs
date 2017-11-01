@@ -75,7 +75,7 @@ namespace LM_C9Master
         private void frmMainForm_Load(object sender, EventArgs e)
         {
             this.Width = 1035;
-            this.Height = 365;
+            this.Height = 415;
             foreach (Process p in System.Diagnostics.Process.GetProcesses())
             {
                 if (p.ProcessName.Contains("C9Shell"))
@@ -96,6 +96,7 @@ namespace LM_C9Master
             LoadSettings("APPACCOUNTS");
             LoadSettings("VERSIONMANAGER");
             LoadSettings("TCPVIEW");
+            LoadSettings("SQDB");
 
             btnDefaultC9TraderRoot.Enabled = false;
             btnTraderRootSave.Enabled = false;
@@ -107,6 +108,8 @@ namespace LM_C9Master
             btnSaveVM.Enabled = false;
             btnServerDefault.Enabled = false;
             btnSaveServer.Enabled = false;
+            btnDefaultSQDBLite.Enabled = false;
+            btnSavePathSQDBLite.Enabled = false;
 
             //VPN Manager Startup Setup
 
@@ -147,9 +150,9 @@ namespace LM_C9Master
         {
             using (StreamWriter SW = File.CreateText("LM_C9MSettings.set"))
             {
-                SW.WriteLine("<VPNManager>");
+                SW.WriteLine("<VPNClient>");
                 SW.WriteLine(@"VPNClientLocation=C:\Program Files (x86)\Cisco\Cisco AnyConnect Secure Mobility Client\vpnui.exe");
-                SW.WriteLine("</VPNManager>");
+                SW.WriteLine("</VPNClient>");
                 SW.WriteLine("<AppManager>");
                 String currUser = Environment.UserName.ToString();
                 SW.WriteLine(@"C9TraderRootLocation=C:\Users\" + currUser + @"\AppData\Local\C9Trader");
@@ -157,6 +160,9 @@ namespace LM_C9Master
                 SW.WriteLine("<VersionManager>");
                 SW.WriteLine("VMLocation=");
                 SW.WriteLine("</VersionManager>");
+                SW.WriteLine("<SQDBLite>");
+                SW.WriteLine("SQDBLiteLocation=");
+                SW.WriteLine("</SQDBLite>");
                 SW.WriteLine("<TCPView>");
                 SW.WriteLine("TCPViewLocation=");
                 SW.WriteLine("</TCPView>");
@@ -182,7 +188,7 @@ namespace LM_C9Master
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
                         Line = SR.ReadLine();
-                        while (Line != "</VPNManager>")
+                        while (Line != "</VPNClient>")
                         {
                             LineSplit = Line.Split('=');
                             if (LineSplit[0] == "VPNClientLocation")
@@ -305,6 +311,23 @@ namespace LM_C9Master
                         }
                     }
                     break;
+                case "SQDB":
+                    txtBoxSQDBLite.Clear();
+                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                    {
+                        Line = SR.ReadLine();
+                        while (Line != "</SQDBLite>")
+                        {
+                            LineSplit = Line.Split('=');
+                            if (LineSplit[0] == "SQDBLiteLocation")
+                            {
+                                txtBoxSQDBLite.Text = LineSplit[1];
+                                break;
+                            }
+                            Line = SR.ReadLine();
+                        }
+                    }
+                    break;
             }
         }
 
@@ -381,35 +404,26 @@ namespace LM_C9Master
                     Line = SR.ReadLine();
                 }
             }
-            if (btnDefaultVPN.Enabled)
-            {
-                string[] strSplitCheck = null;
-                foreach (string s in strCurrentSettings)
-                {
-                    strSplitCheck = s.Split('=');
-                    if (strSplitCheck[0] == "VPNClientLocation")
-                    {
-                        strCurrentSettings[1] = "VPNClientLocation=" + lblVPNClientTarget.Text;
-                        break;
-                    }
-                }
-            }
-
-            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.new"))
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
             {
                 if (strCurrentSettings != null)
                 {
                     foreach (string s in strCurrentSettings)
                     {
-                        SW.WriteLine(s);
+                        if (s.Contains("VPNClientLocation="))
+                        {
+                            String append = s;
+                            append = "VPNClientLocation=" + lblVPNClientTarget.Text;
+                            SW.WriteLine(append);
+                        }
+                        else
+                            SW.WriteLine(s);
                     }
                 }
             }
-            File.Delete("LM_C9MSettings.set");
-            File.Copy("LM_C9MSettings.new", "LM_C9MSettings.set");
-            File.Delete("LM_C9MSettings.new");
 
             btnVPNSaveSettings.Enabled = false;
+            btnDefaultVPN.Enabled = false;
 
 
         }
@@ -522,23 +536,26 @@ namespace LM_C9Master
             {
                 string startPath;
                 // Determines if user has settings for Squirrel or MSI build
-                if (MSI_Toggle.Text == "Squirrel")
+                if (MSI_Toggle.Text == "Squirrel" || MSI_Toggle.Text == "Production")
                 {
-                    string currUser = Environment.UserName;
-                    startPath = @"C:\Users\" + currUser + "\\AppData\\Local\\C9Trader";
-                    lblC9TraderRoot.Text = startPath;
-                    string[] strSubDirList = Directory.GetDirectories(lblC9TraderRoot.Text);
-                    foreach (string s in strSubDirList)
+                    LoadSettings("C9TRADERROOT");
+                    try
                     {
-                        string[] strPathSplit = s.Split('\\');
-                        string[] strAppSplit = strPathSplit[strPathSplit.Length - 1].Split('-');
-                        if (strAppSplit[0] == "app" && !cmbBoxVersionsList.Items.Contains(strAppSplit[1]))
+                        string[] strSubDirList = Directory.GetDirectories(lblC9TraderRoot.Text);
+                        foreach (string s in strSubDirList)
                         {
-                            cmbBoxVersionsList.SelectedIndex = cmbBoxVersionsList.Items.Add(strAppSplit[1]);
+                            string[] strPathSplit = s.Split('\\');
+                            string[] strAppSplit = strPathSplit[strPathSplit.Length - 1].Split('-');
+                            if (strAppSplit[0] == "app" && !cmbBoxVersionsList.Items.Contains(strAppSplit[1]))
+                            {
+                                cmbBoxVersionsList.SelectedIndex = cmbBoxVersionsList.Items.Add(strAppSplit[1]);
+                            }
                         }
                     }
+                    catch
+                    { }
                 }
-                else
+                else if (MSI_Toggle.Text == "MSI")
                 {
                     startPath = @"C:\Program Files (x86)\Cloud9 Technologies LLC\C9Trader";
                     lblC9TraderRoot.Text = startPath;
@@ -676,13 +693,17 @@ namespace LM_C9Master
                     p.StartInfo.Arguments = parameters;
                     p = Process.Start(lblC9TraderRoot.Text + "\\app-" + cmbBoxVersionsList.Text + "\\C9Shell.exe", parameters);
                 }
-                else
+                else if (MSI_Toggle.Text == "MSI")
                 {
                     ProcessStartInfo psi = new ProcessStartInfo();
                     psi.FileName = "C9Shell.exe";
                     psi.WorkingDirectory = lblC9TraderRoot.Text;
                     psi.Arguments = parameters;
                     p = Process.Start(psi);
+                }
+                else
+                {
+                    p = Process.Start(lblC9TraderRoot.Text + "\\app-" + cmbBoxVersionsList.Text + "\\C9Shell.exe");
                 }
 
                 // Overwrites password in settings file with that currently used
@@ -731,7 +752,9 @@ namespace LM_C9Master
         {
             if (MSI_Toggle.Text == "Squirrel")
                 MSI_Toggle.Text = "MSI";
-            else
+            else if (MSI_Toggle.Text == "MSI")
+                MSI_Toggle.Text = "Production";
+            else if (MSI_Toggle.Text == "Production")
                 MSI_Toggle.Text = "Squirrel";
             RefreshVersions();
         }
@@ -944,45 +967,35 @@ namespace LM_C9Master
                 {
                     strCurrentSettings.Add(Line);
                     Line = SR.ReadLine();
+                    
                 }
             }
-
-            if (btnDefaultC9TraderRoot.Enabled)
-            {
-                string[] strSplitCheck = null;
-                foreach (string s in strCurrentSettings)
-                {
-                    strSplitCheck = s.Split('=');
-                    if (strSplitCheck[0] == "C9TraderRootLocation")
-                    {
-                        strCurrentSettings[1] = "C9TraderRootLocation=" + lblC9TraderRoot.Text;
-                        break;
-                    }
-                }
-
-            }
-
-            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.new"))
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
             {
                 if (strCurrentSettings != null)
                 {
                     foreach (string s in strCurrentSettings)
                     {
-                        SW.WriteLine(s);
+                        if (s.Contains("C9TraderRootLocation="))
+                        {
+                            String append = s;
+                            append = "C9TraderRootLocation=" + lblC9TraderRoot.Text;
+                            SW.WriteLine(append);
+                        }
+                        else
+                            SW.WriteLine(s);
                     }
                 }
             }
-            File.Delete("LM_C9MSettings.set");
-            File.Copy("LM_C9MSettings.new", "LM_C9MSettings.set");
-            File.Delete("LM_C9MSettings.new");
 
             btnTraderRootSave.Enabled = false;
+            btnDefaultC9TraderRoot.Enabled = false;
         }
 
         // Action Listener for the button that links the user to the C9 Portal
         private void btnPortalLink_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://qa1-portal.xhoot.com");
+            System.Diagnostics.Process.Start("https://qa1-portal.xhoot.com/c9portal/#/login");
         }
 
         // Action Listener for the button that starts the local server for the user (api_server.py)
@@ -1113,33 +1126,23 @@ namespace LM_C9Master
                     Line = SR.ReadLine();
                 }
             }
-            if (btnDefaultVM.Enabled)
-            {
-                string[] strSplitCheck = null;
-                foreach (string s in strCurrentSettings)
-                {
-                    strSplitCheck = s.Split('=');
-                    if (strSplitCheck[0] == "VMLocation")
-                    {
-                        strCurrentSettings[1] = "VMLocation=" + txtBoxVMPath.Text;
-                        break;
-                    }
-                }
-            }
-
-            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.new"))
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
             {
                 if (strCurrentSettings != null)
                 {
                     foreach (string s in strCurrentSettings)
                     {
-                        SW.WriteLine(s);
+                        if (s.Contains("VMLocation="))
+                        {
+                            String append = s;
+                            append = "VMLocation=" + txtBoxVMPath.Text;
+                            SW.WriteLine(append);
+                        }
+                        else
+                            SW.WriteLine(s);
                     }
                 }
             }
-            File.Delete("LM_C9MSettings.set");
-            File.Copy("LM_C9MSettings.new", "LM_C9MSettings.set");
-            File.Delete("LM_C9MSettings.new");
 
             btnSaveVM.Enabled = false;
             btnDefaultVM.Enabled = false;
@@ -1183,33 +1186,23 @@ namespace LM_C9Master
                     Line = SR.ReadLine();
                 }
             }
-            if (btnDefaultTCPView.Enabled)
-            {
-                string[] strSplitCheck = null;
-                foreach (string s in strCurrentSettings)
-                {
-                    strSplitCheck = s.Split('=');
-                    if (strSplitCheck[0] == "TCPViewLocation")
-                    {
-                        strCurrentSettings[1] = "TCPViewLocation=" + txtBoxTCPViewPath.Text;
-                        break;
-                    }
-                }
-            }
-
-            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.new"))
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
             {
                 if (strCurrentSettings != null)
                 {
                     foreach (string s in strCurrentSettings)
                     {
-                        SW.WriteLine(s);
+                        if (s.Contains("TCPViewLocation="))
+                        {
+                            String append = s;
+                            append = "TCPViewLocation=" + txtBoxTCPViewPath.Text;
+                            SW.WriteLine(append);
+                        }
+                        else
+                            SW.WriteLine(s);
                     }
                 }
             }
-            File.Delete("LM_C9MSettings.set");
-            File.Copy("LM_C9MSettings.new", "LM_C9MSettings.set");
-            File.Delete("LM_C9MSettings.new");
 
             btnSaveTCPView.Enabled = false;
             btnDefaultTCPView.Enabled = false;
@@ -1257,33 +1250,23 @@ namespace LM_C9Master
                     Line = SR.ReadLine();
                 }
             }
-            if (btnServerDefault.Enabled)
-            {
-                string[] strSplitCheck = null;
-                foreach (string s in strCurrentSettings)
-                {
-                    strSplitCheck = s.Split('=');
-                    if (strSplitCheck[0] == "Server")
-                    {
-                        strCurrentSettings[1] = "Server=" + txtBoxServerName.Text;
-                        break;
-                    }
-                }
-            }
-
-            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.new"))
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
             {
                 if (strCurrentSettings != null)
                 {
                     foreach (string s in strCurrentSettings)
                     {
-                        SW.WriteLine(s);
+                        if (s.Contains("Server="))
+                        {
+                            String append = s;
+                            append = "Server=" + txtBoxServerName.Text;
+                            SW.WriteLine(append);
+                        }
+                        else
+                            SW.WriteLine(s);
                     }
                 }
             }
-            File.Delete("LM_C9MSettings.set");
-            File.Copy("LM_C9MSettings.new", "LM_C9MSettings.set");
-            File.Delete("LM_C9MSettings.new");
 
             btnSaveServer.Enabled = false;
             btnServerDefault.Enabled = false;
@@ -1311,6 +1294,90 @@ namespace LM_C9Master
             {
                 File.Delete(s);
             }
+        }
+
+        private void btnAudioCodes_Click(object sender, EventArgs e)
+        {
+            Process.Start("http://qa1-gateway1.xhoot.com/QA%20Dual%20GW1/");
+        }
+
+        private void btnLaunchSQDBLite_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!txtBoxSQDBLite.Text.Contains("DB Browser for SQLite"))
+                    MessageBox.Show("SQDBLite not found");
+                else
+                    Process.Start(txtBoxSQDBLite.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Error: SQDBLite not found");
+            }
+        }
+
+        private void txtBoxSQDBLite_TextChanged(object sender, EventArgs e)
+        {
+            btnSavePathSQDBLite.Enabled = true;
+            btnDefaultSQDBLite.Enabled = true;
+        }
+
+        private void btnChangePathSQDBLite_Click(object sender, EventArgs e)
+        {
+            DialogResult VMSelectorResult = new DialogResult();
+            VMSelectorResult = openFileDialogSQDBLite.ShowDialog();
+            if (VMSelectorResult == DialogResult.OK)
+            {
+                string strResultChangeCheck = openFileDialogSQDBLite.FileName;
+                if (strResultChangeCheck != txtBoxSQDBLite.Text)
+                {
+                    txtBoxSQDBLite.Text = strResultChangeCheck;
+                }
+
+            }
+        }
+
+        private void btnDefaultSQDBLite_Click(object sender, EventArgs e)
+        {
+            LoadSettings("SQDB");
+            btnDefaultSQDBLite.Enabled = false;
+            btnSavePathSQDBLite.Enabled = false;
+            txtBoxSQDBLite.Select();
+        }
+
+        private void btnSavePathSQDBLite_Click(object sender, EventArgs e)
+        {
+            List<string> strCurrentSettings = new List<string>();
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                string Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+            {
+                if (strCurrentSettings != null)
+                {
+                    foreach (string s in strCurrentSettings)
+                    {
+                        if (s.Contains("SQDBLiteLocation="))
+                        {
+                            String append = s;
+                            append = "SQDBLiteLocation=" + txtBoxSQDBLite.Text;
+                            SW.WriteLine(append);
+                        }
+                        else
+                            SW.WriteLine(s);
+                    }
+                }
+            }
+
+            btnSavePathSQDBLite.Enabled = false;
+            btnDefaultSQDBLite.Enabled = false;
         }
     }
 }
