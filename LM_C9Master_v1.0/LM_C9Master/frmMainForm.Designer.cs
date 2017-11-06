@@ -92,6 +92,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lblServer = new System.Windows.Forms.Label();
             this.Links = new System.Windows.Forms.GroupBox();
+            this.btnBackup = new System.Windows.Forms.Button();
             this.btnAudioCodes = new System.Windows.Forms.Button();
             this.btnDeleteRD = new System.Windows.Forms.Button();
             this.btnDeleteShout = new System.Windows.Forms.Button();
@@ -122,6 +123,7 @@
             this.openFileDialogVM = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogTCPView = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogSQDBLite = new System.Windows.Forms.OpenFileDialog();
+            this.btnBackupFolder = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -185,7 +187,7 @@
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Location = new System.Drawing.Point(587, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(645, 687);
+            this.groupBox2.Size = new System.Drawing.Size(645, 712);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Settings";
@@ -210,7 +212,7 @@
             this.groupBox6.Controls.Add(this.btnVersionManager);
             this.groupBox6.Controls.Add(this.txtBoxVMPath);
             this.groupBox6.Controls.Add(this.btnChangeVMPath);
-            this.groupBox6.Location = new System.Drawing.Point(7, 347);
+            this.groupBox6.Location = new System.Drawing.Point(7, 372);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(627, 334);
             this.groupBox6.TabIndex = 3;
@@ -399,14 +401,16 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.btnBackupFolder);
+            this.groupBox5.Controls.Add(this.btnBackup);
             this.groupBox5.Controls.Add(this.btnTraderRootSave);
             this.groupBox5.Controls.Add(this.btnDefaultC9TraderRoot);
             this.groupBox5.Controls.Add(this.lblC9TraderRoot);
             this.groupBox5.Controls.Add(this.label3);
             this.groupBox5.Controls.Add(this.btnChangeC9TraderRoot);
-            this.groupBox5.Location = new System.Drawing.Point(7, 188);
+            this.groupBox5.Location = new System.Drawing.Point(7, 176);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(626, 153);
+            this.groupBox5.Size = new System.Drawing.Size(626, 190);
             this.groupBox5.TabIndex = 2;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "App Manager";
@@ -646,7 +650,7 @@
             this.groupBox4.Controls.Add(this.lblServer);
             this.groupBox4.Location = new System.Drawing.Point(15, 189);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(565, 510);
+            this.groupBox4.Size = new System.Drawing.Size(565, 535);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "App Manager";
@@ -811,11 +815,21 @@
             this.Links.Controls.Add(this.label4);
             this.Links.Location = new System.Drawing.Point(1238, 12);
             this.Links.Name = "Links";
-            this.Links.Size = new System.Drawing.Size(765, 687);
+            this.Links.Size = new System.Drawing.Size(765, 712);
             this.Links.TabIndex = 3;
             this.Links.TabStop = false;
             this.Links.Text = "Links";
             this.Links.Enter += new System.EventHandler(this.Links_Enter);
+            // 
+            // btnBackup
+            // 
+            this.btnBackup.Location = new System.Drawing.Point(68, 134);
+            this.btnBackup.Name = "btnBackup";
+            this.btnBackup.Size = new System.Drawing.Size(209, 50);
+            this.btnBackup.TabIndex = 16;
+            this.btnBackup.Text = "Backup Versions";
+            this.btnBackup.UseVisualStyleBackColor = true;
+            this.btnBackup.Click += new System.EventHandler(this.btnBackup_Click);
             // 
             // btnAudioCodes
             // 
@@ -1037,6 +1051,16 @@
             // 
             this.openFileDialogSQDBLite.Filter = "|*.exe";
             // 
+            // btnBackupFolder
+            // 
+            this.btnBackupFolder.Location = new System.Drawing.Point(331, 135);
+            this.btnBackupFolder.Name = "btnBackupFolder";
+            this.btnBackupFolder.Size = new System.Drawing.Size(221, 49);
+            this.btnBackupFolder.TabIndex = 17;
+            this.btnBackupFolder.Text = "Backup Folder";
+            this.btnBackupFolder.UseVisualStyleBackColor = true;
+            this.btnBackupFolder.Click += new System.EventHandler(this.btnBackupFolder_Click);
+            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -1164,6 +1188,8 @@
         private System.Windows.Forms.TextBox txtBoxSQDBLite;
         private System.Windows.Forms.Label lblSQDBLite;
         private System.Windows.Forms.OpenFileDialog openFileDialogSQDBLite;
+        private System.Windows.Forms.Button btnBackup;
+        private System.Windows.Forms.Button btnBackupFolder;
     }
 }
 

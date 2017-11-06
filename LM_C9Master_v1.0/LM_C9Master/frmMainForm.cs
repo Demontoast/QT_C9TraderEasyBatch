@@ -14,6 +14,7 @@ using System.Threading;
 using System.Media;
 using System.Runtime.InteropServices;
 using System.Net;
+using Microsoft.VisualBasic;
 
 //need to review the whole account retreival/saving system, the accounts get overwritten when saved.
 
@@ -75,7 +76,7 @@ namespace LM_C9Master
         private void frmMainForm_Load(object sender, EventArgs e)
         {
             this.Width = 1035;
-            this.Height = 415;
+            this.Height = 425;
             foreach (Process p in System.Diagnostics.Process.GetProcesses())
             {
                 if (p.ProcessName.Contains("C9Shell"))
@@ -1378,6 +1379,40 @@ namespace LM_C9Master
 
             btnSavePathSQDBLite.Enabled = false;
             btnDefaultSQDBLite.Enabled = false;
+        }
+
+        private void btnBackup_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(lblC9TraderRoot.Text))
+            {
+                List<String> directoryList = new List<String>();
+                List<String> fileList = new List<String>();
+                String rootDirectory = lblC9TraderRoot.Text;
+                rootDirectory = lblC9TraderRoot.Text.Remove(lblC9TraderRoot.Text.Length - 9, 9);
+                String newDirectory = rootDirectory + @"\C9TraderBackup";
+                if (!Directory.Exists(newDirectory))
+                    Directory.CreateDirectory(newDirectory);
+                Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(lblC9TraderRoot.Text, newDirectory, true);
+                Process.Start(newDirectory);
+            }
+            else
+                MessageBox.Show("Invalid C9Trader Squirrel Root Path for Backup");
+
+        }
+
+        private void btnBackupFolder_Click(object sender, EventArgs e)
+        {
+            String root = lblC9TraderRoot.Text;
+            root = root.Remove(root.Length - 9, 9);
+            if (Directory.Exists(root + @"\C9TraderBackup"))
+            {
+                Process.Start(root + @"\C9TraderBackup");
+            }
+            else
+            {
+                Directory.CreateDirectory(root + @"\C9TraderBackup");
+                Process.Start(root + @"\C9TraderBackup");
+            }
         }
     }
 }
