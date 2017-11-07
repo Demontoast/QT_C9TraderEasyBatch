@@ -55,6 +55,8 @@
             this.txtBoxVMPath = new System.Windows.Forms.TextBox();
             this.btnChangeVMPath = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnBackupFolder = new System.Windows.Forms.Button();
+            this.btnBackup = new System.Windows.Forms.Button();
             this.btnTraderRootSave = new System.Windows.Forms.Button();
             this.btnDefaultC9TraderRoot = new System.Windows.Forms.Button();
             this.lblC9TraderRoot = new System.Windows.Forms.TextBox();
@@ -92,7 +94,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lblServer = new System.Windows.Forms.Label();
             this.Links = new System.Windows.Forms.GroupBox();
-            this.btnBackup = new System.Windows.Forms.Button();
             this.btnAudioCodes = new System.Windows.Forms.Button();
             this.btnDeleteRD = new System.Windows.Forms.Button();
             this.btnDeleteShout = new System.Windows.Forms.Button();
@@ -123,7 +124,10 @@
             this.openFileDialogVM = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogTCPView = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogSQDBLite = new System.Windows.Forms.OpenFileDialog();
-            this.btnBackupFolder = new System.Windows.Forms.Button();
+            this.txtBoxTranscriptionServer = new System.Windows.Forms.TextBox();
+            this.lblTranscriptionServer = new System.Windows.Forms.Label();
+            this.btnSaveTrscpServ = new System.Windows.Forms.Button();
+            this.btnDefaultTrscpServ = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -415,6 +419,26 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "App Manager";
             // 
+            // btnBackupFolder
+            // 
+            this.btnBackupFolder.Location = new System.Drawing.Point(331, 135);
+            this.btnBackupFolder.Name = "btnBackupFolder";
+            this.btnBackupFolder.Size = new System.Drawing.Size(221, 49);
+            this.btnBackupFolder.TabIndex = 17;
+            this.btnBackupFolder.Text = "Backup Folder";
+            this.btnBackupFolder.UseVisualStyleBackColor = true;
+            this.btnBackupFolder.Click += new System.EventHandler(this.btnBackupFolder_Click);
+            // 
+            // btnBackup
+            // 
+            this.btnBackup.Location = new System.Drawing.Point(68, 134);
+            this.btnBackup.Name = "btnBackup";
+            this.btnBackup.Size = new System.Drawing.Size(209, 50);
+            this.btnBackup.TabIndex = 16;
+            this.btnBackup.Text = "Backup Versions";
+            this.btnBackup.UseVisualStyleBackColor = true;
+            this.btnBackup.Click += new System.EventHandler(this.btnBackup_Click);
+            // 
             // btnTraderRootSave
             // 
             this.btnTraderRootSave.Enabled = false;
@@ -558,7 +582,7 @@
             // btnCloseApp
             // 
             this.btnCloseApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnCloseApp.Location = new System.Drawing.Point(401, 445);
+            this.btnCloseApp.Location = new System.Drawing.Point(401, 470);
             this.btnCloseApp.Name = "btnCloseApp";
             this.btnCloseApp.Size = new System.Drawing.Size(158, 59);
             this.btnCloseApp.TabIndex = 15;
@@ -571,7 +595,7 @@
             // btnRemoveUser
             // 
             this.btnRemoveUser.Enabled = false;
-            this.btnRemoveUser.Location = new System.Drawing.Point(351, 161);
+            this.btnRemoveUser.Location = new System.Drawing.Point(351, 143);
             this.btnRemoveUser.Name = "btnRemoveUser";
             this.btnRemoveUser.Size = new System.Drawing.Size(42, 36);
             this.btnRemoveUser.TabIndex = 10;
@@ -583,7 +607,7 @@
             // btnAddUser
             // 
             this.btnAddUser.Enabled = false;
-            this.btnAddUser.Location = new System.Drawing.Point(288, 161);
+            this.btnAddUser.Location = new System.Drawing.Point(288, 143);
             this.btnAddUser.Name = "btnAddUser";
             this.btnAddUser.Size = new System.Drawing.Size(40, 36);
             this.btnAddUser.TabIndex = 9;
@@ -596,7 +620,7 @@
             // chkBoxSetViewPassword
             // 
             this.chkBoxSetViewPassword.AutoSize = true;
-            this.chkBoxSetViewPassword.Location = new System.Drawing.Point(333, 271);
+            this.chkBoxSetViewPassword.Location = new System.Drawing.Point(333, 237);
             this.chkBoxSetViewPassword.Name = "chkBoxSetViewPassword";
             this.chkBoxSetViewPassword.Size = new System.Drawing.Size(190, 29);
             this.chkBoxSetViewPassword.TabIndex = 8;
@@ -607,7 +631,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 241);
+            this.label5.Location = new System.Drawing.Point(6, 207);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(106, 25);
             this.label5.TabIndex = 7;
@@ -615,7 +639,7 @@
             // 
             // txtBoxSetUsrPassword
             // 
-            this.txtBoxSetUsrPassword.Location = new System.Drawing.Point(6, 269);
+            this.txtBoxSetUsrPassword.Location = new System.Drawing.Point(6, 235);
             this.txtBoxSetUsrPassword.Name = "txtBoxSetUsrPassword";
             this.txtBoxSetUsrPassword.Size = new System.Drawing.Size(269, 31);
             this.txtBoxSetUsrPassword.TabIndex = 6;
@@ -628,6 +652,10 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnSaveTrscpServ);
+            this.groupBox4.Controls.Add(this.btnDefaultTrscpServ);
+            this.groupBox4.Controls.Add(this.lblTranscriptionServer);
+            this.groupBox4.Controls.Add(this.txtBoxTranscriptionServer);
             this.groupBox4.Controls.Add(this.btnSaveServer);
             this.groupBox4.Controls.Add(this.btnServerDefault);
             this.groupBox4.Controls.Add(this.btnCloseApp);
@@ -657,7 +685,7 @@
             // 
             // btnSaveServer
             // 
-            this.btnSaveServer.Location = new System.Drawing.Point(415, 356);
+            this.btnSaveServer.Location = new System.Drawing.Point(415, 317);
             this.btnSaveServer.Name = "btnSaveServer";
             this.btnSaveServer.Size = new System.Drawing.Size(142, 51);
             this.btnSaveServer.TabIndex = 19;
@@ -667,7 +695,7 @@
             // 
             // btnServerDefault
             // 
-            this.btnServerDefault.Location = new System.Drawing.Point(281, 356);
+            this.btnServerDefault.Location = new System.Drawing.Point(281, 317);
             this.btnServerDefault.Name = "btnServerDefault";
             this.btnServerDefault.Size = new System.Drawing.Size(128, 51);
             this.btnServerDefault.TabIndex = 18;
@@ -679,7 +707,7 @@
             // BtnLaunchApp
             // 
             this.BtnLaunchApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.BtnLaunchApp.Location = new System.Drawing.Point(6, 445);
+            this.BtnLaunchApp.Location = new System.Drawing.Point(6, 470);
             this.BtnLaunchApp.Name = "BtnLaunchApp";
             this.BtnLaunchApp.Size = new System.Drawing.Size(165, 59);
             this.BtnLaunchApp.TabIndex = 11;
@@ -689,7 +717,7 @@
             // 
             // btnCloseAppSelUser
             // 
-            this.btnCloseAppSelUser.Location = new System.Drawing.Point(204, 445);
+            this.btnCloseAppSelUser.Location = new System.Drawing.Point(203, 470);
             this.btnCloseAppSelUser.Name = "btnCloseAppSelUser";
             this.btnCloseAppSelUser.Size = new System.Drawing.Size(163, 59);
             this.btnCloseAppSelUser.TabIndex = 15;
@@ -701,7 +729,7 @@
             // 
             // txtBoxServerName
             // 
-            this.txtBoxServerName.Location = new System.Drawing.Point(6, 366);
+            this.txtBoxServerName.Location = new System.Drawing.Point(6, 327);
             this.txtBoxServerName.Name = "txtBoxServerName";
             this.txtBoxServerName.Size = new System.Drawing.Size(269, 31);
             this.txtBoxServerName.TabIndex = 17;
@@ -710,7 +738,7 @@
             // chkBoxNoUpd
             // 
             this.chkBoxNoUpd.AutoSize = true;
-            this.chkBoxNoUpd.Location = new System.Drawing.Point(484, 166);
+            this.chkBoxNoUpd.Location = new System.Drawing.Point(484, 148);
             this.chkBoxNoUpd.Name = "chkBoxNoUpd";
             this.chkBoxNoUpd.Size = new System.Drawing.Size(62, 29);
             this.chkBoxNoUpd.TabIndex = 14;
@@ -721,7 +749,7 @@
             // chkBoxMultiApp
             // 
             this.chkBoxMultiApp.AutoSize = true;
-            this.chkBoxMultiApp.Location = new System.Drawing.Point(415, 166);
+            this.chkBoxMultiApp.Location = new System.Drawing.Point(415, 148);
             this.chkBoxMultiApp.Name = "chkBoxMultiApp";
             this.chkBoxMultiApp.Size = new System.Drawing.Size(63, 29);
             this.chkBoxMultiApp.TabIndex = 13;
@@ -744,7 +772,7 @@
             // cmbBoxUsers
             // 
             this.cmbBoxUsers.FormattingEnabled = true;
-            this.cmbBoxUsers.Location = new System.Drawing.Point(6, 161);
+            this.cmbBoxUsers.Location = new System.Drawing.Point(6, 143);
             this.cmbBoxUsers.Name = "cmbBoxUsers";
             this.cmbBoxUsers.Size = new System.Drawing.Size(269, 33);
             this.cmbBoxUsers.TabIndex = 3;
@@ -780,7 +808,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 133);
+            this.label6.Location = new System.Drawing.Point(7, 115);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(57, 25);
             this.label6.TabIndex = 4;
@@ -789,7 +817,7 @@
             // lblServer
             // 
             this.lblServer.AutoSize = true;
-            this.lblServer.Location = new System.Drawing.Point(7, 338);
+            this.lblServer.Location = new System.Drawing.Point(7, 299);
             this.lblServer.Name = "lblServer";
             this.lblServer.Size = new System.Drawing.Size(75, 25);
             this.lblServer.TabIndex = 16;
@@ -820,16 +848,6 @@
             this.Links.TabStop = false;
             this.Links.Text = "Links";
             this.Links.Enter += new System.EventHandler(this.Links_Enter);
-            // 
-            // btnBackup
-            // 
-            this.btnBackup.Location = new System.Drawing.Point(68, 134);
-            this.btnBackup.Name = "btnBackup";
-            this.btnBackup.Size = new System.Drawing.Size(209, 50);
-            this.btnBackup.TabIndex = 16;
-            this.btnBackup.Text = "Backup Versions";
-            this.btnBackup.UseVisualStyleBackColor = true;
-            this.btnBackup.Click += new System.EventHandler(this.btnBackup_Click);
             // 
             // btnAudioCodes
             // 
@@ -1051,15 +1069,43 @@
             // 
             this.openFileDialogSQDBLite.Filter = "|*.exe";
             // 
-            // btnBackupFolder
+            // txtBoxTranscriptionServer
             // 
-            this.btnBackupFolder.Location = new System.Drawing.Point(331, 135);
-            this.btnBackupFolder.Name = "btnBackupFolder";
-            this.btnBackupFolder.Size = new System.Drawing.Size(221, 49);
-            this.btnBackupFolder.TabIndex = 17;
-            this.btnBackupFolder.Text = "Backup Folder";
-            this.btnBackupFolder.UseVisualStyleBackColor = true;
-            this.btnBackupFolder.Click += new System.EventHandler(this.btnBackupFolder_Click);
+            this.txtBoxTranscriptionServer.Location = new System.Drawing.Point(6, 417);
+            this.txtBoxTranscriptionServer.Name = "txtBoxTranscriptionServer";
+            this.txtBoxTranscriptionServer.Size = new System.Drawing.Size(269, 31);
+            this.txtBoxTranscriptionServer.TabIndex = 20;
+            this.txtBoxTranscriptionServer.TextChanged += new System.EventHandler(this.txtBoxTranscriptionServer_TextChanged);
+            // 
+            // lblTranscriptionServer
+            // 
+            this.lblTranscriptionServer.AutoSize = true;
+            this.lblTranscriptionServer.Location = new System.Drawing.Point(7, 389);
+            this.lblTranscriptionServer.Name = "lblTranscriptionServer";
+            this.lblTranscriptionServer.Size = new System.Drawing.Size(206, 25);
+            this.lblTranscriptionServer.TabIndex = 21;
+            this.lblTranscriptionServer.Text = "Transcription Server";
+            // 
+            // btnSaveTrscpServ
+            // 
+            this.btnSaveTrscpServ.Location = new System.Drawing.Point(415, 407);
+            this.btnSaveTrscpServ.Name = "btnSaveTrscpServ";
+            this.btnSaveTrscpServ.Size = new System.Drawing.Size(142, 51);
+            this.btnSaveTrscpServ.TabIndex = 23;
+            this.btnSaveTrscpServ.Text = "Save";
+            this.btnSaveTrscpServ.UseVisualStyleBackColor = true;
+            this.btnSaveTrscpServ.Click += new System.EventHandler(this.btnSaveTrscpServ_Click);
+            // 
+            // btnDefaultTrscpServ
+            // 
+            this.btnDefaultTrscpServ.Location = new System.Drawing.Point(281, 407);
+            this.btnDefaultTrscpServ.Name = "btnDefaultTrscpServ";
+            this.btnDefaultTrscpServ.Size = new System.Drawing.Size(128, 51);
+            this.btnDefaultTrscpServ.TabIndex = 22;
+            this.btnDefaultTrscpServ.Text = "Default";
+            this.serverDefaultTT.SetToolTip(this.btnDefaultTrscpServ, "Reverts the server field to https://qa1-rest.xhoot.com");
+            this.btnDefaultTrscpServ.UseVisualStyleBackColor = true;
+            this.btnDefaultTrscpServ.Click += new System.EventHandler(this.btnDefaultTrscpServ_Click);
             // 
             // frmMainForm
             // 
@@ -1190,6 +1236,10 @@
         private System.Windows.Forms.OpenFileDialog openFileDialogSQDBLite;
         private System.Windows.Forms.Button btnBackup;
         private System.Windows.Forms.Button btnBackupFolder;
+        private System.Windows.Forms.Label lblTranscriptionServer;
+        private System.Windows.Forms.TextBox txtBoxTranscriptionServer;
+        private System.Windows.Forms.Button btnSaveTrscpServ;
+        private System.Windows.Forms.Button btnDefaultTrscpServ;
     }
 }
 

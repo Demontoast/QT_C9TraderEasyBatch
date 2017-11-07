@@ -98,6 +98,7 @@ namespace LM_C9Master
             LoadSettings("VERSIONMANAGER");
             LoadSettings("TCPVIEW");
             LoadSettings("SQDB");
+            LoadSettings("TRSCPSERV");
 
             btnDefaultC9TraderRoot.Enabled = false;
             btnTraderRootSave.Enabled = false;
@@ -111,6 +112,8 @@ namespace LM_C9Master
             btnSaveServer.Enabled = false;
             btnDefaultSQDBLite.Enabled = false;
             btnSavePathSQDBLite.Enabled = false;
+            btnDefaultTrscpServ.Enabled = false;
+            btnSaveTrscpServ.Enabled = false;
 
             //VPN Manager Startup Setup
 
@@ -170,6 +173,9 @@ namespace LM_C9Master
                 SW.WriteLine("<DesignatedServer>");
                 SW.WriteLine("Server=https://qa1-rest.xhoot.com");
                 SW.WriteLine("</DesignatedServer>");
+                SW.WriteLine("<TranscriptionServer>");
+                SW.WriteLine("TranscriptionServer=");
+                SW.WriteLine("</TranscriptionServer>");
                 SW.WriteLine("<UserCollection>");
                 SW.WriteLine("</UserCollection>");
                 SW.Close();
@@ -323,6 +329,23 @@ namespace LM_C9Master
                             if (LineSplit[0] == "SQDBLiteLocation")
                             {
                                 txtBoxSQDBLite.Text = LineSplit[1];
+                                break;
+                            }
+                            Line = SR.ReadLine();
+                        }
+                    }
+                    break;
+                case "TRSCPSERV":
+                    txtBoxTranscriptionServer.Clear();
+                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                    {
+                        Line = SR.ReadLine();
+                        while (Line != "</TranscriptionServer>")
+                        {
+                            LineSplit = Line.Split('=');
+                            if (LineSplit[0] == "TranscriptionServer")
+                            {
+                                txtBoxTranscriptionServer.Text = LineSplit[1];
                                 break;
                             }
                             Line = SR.ReadLine();
@@ -679,6 +702,8 @@ namespace LM_C9Master
                 txtBoxServerName.Text = "https://qa1-rest.xhoot.com";
 
             parameters += "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text + " -r " + txtBoxServerName.Text;
+            if (!txtBoxTranscriptionServer.Text.Equals("") || !txtBoxTranscriptionServer.Text.Equals(null))
+                parameters += " -t " + txtBoxTranscriptionServer.Text;
             ProcessUser pram = new ProcessUser();
             Process p = new Process();
             pram.userName = cmbBoxUsers.Text;
@@ -1413,6 +1438,55 @@ namespace LM_C9Master
                 Directory.CreateDirectory(root + @"\C9TraderBackup");
                 Process.Start(root + @"\C9TraderBackup");
             }
+        }
+
+        private void btnDefaultTrscpServ_Click(object sender, EventArgs e)
+        {
+            LoadSettings("TRSCPSERV");
+            btnDefaultTrscpServ.Enabled = false;
+            btnSaveTrscpServ.Enabled = false;
+            txtBoxTranscriptionServer.Select();
+        }
+
+        private void btnSaveTrscpServ_Click(object sender, EventArgs e)
+        {
+            List<string> strCurrentSettings = new List<string>();
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                string Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+            {
+                if (strCurrentSettings != null)
+                {
+                    foreach (string s in strCurrentSettings)
+                    {
+                        if (s.Contains("TranscriptionServer="))
+                        {
+                            String append = s;
+                            append = "TranscriptionServer=" + txtBoxTranscriptionServer.Text;
+                            SW.WriteLine(append);
+                        }
+                        else
+                            SW.WriteLine(s);
+                    }
+                }
+            }
+
+            btnSaveTrscpServ.Enabled = false;
+            btnDefaultTrscpServ.Enabled = false;
+        }
+
+        private void txtBoxTranscriptionServer_TextChanged(object sender, EventArgs e)
+        {
+            btnSaveTrscpServ.Enabled = true;
+            btnDefaultTrscpServ.Enabled = true;
         }
     }
 }
