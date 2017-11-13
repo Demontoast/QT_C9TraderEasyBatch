@@ -1282,7 +1282,7 @@ namespace LM_C9Master
                 {
                     foreach (string s in strCurrentSettings)
                     {
-                        if (s.Contains("Server="))
+                        if (s.Contains("Server=") && !s.Contains("Transcription"))
                         {
                             String append = s;
                             append = "Server=" + txtBoxServerName.Text;
