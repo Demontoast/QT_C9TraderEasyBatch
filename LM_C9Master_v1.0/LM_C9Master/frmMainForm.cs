@@ -71,6 +71,7 @@ namespace LM_C9Master
         // Data lists containing app accounts and active processes used in the executable
         List<AppAccount> AccountsFromSettings = new List<AppAccount>();
         List<ProcessUser> ActiveProcesses = new List<ProcessUser>();
+        List<String> serverList = new List<String>();
 
         // Main method, loads all forms and settings
         private void frmMainForm_Load(object sender, EventArgs e)
@@ -108,8 +109,6 @@ namespace LM_C9Master
             btnDefaultTCPView.Enabled = false;
             btnDefaultVM.Enabled = false;
             btnSaveVM.Enabled = false;
-            btnServerDefault.Enabled = false;
-            btnSaveServer.Enabled = false;
             btnDefaultSQDBLite.Enabled = false;
             btnSavePathSQDBLite.Enabled = false;
             btnDefaultTrscpServ.Enabled = false;
@@ -302,21 +301,38 @@ namespace LM_C9Master
                     }
                     break;
                 case "SERVER":
-                    txtBoxServerName.Clear();
+                    txtBoxServerName.Items.Clear();
+                    serverList.Clear();
+                    String defServ = "";
+                    bool flag = false;
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
-                        Line = SR.ReadLine();
-                        while (Line != "</DesignatedServer>")
+                        while ((Line = SR.ReadLine()) != "<DesignatedServer>") ;
+                        while ((Line = SR.ReadLine()) != "</DesignatedServer>")
                         {
-                            LineSplit = Line.Split('=');
-                            if (LineSplit[0] == "Server")
-                            {
-                                txtBoxServerName.Text = LineSplit[1];
-                                break;
-                            }
-                            Line = SR.ReadLine();
+                                if (Line.Contains("Server="))
+                                {
+                                    defServ = Line.Remove(0, 7);
+                                    if (!serverList.Contains(defServ))
+                                        serverList.Add(defServ);
+                                    flag = true;
+                                    continue;
+                                }
+                                serverList.Add(Line);
+                                flag = true;
+                        }
+                        
+                        if (!flag)
+                        {
+                            defServ = "NoServersListed";
+                            serverList.Add("NoServersListed");
+                        }
+                        foreach (String s in serverList)
+                        {
+                            txtBoxServerName.Items.Add(s);
                         }
                     }
+                    txtBoxServerName.SelectedItem = defServ;
                     break;
                 case "SQDB":
                     txtBoxSQDBLite.Clear();
@@ -975,10 +991,68 @@ namespace LM_C9Master
         // Action Listener for the Server Default button which defaults the server text box to https://qa1-rest.xhoot.com
         private void btnServerDefault_Click(object sender, EventArgs e)
         {
-            LoadSettings("SERVER");
-            btnServerDefault.Enabled = false;
-            btnSaveServer.Enabled = false;
-            txtBoxServerName.Select();
+            List<string> strCurrentSettings = new List<string>();
+            bool justAdded = false;
+            if (!serverList.Contains(txtBoxServerName.Text))
+            {
+                btnSaveServer_Click(btnSaveServer, EventArgs.Empty);
+                justAdded = true;
+            }
+                
+
+            String Line = "";
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+            bool alrdyDef = false;
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+            {
+                String defServ = "";
+                foreach (String s in strCurrentSettings)
+                {
+                    if (s.Contains("Server=") && !s.Contains("Transcription"))
+                    {
+                        String append = s;
+                        defServ = append.Remove(0, 7);
+                        append = "Server=" + txtBoxServerName.Text;
+                        SW.WriteLine(append);
+                        if (txtBoxServerName.Text.Equals(defServ))
+                        {
+                            if (!justAdded)
+                            {
+                                alrdyDef = true;
+                                MessageBox.Show(txtBoxServerName.Text + " is already the default server.");
+                            }   
+                            else
+                                MessageBox.Show(txtBoxServerName.Text + " has been added to the server list and designated as the default.");
+                            
+                            continue;
+                        }
+                        if (!defServ.Equals("NoDefaultServer"))
+                            SW.WriteLine(defServ);
+                        if (s.Contains("NoDefaultServer"))
+                            txtBoxServerName.Items.Remove("NoDefaultServer");
+                        continue;
+                    }
+                    if (s.Contains(txtBoxServerName.Text))
+                        continue;  
+                    SW.WriteLine(s);
+                }
+            }
+            if (!alrdyDef && !justAdded)
+            {
+                MessageBox.Show(txtBoxServerName.Text + " has been set as the default server on startup.");
+                if (!txtBoxServerName.Items.Contains(txtBoxServerName.Text))
+                    txtBoxServerName.Items.Add(txtBoxServerName.Text);
+            }
+                
         }
 
         // Action Listener for the Trader Root Save button which saves the current trader root in the settings file
@@ -1265,37 +1339,49 @@ namespace LM_C9Master
 
         private void btnSaveServer_Click(object sender, EventArgs e)
         {
-            List<string> strCurrentSettings = new List<string>();
-
-            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            if (txtBoxServerName.Items.Contains(txtBoxServerName.Text))
             {
-                string Line = SR.ReadLine();
-                while (Line != null)
-                {
-                    strCurrentSettings.Add(Line);
-                    Line = SR.ReadLine();
-                }
+                MessageBox.Show(txtBoxServerName.Text + " is already in the server list.");
             }
-            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+            else
             {
-                if (strCurrentSettings != null)
+                serverList.Add(txtBoxServerName.Text);
+                txtBoxServerName.Items.Add(txtBoxServerName.Text);
+                List<string> strCurrentSettings = new List<string>();
+
+                String Line = "";
+
+                using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                 {
-                    foreach (string s in strCurrentSettings)
+                    Line = SR.ReadLine();
+                    while (Line != null)
                     {
-                        if (s.Contains("Server=") && !s.Contains("Transcription"))
-                        {
-                            String append = s;
-                            append = "Server=" + txtBoxServerName.Text;
-                            SW.WriteLine(append);
-                        }
-                        else
-                            SW.WriteLine(s);
+                        strCurrentSettings.Add(Line);
+                        Line = SR.ReadLine();
                     }
                 }
-            }
 
-            btnSaveServer.Enabled = false;
-            btnServerDefault.Enabled = false;
+                using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+                {
+                    bool defFlag = false;
+                    foreach (String s in strCurrentSettings)
+                    {
+                        if (s.Contains("NoDefaultServer"))
+                        {
+                            SW.WriteLine("Server=" + txtBoxServerName.Text);
+                            defFlag = true;
+                            txtBoxServerName.Items.Remove("NoDefaultServer");
+                            continue;
+                        }
+
+                        if (s.Contains("</DesignatedServer>") && !defFlag)
+                        {
+                            SW.WriteLine(txtBoxServerName.Text);
+                        }
+                        SW.WriteLine(s);
+                    }
+                }
+            } 
         }
 
         private void txtBoxServerName_TextChanged(object sender, EventArgs e)
@@ -1487,6 +1573,46 @@ namespace LM_C9Master
         {
             btnSaveTrscpServ.Enabled = true;
             btnDefaultTrscpServ.Enabled = true;
+        }
+
+        private void btnRemoveServer_click(object sender, EventArgs e)
+        {
+            String Line = "";
+            List<String> strCurrentSettings = new List<String>();
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+            String defServ = "";
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+            {
+                foreach (String s in strCurrentSettings)
+                {
+                    if (s.Contains(txtBoxServerName.Text))
+                    {
+                        if (s.Equals(txtBoxServerName.Text))
+                            continue;
+                        else
+                        {
+                            SW.WriteLine("Server=NoDefaultServer");
+                            defServ = "NoDefaultServer";
+                            txtBoxServerName.Items.Add(defServ);
+                            continue;
+                        }
+                    }
+                    if (s.Contains("Server=") && !s.Contains("Transcription") && !s.Contains(txtBoxServerName.Text))
+                        defServ = s.Remove(0, 7);
+                    SW.WriteLine(s);
+                }
+            }
+            txtBoxServerName.Items.Remove(txtBoxServerName.SelectedItem);
+            txtBoxServerName.SelectedItem = defServ;
         }
     }
 }

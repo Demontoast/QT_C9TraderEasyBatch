@@ -79,11 +79,16 @@
             this.opnFDVPNClientSelector = new System.Windows.Forms.OpenFileDialog();
             this.fldBrwsDiagSharedFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnRemoveServer = new System.Windows.Forms.Button();
+            this.btnSaveTrscpServ = new System.Windows.Forms.Button();
+            this.btnDefaultTrscpServ = new System.Windows.Forms.Button();
+            this.lblTranscriptionServer = new System.Windows.Forms.Label();
+            this.txtBoxTranscriptionServer = new System.Windows.Forms.TextBox();
             this.btnSaveServer = new System.Windows.Forms.Button();
             this.btnServerDefault = new System.Windows.Forms.Button();
             this.BtnLaunchApp = new System.Windows.Forms.Button();
             this.btnCloseAppSelUser = new System.Windows.Forms.Button();
-            this.txtBoxServerName = new System.Windows.Forms.TextBox();
+            this.txtBoxServerName = new System.Windows.Forms.ComboBox();
             this.chkBoxNoUpd = new System.Windows.Forms.CheckBox();
             this.chkBoxMultiApp = new System.Windows.Forms.CheckBox();
             this.MSI_Toggle = new System.Windows.Forms.Button();
@@ -124,10 +129,8 @@
             this.openFileDialogVM = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogTCPView = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogSQDBLite = new System.Windows.Forms.OpenFileDialog();
-            this.txtBoxTranscriptionServer = new System.Windows.Forms.TextBox();
-            this.lblTranscriptionServer = new System.Windows.Forms.Label();
-            this.btnSaveTrscpServ = new System.Windows.Forms.Button();
-            this.btnDefaultTrscpServ = new System.Windows.Forms.Button();
+            this.addServerTT = new System.Windows.Forms.ToolTip(this.components);
+            this.removeServerTT = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -652,6 +655,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnRemoveServer);
             this.groupBox4.Controls.Add(this.btnSaveTrscpServ);
             this.groupBox4.Controls.Add(this.btnDefaultTrscpServ);
             this.groupBox4.Controls.Add(this.lblTranscriptionServer);
@@ -683,24 +687,77 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "App Manager";
             // 
+            // btnRemoveServer
+            // 
+            this.btnRemoveServer.Location = new System.Drawing.Point(351, 327);
+            this.btnRemoveServer.Name = "btnRemoveServer";
+            this.btnRemoveServer.Size = new System.Drawing.Size(42, 36);
+            this.btnRemoveServer.TabIndex = 24;
+            this.btnRemoveServer.Text = "-";
+            this.removeServerTT.SetToolTip(this.btnRemoveServer, "Removes the server supplied in the server list combo box from the list of saved s" +
+        "ervers.");
+            this.btnRemoveServer.UseVisualStyleBackColor = true;
+            this.btnRemoveServer.Click += new System.EventHandler(this.btnRemoveServer_click);
+            // 
+            // btnSaveTrscpServ
+            // 
+            this.btnSaveTrscpServ.Location = new System.Drawing.Point(415, 407);
+            this.btnSaveTrscpServ.Name = "btnSaveTrscpServ";
+            this.btnSaveTrscpServ.Size = new System.Drawing.Size(142, 51);
+            this.btnSaveTrscpServ.TabIndex = 23;
+            this.btnSaveTrscpServ.Text = "Save";
+            this.btnSaveTrscpServ.UseVisualStyleBackColor = true;
+            this.btnSaveTrscpServ.Click += new System.EventHandler(this.btnSaveTrscpServ_Click);
+            // 
+            // btnDefaultTrscpServ
+            // 
+            this.btnDefaultTrscpServ.Location = new System.Drawing.Point(281, 407);
+            this.btnDefaultTrscpServ.Name = "btnDefaultTrscpServ";
+            this.btnDefaultTrscpServ.Size = new System.Drawing.Size(128, 51);
+            this.btnDefaultTrscpServ.TabIndex = 22;
+            this.btnDefaultTrscpServ.Text = "Default";
+            this.serverDefaultTT.SetToolTip(this.btnDefaultTrscpServ, "Reverts the server field to https://qa1-rest.xhoot.com");
+            this.btnDefaultTrscpServ.UseVisualStyleBackColor = true;
+            this.btnDefaultTrscpServ.Click += new System.EventHandler(this.btnDefaultTrscpServ_Click);
+            // 
+            // lblTranscriptionServer
+            // 
+            this.lblTranscriptionServer.AutoSize = true;
+            this.lblTranscriptionServer.Location = new System.Drawing.Point(7, 389);
+            this.lblTranscriptionServer.Name = "lblTranscriptionServer";
+            this.lblTranscriptionServer.Size = new System.Drawing.Size(206, 25);
+            this.lblTranscriptionServer.TabIndex = 21;
+            this.lblTranscriptionServer.Text = "Transcription Server";
+            // 
+            // txtBoxTranscriptionServer
+            // 
+            this.txtBoxTranscriptionServer.Location = new System.Drawing.Point(6, 417);
+            this.txtBoxTranscriptionServer.Name = "txtBoxTranscriptionServer";
+            this.txtBoxTranscriptionServer.Size = new System.Drawing.Size(269, 31);
+            this.txtBoxTranscriptionServer.TabIndex = 20;
+            this.txtBoxTranscriptionServer.TextChanged += new System.EventHandler(this.txtBoxTranscriptionServer_TextChanged);
+            // 
             // btnSaveServer
             // 
-            this.btnSaveServer.Location = new System.Drawing.Point(415, 317);
+            this.btnSaveServer.Location = new System.Drawing.Point(288, 327);
             this.btnSaveServer.Name = "btnSaveServer";
-            this.btnSaveServer.Size = new System.Drawing.Size(142, 51);
+            this.btnSaveServer.Size = new System.Drawing.Size(40, 36);
             this.btnSaveServer.TabIndex = 19;
-            this.btnSaveServer.Text = "Save";
+            this.btnSaveServer.Text = "+";
+            this.addServerTT.SetToolTip(this.btnSaveServer, "Add server supplied in the server list combo box to the list of saved servers.");
             this.btnSaveServer.UseVisualStyleBackColor = true;
             this.btnSaveServer.Click += new System.EventHandler(this.btnSaveServer_Click);
             // 
             // btnServerDefault
             // 
-            this.btnServerDefault.Location = new System.Drawing.Point(281, 317);
+            this.btnServerDefault.Location = new System.Drawing.Point(418, 317);
             this.btnServerDefault.Name = "btnServerDefault";
-            this.btnServerDefault.Size = new System.Drawing.Size(128, 51);
+            this.btnServerDefault.Size = new System.Drawing.Size(139, 51);
             this.btnServerDefault.TabIndex = 18;
-            this.btnServerDefault.Text = "Default";
-            this.serverDefaultTT.SetToolTip(this.btnServerDefault, "Reverts the server field to https://qa1-rest.xhoot.com");
+            this.btnServerDefault.Text = "Set Default";
+            this.serverDefaultTT.SetToolTip(this.btnServerDefault, "Sets the text supplied in the server list combo box as the default server in the " +
+        "server list. The default server is the server that is shown by default in the se" +
+        "rver list combo box on startup.");
             this.btnServerDefault.UseVisualStyleBackColor = true;
             this.btnServerDefault.Click += new System.EventHandler(this.btnServerDefault_Click);
             // 
@@ -731,7 +788,7 @@
             // 
             this.txtBoxServerName.Location = new System.Drawing.Point(6, 327);
             this.txtBoxServerName.Name = "txtBoxServerName";
-            this.txtBoxServerName.Size = new System.Drawing.Size(269, 31);
+            this.txtBoxServerName.Size = new System.Drawing.Size(269, 33);
             this.txtBoxServerName.TabIndex = 17;
             this.txtBoxServerName.TextChanged += new System.EventHandler(this.txtBoxServerName_TextChanged);
             // 
@@ -1069,43 +1126,13 @@
             // 
             this.openFileDialogSQDBLite.Filter = "|*.exe";
             // 
-            // txtBoxTranscriptionServer
+            // addServerTT
             // 
-            this.txtBoxTranscriptionServer.Location = new System.Drawing.Point(6, 417);
-            this.txtBoxTranscriptionServer.Name = "txtBoxTranscriptionServer";
-            this.txtBoxTranscriptionServer.Size = new System.Drawing.Size(269, 31);
-            this.txtBoxTranscriptionServer.TabIndex = 20;
-            this.txtBoxTranscriptionServer.TextChanged += new System.EventHandler(this.txtBoxTranscriptionServer_TextChanged);
+            this.addServerTT.ToolTipTitle = "Add Server";
             // 
-            // lblTranscriptionServer
+            // removeServerTT
             // 
-            this.lblTranscriptionServer.AutoSize = true;
-            this.lblTranscriptionServer.Location = new System.Drawing.Point(7, 389);
-            this.lblTranscriptionServer.Name = "lblTranscriptionServer";
-            this.lblTranscriptionServer.Size = new System.Drawing.Size(206, 25);
-            this.lblTranscriptionServer.TabIndex = 21;
-            this.lblTranscriptionServer.Text = "Transcription Server";
-            // 
-            // btnSaveTrscpServ
-            // 
-            this.btnSaveTrscpServ.Location = new System.Drawing.Point(415, 407);
-            this.btnSaveTrscpServ.Name = "btnSaveTrscpServ";
-            this.btnSaveTrscpServ.Size = new System.Drawing.Size(142, 51);
-            this.btnSaveTrscpServ.TabIndex = 23;
-            this.btnSaveTrscpServ.Text = "Save";
-            this.btnSaveTrscpServ.UseVisualStyleBackColor = true;
-            this.btnSaveTrscpServ.Click += new System.EventHandler(this.btnSaveTrscpServ_Click);
-            // 
-            // btnDefaultTrscpServ
-            // 
-            this.btnDefaultTrscpServ.Location = new System.Drawing.Point(281, 407);
-            this.btnDefaultTrscpServ.Name = "btnDefaultTrscpServ";
-            this.btnDefaultTrscpServ.Size = new System.Drawing.Size(128, 51);
-            this.btnDefaultTrscpServ.TabIndex = 22;
-            this.btnDefaultTrscpServ.Text = "Default";
-            this.serverDefaultTT.SetToolTip(this.btnDefaultTrscpServ, "Reverts the server field to https://qa1-rest.xhoot.com");
-            this.btnDefaultTrscpServ.UseVisualStyleBackColor = true;
-            this.btnDefaultTrscpServ.Click += new System.EventHandler(this.btnDefaultTrscpServ_Click);
+            this.removeServerTT.ToolTipTitle = "Remove Server";
             // 
             // frmMainForm
             // 
@@ -1186,7 +1213,7 @@
         private System.Windows.Forms.Button btnChangeVPNPath;
         private System.Windows.Forms.Button btnCloseAppSelUser;
         private System.Windows.Forms.Button btnDefaultVPN;
-        private System.Windows.Forms.TextBox txtBoxServerName;
+        private System.Windows.Forms.ComboBox txtBoxServerName;
         private System.Windows.Forms.Label lblServer;
         private System.Windows.Forms.Button btnServerDefault;
         private System.Windows.Forms.Button btnTraderRootSave;
@@ -1240,6 +1267,9 @@
         private System.Windows.Forms.TextBox txtBoxTranscriptionServer;
         private System.Windows.Forms.Button btnSaveTrscpServ;
         private System.Windows.Forms.Button btnDefaultTrscpServ;
+        private System.Windows.Forms.Button btnRemoveServer;
+        private System.Windows.Forms.ToolTip addServerTT;
+        private System.Windows.Forms.ToolTip removeServerTT;
     }
 }
 
