@@ -324,8 +324,8 @@ namespace LM_C9Master
                         
                         if (!flag)
                         {
-                            defServ = "NoServersListed";
-                            serverList.Add("NoServersListed");
+                            defServ = "NoDefaultServer";
+                            serverList.Add("NoDefaultServer");
                         }
                         foreach (String s in serverList)
                         {
