@@ -1334,7 +1334,7 @@ namespace LM_C9Master
 
         private void btnPortalGateway_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://qa1-portal.xhoot.com/c9portal/#/gateways");
+            System.Diagnostics.Process.Start("https://qa1-log1.xhoot.com:8443/en-US/account/login?return_to=%2Fen-US%2Fmanager%2Fsearch%2Flicenseusage");
         }
 
         private void btnSaveServer_Click(object sender, EventArgs e)

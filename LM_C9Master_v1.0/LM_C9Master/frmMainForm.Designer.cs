@@ -131,6 +131,7 @@
             this.openFileDialogSQDBLite = new System.Windows.Forms.OpenFileDialog();
             this.addServerTT = new System.Windows.Forms.ToolTip(this.components);
             this.removeServerTT = new System.Windows.Forms.ToolTip(this.components);
+            this.splunkTT = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -938,11 +939,12 @@
             // 
             // btnPortalGateway
             // 
-            this.btnPortalGateway.Location = new System.Drawing.Point(380, 338);
+            this.btnPortalGateway.Location = new System.Drawing.Point(556, 285);
             this.btnPortalGateway.Name = "btnPortalGateway";
             this.btnPortalGateway.Size = new System.Drawing.Size(170, 50);
             this.btnPortalGateway.TabIndex = 12;
-            this.btnPortalGateway.Text = "Gateways";
+            this.btnPortalGateway.Text = "Splunk";
+            this.splunkTT.SetToolTip(this.btnPortalGateway, "Opens the splunk web page. User = admin. Password = changeme.");
             this.btnPortalGateway.UseVisualStyleBackColor = true;
             this.btnPortalGateway.Click += new System.EventHandler(this.btnPortalGateway_Click);
             // 
@@ -1134,6 +1136,10 @@
             // 
             this.removeServerTT.ToolTipTitle = "Remove Server";
             // 
+            // splunkTT
+            // 
+            this.splunkTT.ToolTipTitle = "Splunk";
+            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -1270,6 +1276,7 @@
         private System.Windows.Forms.Button btnRemoveServer;
         private System.Windows.Forms.ToolTip addServerTT;
         private System.Windows.Forms.ToolTip removeServerTT;
+        private System.Windows.Forms.ToolTip splunkTT;
     }
 }
 
