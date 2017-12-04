@@ -1698,8 +1698,10 @@ namespace LM_C9Master
         private void btnDefaultFirm_Click(object sender, EventArgs e)
         {
             String selectedUser = cmbBoxUsers.Text;
+            String currGroup = txtBoxGroup.Text;
             LoadSettings("APPACCOUNTS");
             cmbBoxUsers.SelectedItem = selectedUser;
+            txtBoxGroup.Text = currGroup;
             btnDefaultFirm.Enabled = false;
             btnSaveFirm.Enabled = false;
         }
@@ -1707,10 +1709,12 @@ namespace LM_C9Master
         private void btnDefaultGroup_Click(object sender, EventArgs e)
         {
             String selectedUser = cmbBoxUsers.Text;
+            String currFirm = txtBoxFirm.Text;
             LoadSettings("APPACCOUNTS");
             cmbBoxUsers.SelectedItem = selectedUser;
-            btnDefaultFirm.Enabled = false;
-            btnSaveFirm.Enabled = false;
+            txtBoxFirm.Text = currFirm;
+            btnDefaultGroup.Enabled = false;
+            btnSaveGroup.Enabled = false;
         }
     }
 }
