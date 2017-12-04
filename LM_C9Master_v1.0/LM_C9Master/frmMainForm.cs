@@ -1665,6 +1665,7 @@ namespace LM_C9Master
 
         private void btnSaveFirm_Click(object sender, EventArgs e)
         {
+            String selectedUser = cmbBoxUsers.Text;
             foreach (AppAccount AC in AccountsFromSettings)
             {
                 if (AC.strUserName.Equals(cmbBoxUsers.Text))
@@ -1675,12 +1676,14 @@ namespace LM_C9Master
                 }
                       
             }
+            cmbBoxUsers.SelectedItem = selectedUser;
             btnSaveFirm.Enabled = false;
             btnDefaultFirm.Enabled = false;
         }
 
         private void btnSaveGroup_Click(object sender, EventArgs e)
         {
+            String selectedUser = cmbBoxUsers.Text;
             foreach (AppAccount AC in AccountsFromSettings)
             {
                 if (AC.strUserName.Equals(cmbBoxUsers.Text))
@@ -1691,6 +1694,7 @@ namespace LM_C9Master
                 }
 
             }
+            cmbBoxUsers.SelectedItem = selectedUser;
             btnSaveGroup.Enabled = false;
             btnDefaultGroup.Enabled = false;
         }
