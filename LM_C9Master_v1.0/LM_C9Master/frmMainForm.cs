@@ -36,6 +36,8 @@ namespace LM_C9Master
         {
             public string strUserName = "";
             public string strPassword = "";
+            public string strFirm = "";
+            public string strGroup = "";
 
             public String getUserName()
             {
@@ -45,6 +47,16 @@ namespace LM_C9Master
             public string getPassword()
             {
                 return strPassword;
+            }
+
+            public string getFirm()
+            {
+                return strFirm;
+            }
+
+            public string getGroup()
+            {
+                return strGroup;
             }
         }
 
@@ -77,7 +89,7 @@ namespace LM_C9Master
         private void frmMainForm_Load(object sender, EventArgs e)
         {
             this.Width = 1035;
-            this.Height = 425;
+            this.Height = 475;
             foreach (Process p in System.Diagnostics.Process.GetProcesses())
             {
                 if (p.ProcessName.Contains("C9Shell"))
@@ -113,6 +125,10 @@ namespace LM_C9Master
             btnSavePathSQDBLite.Enabled = false;
             btnDefaultTrscpServ.Enabled = false;
             btnSaveTrscpServ.Enabled = false;
+            btnSaveFirm.Enabled = false;
+            btnDefaultFirm.Enabled = false;
+            btnSaveGroup.Enabled = false;
+            btnDefaultGroup.Enabled = false;
 
             //VPN Manager Startup Setup
 
@@ -238,6 +254,20 @@ namespace LM_C9Master
                                 LineSplit = Line.Split(':');
                                 TmpAccount.strUserName = LineSplit[0];
                                 TmpAccount.strPassword = LineSplit[1];
+                                try
+                                {
+                                    TmpAccount.strFirm = LineSplit[2];
+                                    try
+                                    {
+                                        TmpAccount.strGroup = LineSplit[3];
+                                    }
+                                    catch
+                                    {
+                                    }
+                                }
+                                catch
+                                { }
+                                
                                 AccountsFromSettings.Add(TmpAccount);
 
                                 Line = SR.ReadLine();
@@ -259,7 +289,7 @@ namespace LM_C9Master
                         }
 
                         cmbBoxUsers.SelectedIndex = 0;
-                        AutoSetPWD(cmbBoxUsers.Text); //works
+                        AutoSetAccSettings(cmbBoxUsers.Text); //works
                         //btnAddUser.Enabled = false;
                         //btnRemoveUser.Enabled = false;
                     }
@@ -373,13 +403,15 @@ namespace LM_C9Master
 
         // Sets the password text box to the password known to be associated with an account
         // @string usrname: Parameter denoting which user's password to be supplied
-        public void AutoSetPWD(string usrname)
+        public void AutoSetAccSettings(string usrname)
         {
             foreach (AppAccount AC in AccountsFromSettings)
             {
                 if (AC.strUserName == usrname)
                 {
                     txtBoxSetUsrPassword.Text = AC.strPassword;
+                    txtBoxFirm.Text = AC.strFirm;
+                    txtBoxGroup.Text = AC.strGroup;
                 }
             }
         }
@@ -652,6 +684,8 @@ namespace LM_C9Master
                 AppAccount tmpAcc = new AppAccount();
                 tmpAcc.strUserName = cmbBoxUsers.Text;
                 tmpAcc.strPassword = txtBoxSetUsrPassword.Text;
+                tmpAcc.strFirm = txtBoxFirm.Text;
+                tmpAcc.strGroup = txtBoxGroup.Text;
                 AccountsFromSettings.Add(tmpAcc);
                 SaveAccountsToSettings();
                 cmbBoxUsers.Text = "";
@@ -681,7 +715,7 @@ namespace LM_C9Master
                     foreach (AppAccount AC in AccountsFromSettings)
                     {
                         if (!AC.strUserName.Equals("") && !AC.strUserName.Equals("NoSavedAccounts"))
-                            SW.WriteLine(AC.strUserName + ":" + AC.strPassword);
+                            SW.WriteLine(AC.strUserName + ":" + AC.strPassword + ":" + AC.strFirm + ":" + AC.strGroup);
                     }
                     SW.WriteLine("</UserCollection>");
                 }
@@ -705,7 +739,7 @@ namespace LM_C9Master
                 btnAddUser.Enabled = true;
                 btnRemoveUser.Enabled = true;
             }
-            AutoSetPWD(cmbBoxUsers.Text);
+            AutoSetAccSettings(cmbBoxUsers.Text);
         }
 
         // Action Listener for the button that launches the application using information supplied in the user
@@ -748,15 +782,17 @@ namespace LM_C9Master
                     p = Process.Start(lblC9TraderRoot.Text + "\\app-" + cmbBoxVersionsList.Text + "\\C9Shell.exe");
                 }
 
-                // Overwrites password in settings file with that currently used
+                // Overwrites current settings in file with that currently used
                 foreach (AppAccount AC in AccountsFromSettings)
                 {
                     if (AC.strUserName == cmbBoxUsers.Text)
                     {
                         if (AC.strPassword != txtBoxSetUsrPassword.Text)
-                        {
                             AC.strPassword = txtBoxSetUsrPassword.Text;
-                        }
+                        if (AC.strFirm != txtBoxFirm.Text)
+                            AC.strFirm = txtBoxFirm.Text;
+                        if (AC.strGroup != txtBoxGroup.Text)
+                            AC.strGroup = txtBoxGroup.Text;
                     }
                 }
                 SaveAccountsToSettings();
@@ -1613,6 +1649,68 @@ namespace LM_C9Master
             }
             txtBoxServerName.Items.Remove(txtBoxServerName.SelectedItem);
             txtBoxServerName.SelectedItem = defServ;
+        }
+
+        private void txtBoxFirm_TextChanged(object sender, EventArgs e)
+        {
+            btnSaveFirm.Enabled = true;
+            btnDefaultFirm.Enabled = true;
+        }
+
+        private void txtBoxGroup_TextChanged(object sender, EventArgs e)
+        {
+            btnDefaultGroup.Enabled = true;
+            btnSaveGroup.Enabled = true;
+        }
+
+        private void btnSaveFirm_Click(object sender, EventArgs e)
+        {
+            foreach (AppAccount AC in AccountsFromSettings)
+            {
+                if (AC.strUserName.Equals(cmbBoxUsers.Text))
+                {
+                    AC.strFirm = txtBoxFirm.Text;
+                    SaveAccountsToSettings();
+                    break;
+                }
+                      
+            }
+            btnSaveFirm.Enabled = false;
+            btnDefaultFirm.Enabled = false;
+        }
+
+        private void btnSaveGroup_Click(object sender, EventArgs e)
+        {
+            foreach (AppAccount AC in AccountsFromSettings)
+            {
+                if (AC.strUserName.Equals(cmbBoxUsers.Text))
+                {
+                    AC.strGroup = txtBoxGroup.Text;
+                    SaveAccountsToSettings();
+                    break;
+                }
+
+            }
+            btnSaveGroup.Enabled = false;
+            btnDefaultGroup.Enabled = false;
+        }
+
+        private void btnDefaultFirm_Click(object sender, EventArgs e)
+        {
+            String selectedUser = cmbBoxUsers.Text;
+            LoadSettings("APPACCOUNTS");
+            cmbBoxUsers.SelectedItem = selectedUser;
+            btnDefaultFirm.Enabled = false;
+            btnSaveFirm.Enabled = false;
+        }
+
+        private void btnDefaultGroup_Click(object sender, EventArgs e)
+        {
+            String selectedUser = cmbBoxUsers.Text;
+            LoadSettings("APPACCOUNTS");
+            cmbBoxUsers.SelectedItem = selectedUser;
+            btnDefaultFirm.Enabled = false;
+            btnSaveFirm.Enabled = false;
         }
     }
 }

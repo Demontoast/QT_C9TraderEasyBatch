@@ -79,6 +79,10 @@
             this.opnFDVPNClientSelector = new System.Windows.Forms.OpenFileDialog();
             this.fldBrwsDiagSharedFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.lblGroup = new System.Windows.Forms.Label();
+            this.lblFirm = new System.Windows.Forms.Label();
+            this.txtBoxGroup = new System.Windows.Forms.TextBox();
+            this.txtBoxFirm = new System.Windows.Forms.TextBox();
             this.btnRemoveServer = new System.Windows.Forms.Button();
             this.btnSaveTrscpServ = new System.Windows.Forms.Button();
             this.btnDefaultTrscpServ = new System.Windows.Forms.Button();
@@ -132,6 +136,10 @@
             this.addServerTT = new System.Windows.Forms.ToolTip(this.components);
             this.removeServerTT = new System.Windows.Forms.ToolTip(this.components);
             this.splunkTT = new System.Windows.Forms.ToolTip(this.components);
+            this.btnSaveFirm = new System.Windows.Forms.Button();
+            this.btnDefaultFirm = new System.Windows.Forms.Button();
+            this.btnSaveGroup = new System.Windows.Forms.Button();
+            this.btnDefaultGroup = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -195,7 +203,7 @@
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Location = new System.Drawing.Point(587, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(645, 712);
+            this.groupBox2.Size = new System.Drawing.Size(645, 811);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Settings";
@@ -220,9 +228,9 @@
             this.groupBox6.Controls.Add(this.btnVersionManager);
             this.groupBox6.Controls.Add(this.txtBoxVMPath);
             this.groupBox6.Controls.Add(this.btnChangeVMPath);
-            this.groupBox6.Location = new System.Drawing.Point(7, 372);
+            this.groupBox6.Location = new System.Drawing.Point(7, 394);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(627, 334);
+            this.groupBox6.Size = new System.Drawing.Size(627, 408);
             this.groupBox6.TabIndex = 3;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "C9 Trader Accessories Manager";
@@ -418,14 +426,14 @@
             this.groupBox5.Controls.Add(this.btnChangeC9TraderRoot);
             this.groupBox5.Location = new System.Drawing.Point(7, 176);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(626, 190);
+            this.groupBox5.Size = new System.Drawing.Size(626, 212);
             this.groupBox5.TabIndex = 2;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "App Manager";
             // 
             // btnBackupFolder
             // 
-            this.btnBackupFolder.Location = new System.Drawing.Point(331, 135);
+            this.btnBackupFolder.Location = new System.Drawing.Point(331, 138);
             this.btnBackupFolder.Name = "btnBackupFolder";
             this.btnBackupFolder.Size = new System.Drawing.Size(221, 49);
             this.btnBackupFolder.TabIndex = 17;
@@ -435,7 +443,7 @@
             // 
             // btnBackup
             // 
-            this.btnBackup.Location = new System.Drawing.Point(68, 134);
+            this.btnBackup.Location = new System.Drawing.Point(64, 137);
             this.btnBackup.Name = "btnBackup";
             this.btnBackup.Size = new System.Drawing.Size(209, 50);
             this.btnBackup.TabIndex = 16;
@@ -586,9 +594,9 @@
             // btnCloseApp
             // 
             this.btnCloseApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnCloseApp.Location = new System.Drawing.Point(401, 470);
+            this.btnCloseApp.Location = new System.Drawing.Point(419, 561);
             this.btnCloseApp.Name = "btnCloseApp";
-            this.btnCloseApp.Size = new System.Drawing.Size(158, 59);
+            this.btnCloseApp.Size = new System.Drawing.Size(141, 59);
             this.btnCloseApp.TabIndex = 15;
             this.btnCloseApp.Text = "Close All";
             this.closeAllTT.SetToolTip(this.btnCloseApp, "Closes all active C9 Trader applications, even those opened before LM_C9Master wa" +
@@ -599,7 +607,7 @@
             // btnRemoveUser
             // 
             this.btnRemoveUser.Enabled = false;
-            this.btnRemoveUser.Location = new System.Drawing.Point(351, 143);
+            this.btnRemoveUser.Location = new System.Drawing.Point(439, 133);
             this.btnRemoveUser.Name = "btnRemoveUser";
             this.btnRemoveUser.Size = new System.Drawing.Size(42, 36);
             this.btnRemoveUser.TabIndex = 10;
@@ -611,7 +619,7 @@
             // btnAddUser
             // 
             this.btnAddUser.Enabled = false;
-            this.btnAddUser.Location = new System.Drawing.Point(288, 143);
+            this.btnAddUser.Location = new System.Drawing.Point(357, 133);
             this.btnAddUser.Name = "btnAddUser";
             this.btnAddUser.Size = new System.Drawing.Size(40, 36);
             this.btnAddUser.TabIndex = 9;
@@ -624,7 +632,7 @@
             // chkBoxSetViewPassword
             // 
             this.chkBoxSetViewPassword.AutoSize = true;
-            this.chkBoxSetViewPassword.Location = new System.Drawing.Point(333, 237);
+            this.chkBoxSetViewPassword.Location = new System.Drawing.Point(333, 368);
             this.chkBoxSetViewPassword.Name = "chkBoxSetViewPassword";
             this.chkBoxSetViewPassword.Size = new System.Drawing.Size(190, 29);
             this.chkBoxSetViewPassword.TabIndex = 8;
@@ -635,7 +643,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 207);
+            this.label5.Location = new System.Drawing.Point(7, 338);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(106, 25);
             this.label5.TabIndex = 7;
@@ -643,7 +651,7 @@
             // 
             // txtBoxSetUsrPassword
             // 
-            this.txtBoxSetUsrPassword.Location = new System.Drawing.Point(6, 235);
+            this.txtBoxSetUsrPassword.Location = new System.Drawing.Point(6, 366);
             this.txtBoxSetUsrPassword.Name = "txtBoxSetUsrPassword";
             this.txtBoxSetUsrPassword.Size = new System.Drawing.Size(269, 31);
             this.txtBoxSetUsrPassword.TabIndex = 6;
@@ -656,6 +664,14 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnSaveGroup);
+            this.groupBox4.Controls.Add(this.btnDefaultGroup);
+            this.groupBox4.Controls.Add(this.btnSaveFirm);
+            this.groupBox4.Controls.Add(this.btnDefaultFirm);
+            this.groupBox4.Controls.Add(this.lblGroup);
+            this.groupBox4.Controls.Add(this.lblFirm);
+            this.groupBox4.Controls.Add(this.txtBoxGroup);
+            this.groupBox4.Controls.Add(this.txtBoxFirm);
             this.groupBox4.Controls.Add(this.btnRemoveServer);
             this.groupBox4.Controls.Add(this.btnSaveTrscpServ);
             this.groupBox4.Controls.Add(this.btnDefaultTrscpServ);
@@ -683,14 +699,48 @@
             this.groupBox4.Controls.Add(this.lblServer);
             this.groupBox4.Location = new System.Drawing.Point(15, 189);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(565, 535);
+            this.groupBox4.Size = new System.Drawing.Size(565, 634);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "App Manager";
             // 
+            // lblGroup
+            // 
+            this.lblGroup.AutoSize = true;
+            this.lblGroup.Location = new System.Drawing.Point(7, 262);
+            this.lblGroup.Name = "lblGroup";
+            this.lblGroup.Size = new System.Drawing.Size(71, 25);
+            this.lblGroup.TabIndex = 28;
+            this.lblGroup.Text = "Group";
+            // 
+            // lblFirm
+            // 
+            this.lblFirm.AutoSize = true;
+            this.lblFirm.Location = new System.Drawing.Point(7, 186);
+            this.lblFirm.Name = "lblFirm";
+            this.lblFirm.Size = new System.Drawing.Size(54, 25);
+            this.lblFirm.TabIndex = 27;
+            this.lblFirm.Text = "Firm";
+            // 
+            // txtBoxGroup
+            // 
+            this.txtBoxGroup.Location = new System.Drawing.Point(6, 290);
+            this.txtBoxGroup.Name = "txtBoxGroup";
+            this.txtBoxGroup.Size = new System.Drawing.Size(269, 31);
+            this.txtBoxGroup.TabIndex = 26;
+            this.txtBoxGroup.TextChanged += new System.EventHandler(this.txtBoxGroup_TextChanged);
+            // 
+            // txtBoxFirm
+            // 
+            this.txtBoxFirm.Location = new System.Drawing.Point(6, 214);
+            this.txtBoxFirm.Name = "txtBoxFirm";
+            this.txtBoxFirm.Size = new System.Drawing.Size(269, 31);
+            this.txtBoxFirm.TabIndex = 25;
+            this.txtBoxFirm.TextChanged += new System.EventHandler(this.txtBoxFirm_TextChanged);
+            // 
             // btnRemoveServer
             // 
-            this.btnRemoveServer.Location = new System.Drawing.Point(351, 327);
+            this.btnRemoveServer.Location = new System.Drawing.Point(345, 435);
             this.btnRemoveServer.Name = "btnRemoveServer";
             this.btnRemoveServer.Size = new System.Drawing.Size(42, 36);
             this.btnRemoveServer.TabIndex = 24;
@@ -702,7 +752,7 @@
             // 
             // btnSaveTrscpServ
             // 
-            this.btnSaveTrscpServ.Location = new System.Drawing.Point(415, 407);
+            this.btnSaveTrscpServ.Location = new System.Drawing.Point(418, 500);
             this.btnSaveTrscpServ.Name = "btnSaveTrscpServ";
             this.btnSaveTrscpServ.Size = new System.Drawing.Size(142, 51);
             this.btnSaveTrscpServ.TabIndex = 23;
@@ -712,7 +762,7 @@
             // 
             // btnDefaultTrscpServ
             // 
-            this.btnDefaultTrscpServ.Location = new System.Drawing.Point(281, 407);
+            this.btnDefaultTrscpServ.Location = new System.Drawing.Point(284, 500);
             this.btnDefaultTrscpServ.Name = "btnDefaultTrscpServ";
             this.btnDefaultTrscpServ.Size = new System.Drawing.Size(128, 51);
             this.btnDefaultTrscpServ.TabIndex = 22;
@@ -724,7 +774,7 @@
             // lblTranscriptionServer
             // 
             this.lblTranscriptionServer.AutoSize = true;
-            this.lblTranscriptionServer.Location = new System.Drawing.Point(7, 389);
+            this.lblTranscriptionServer.Location = new System.Drawing.Point(7, 482);
             this.lblTranscriptionServer.Name = "lblTranscriptionServer";
             this.lblTranscriptionServer.Size = new System.Drawing.Size(206, 25);
             this.lblTranscriptionServer.TabIndex = 21;
@@ -732,7 +782,7 @@
             // 
             // txtBoxTranscriptionServer
             // 
-            this.txtBoxTranscriptionServer.Location = new System.Drawing.Point(6, 417);
+            this.txtBoxTranscriptionServer.Location = new System.Drawing.Point(6, 510);
             this.txtBoxTranscriptionServer.Name = "txtBoxTranscriptionServer";
             this.txtBoxTranscriptionServer.Size = new System.Drawing.Size(269, 31);
             this.txtBoxTranscriptionServer.TabIndex = 20;
@@ -740,7 +790,7 @@
             // 
             // btnSaveServer
             // 
-            this.btnSaveServer.Location = new System.Drawing.Point(288, 327);
+            this.btnSaveServer.Location = new System.Drawing.Point(284, 435);
             this.btnSaveServer.Name = "btnSaveServer";
             this.btnSaveServer.Size = new System.Drawing.Size(40, 36);
             this.btnSaveServer.TabIndex = 19;
@@ -751,7 +801,7 @@
             // 
             // btnServerDefault
             // 
-            this.btnServerDefault.Location = new System.Drawing.Point(418, 317);
+            this.btnServerDefault.Location = new System.Drawing.Point(415, 428);
             this.btnServerDefault.Name = "btnServerDefault";
             this.btnServerDefault.Size = new System.Drawing.Size(139, 51);
             this.btnServerDefault.TabIndex = 18;
@@ -765,9 +815,9 @@
             // BtnLaunchApp
             // 
             this.BtnLaunchApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.BtnLaunchApp.Location = new System.Drawing.Point(6, 470);
+            this.BtnLaunchApp.Location = new System.Drawing.Point(112, 561);
             this.BtnLaunchApp.Name = "BtnLaunchApp";
-            this.BtnLaunchApp.Size = new System.Drawing.Size(165, 59);
+            this.BtnLaunchApp.Size = new System.Drawing.Size(152, 59);
             this.BtnLaunchApp.TabIndex = 11;
             this.BtnLaunchApp.Text = "Launch";
             this.BtnLaunchApp.UseVisualStyleBackColor = false;
@@ -775,9 +825,9 @@
             // 
             // btnCloseAppSelUser
             // 
-            this.btnCloseAppSelUser.Location = new System.Drawing.Point(203, 470);
+            this.btnCloseAppSelUser.Location = new System.Drawing.Point(270, 561);
             this.btnCloseAppSelUser.Name = "btnCloseAppSelUser";
-            this.btnCloseAppSelUser.Size = new System.Drawing.Size(163, 59);
+            this.btnCloseAppSelUser.Size = new System.Drawing.Size(143, 59);
             this.btnCloseAppSelUser.TabIndex = 15;
             this.btnCloseAppSelUser.Text = "Close User";
             this.closeUserTT.SetToolTip(this.btnCloseAppSelUser, "Closes the application specifically for the user whose information is supplied ab" +
@@ -787,7 +837,7 @@
             // 
             // txtBoxServerName
             // 
-            this.txtBoxServerName.Location = new System.Drawing.Point(6, 327);
+            this.txtBoxServerName.Location = new System.Drawing.Point(6, 438);
             this.txtBoxServerName.Name = "txtBoxServerName";
             this.txtBoxServerName.Size = new System.Drawing.Size(269, 33);
             this.txtBoxServerName.TabIndex = 17;
@@ -796,7 +846,7 @@
             // chkBoxNoUpd
             // 
             this.chkBoxNoUpd.AutoSize = true;
-            this.chkBoxNoUpd.Location = new System.Drawing.Point(484, 148);
+            this.chkBoxNoUpd.Location = new System.Drawing.Point(29, 596);
             this.chkBoxNoUpd.Name = "chkBoxNoUpd";
             this.chkBoxNoUpd.Size = new System.Drawing.Size(62, 29);
             this.chkBoxNoUpd.TabIndex = 14;
@@ -807,7 +857,7 @@
             // chkBoxMultiApp
             // 
             this.chkBoxMultiApp.AutoSize = true;
-            this.chkBoxMultiApp.Location = new System.Drawing.Point(415, 148);
+            this.chkBoxMultiApp.Location = new System.Drawing.Point(29, 561);
             this.chkBoxMultiApp.Name = "chkBoxMultiApp";
             this.chkBoxMultiApp.Size = new System.Drawing.Size(63, 29);
             this.chkBoxMultiApp.TabIndex = 13;
@@ -830,7 +880,7 @@
             // cmbBoxUsers
             // 
             this.cmbBoxUsers.FormattingEnabled = true;
-            this.cmbBoxUsers.Location = new System.Drawing.Point(6, 143);
+            this.cmbBoxUsers.Location = new System.Drawing.Point(6, 136);
             this.cmbBoxUsers.Name = "cmbBoxUsers";
             this.cmbBoxUsers.Size = new System.Drawing.Size(269, 33);
             this.cmbBoxUsers.TabIndex = 3;
@@ -866,7 +916,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 115);
+            this.label6.Location = new System.Drawing.Point(7, 108);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(57, 25);
             this.label6.TabIndex = 4;
@@ -875,7 +925,7 @@
             // lblServer
             // 
             this.lblServer.AutoSize = true;
-            this.lblServer.Location = new System.Drawing.Point(7, 299);
+            this.lblServer.Location = new System.Drawing.Point(7, 410);
             this.lblServer.Name = "lblServer";
             this.lblServer.Size = new System.Drawing.Size(75, 25);
             this.lblServer.TabIndex = 16;
@@ -901,7 +951,7 @@
             this.Links.Controls.Add(this.label4);
             this.Links.Location = new System.Drawing.Point(1238, 12);
             this.Links.Name = "Links";
-            this.Links.Size = new System.Drawing.Size(765, 712);
+            this.Links.Size = new System.Drawing.Size(765, 802);
             this.Links.TabIndex = 3;
             this.Links.TabStop = false;
             this.Links.Text = "Links";
@@ -990,7 +1040,7 @@
             // reeEEE
             // 
             this.reeEEE.Image = ((System.Drawing.Image)(resources.GetObject("reeEEE.Image")));
-            this.reeEEE.Location = new System.Drawing.Point(702, 628);
+            this.reeEEE.Location = new System.Drawing.Point(702, 738);
             this.reeEEE.Name = "reeEEE";
             this.reeEEE.Size = new System.Drawing.Size(57, 53);
             this.reeEEE.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -1140,12 +1190,54 @@
             // 
             this.splunkTT.ToolTipTitle = "Splunk";
             // 
+            // btnSaveFirm
+            // 
+            this.btnSaveFirm.Location = new System.Drawing.Point(415, 204);
+            this.btnSaveFirm.Name = "btnSaveFirm";
+            this.btnSaveFirm.Size = new System.Drawing.Size(142, 51);
+            this.btnSaveFirm.TabIndex = 30;
+            this.btnSaveFirm.Text = "Save";
+            this.btnSaveFirm.UseVisualStyleBackColor = true;
+            this.btnSaveFirm.Click += new System.EventHandler(this.btnSaveFirm_Click);
+            // 
+            // btnDefaultFirm
+            // 
+            this.btnDefaultFirm.Location = new System.Drawing.Point(281, 204);
+            this.btnDefaultFirm.Name = "btnDefaultFirm";
+            this.btnDefaultFirm.Size = new System.Drawing.Size(128, 51);
+            this.btnDefaultFirm.TabIndex = 29;
+            this.btnDefaultFirm.Text = "Default";
+            this.serverDefaultTT.SetToolTip(this.btnDefaultFirm, "Reverts the server field to https://qa1-rest.xhoot.com");
+            this.btnDefaultFirm.UseVisualStyleBackColor = true;
+            this.btnDefaultFirm.Click += new System.EventHandler(this.btnDefaultFirm_Click);
+            // 
+            // btnSaveGroup
+            // 
+            this.btnSaveGroup.Location = new System.Drawing.Point(415, 284);
+            this.btnSaveGroup.Name = "btnSaveGroup";
+            this.btnSaveGroup.Size = new System.Drawing.Size(142, 51);
+            this.btnSaveGroup.TabIndex = 32;
+            this.btnSaveGroup.Text = "Save";
+            this.btnSaveGroup.UseVisualStyleBackColor = true;
+            this.btnSaveGroup.Click += new System.EventHandler(this.btnSaveGroup_Click);
+            // 
+            // btnDefaultGroup
+            // 
+            this.btnDefaultGroup.Location = new System.Drawing.Point(281, 284);
+            this.btnDefaultGroup.Name = "btnDefaultGroup";
+            this.btnDefaultGroup.Size = new System.Drawing.Size(128, 51);
+            this.btnDefaultGroup.TabIndex = 31;
+            this.btnDefaultGroup.Text = "Default";
+            this.serverDefaultTT.SetToolTip(this.btnDefaultGroup, "Reverts the server field to https://qa1-rest.xhoot.com");
+            this.btnDefaultGroup.UseVisualStyleBackColor = true;
+            this.btnDefaultGroup.Click += new System.EventHandler(this.btnDefaultGroup_Click);
+            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(2112, 803);
+            this.ClientSize = new System.Drawing.Size(2112, 854);
             this.Controls.Add(this.Links);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -1277,6 +1369,14 @@
         private System.Windows.Forms.ToolTip addServerTT;
         private System.Windows.Forms.ToolTip removeServerTT;
         private System.Windows.Forms.ToolTip splunkTT;
+        private System.Windows.Forms.Label lblGroup;
+        private System.Windows.Forms.Label lblFirm;
+        private System.Windows.Forms.TextBox txtBoxGroup;
+        private System.Windows.Forms.TextBox txtBoxFirm;
+        private System.Windows.Forms.Button btnSaveGroup;
+        private System.Windows.Forms.Button btnDefaultGroup;
+        private System.Windows.Forms.Button btnSaveFirm;
+        private System.Windows.Forms.Button btnDefaultFirm;
     }
 }
 
