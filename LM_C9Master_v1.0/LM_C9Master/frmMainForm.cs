@@ -1777,19 +1777,19 @@ namespace LM_C9Master
                 }
                 else
                 {
-                    if (AC.strUserName.Contains(txtBoxCurrUserSearch.Text))
+                    if (AC.strUserName.ToLower().Contains(txtBoxCurrUserSearch.Text.ToLower()))
                     {
                         searchResults.Add(AC);
                     }
                 }
                 if (!(txtBoxCurrFirmSearch.Text.Equals("") && !txtBoxCurrFirmSearch.Text.Equals(null)))
                 {
-                    if (!AC.strFirm.Contains(txtBoxCurrFirmSearch.Text) && searchResults.Contains(AC))
+                    if (!AC.strFirm.ToLower().Contains(txtBoxCurrFirmSearch.Text.ToLower()) && searchResults.Contains(AC))
                         searchResults.Remove(AC);
                 }
                 if (!(txtBoxCurrGroupSearch.Text.Equals("") || txtBoxCurrGroupSearch.Text.Equals(null)))
                 {
-                    if (!AC.strGroup.Contains(txtBoxCurrGroupSearch.Text) && searchResults.Contains(AC))
+                    if (!AC.strGroup.ToLower().Contains(txtBoxCurrGroupSearch.Text.ToLower()) && searchResults.Contains(AC))
                         searchResults.Remove(AC);
                 }
             }
