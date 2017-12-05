@@ -84,6 +84,7 @@ namespace LM_C9Master
         List<AppAccount> AccountsFromSettings = new List<AppAccount>();
         List<ProcessUser> ActiveProcesses = new List<ProcessUser>();
         List<String> serverList = new List<String>();
+        bool searchFlag = false;
 
         // Main method, loads all forms and settings
         private void frmMainForm_Load(object sender, EventArgs e)
@@ -654,7 +655,7 @@ namespace LM_C9Master
         {
             btnAddUser.Enabled = false;
             btnRemoveUser.Enabled = false;
-            if (txtBoxSetUsrPassword.Text != "" && (cmbBoxUsers.Text != "" && cmbBoxUsers.Text != "NoSavedAccounts"))
+            if (txtBoxSetUsrPassword.Text != "" && (cmbBoxUsers.Text != "" && cmbBoxUsers.Text != "NoSavedAccounts") && !searchFlag)
             {
                 btnAddUser.Enabled = true;
                 btnRemoveUser.Enabled = true;
@@ -734,7 +735,7 @@ namespace LM_C9Master
         {
             btnAddUser.Enabled = false;
             btnRemoveUser.Enabled = false;
-            if (txtBoxSetUsrPassword.Text != "" && cmbBoxUsers.Text != "")
+            if (txtBoxSetUsrPassword.Text != "" && cmbBoxUsers.Text != "" && !searchFlag)
             {
                 btnAddUser.Enabled = true;
                 btnRemoveUser.Enabled = true;
@@ -1653,7 +1654,7 @@ namespace LM_C9Master
 
         private void txtBoxFirm_TextChanged(object sender, EventArgs e)
         {
-            if (!cmbBoxUsers.Text.Equals(""))
+            if (!searchFlag)
             {
                 foreach(AppAccount AC in AccountsFromSettings)
                 {
@@ -1670,7 +1671,7 @@ namespace LM_C9Master
 
         private void txtBoxGroup_TextChanged(object sender, EventArgs e)
         {
-            if (!cmbBoxUsers.Text.Equals(""))
+            if (!searchFlag)
             {
                 foreach (AppAccount AC in AccountsFromSettings)
                 {
@@ -1799,7 +1800,13 @@ namespace LM_C9Master
             if (cmbBoxUsers.Items.Count > 0)
                 cmbBoxUsers.Text = searchResults.ElementAt(0).strUserName;
             if (cmbBoxUsers.Items.Count!=listChangeChecker)
+            {
                 cmbBoxUsers.ForeColor = Color.Goldenrod;
+                btnAddUser.Enabled = false;
+                btnRemoveUser.Enabled = false;
+                searchFlag = true;
+            }
+                
         }
 
         private void btnClearSearch_Click(object sender, EventArgs e)
@@ -1810,6 +1817,8 @@ namespace LM_C9Master
             txtBoxCurrUserSearch.Clear();
             txtBoxCurrFirmSearch.Clear();
             txtBoxCurrGroupSearch.Clear();
+
+            searchFlag = false;
 
 
             cmbBoxUsers.ForeColor = Color.Black;
