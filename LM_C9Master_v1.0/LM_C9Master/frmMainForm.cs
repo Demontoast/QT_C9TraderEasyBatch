@@ -797,6 +797,14 @@ namespace LM_C9Master
                     }
                 }
                 SaveAccountsToSettings();
+                if (searchFlag)
+                {
+                    txtBoxNewUserSearch.Text = txtBoxCurrUserSearch.Text;
+                    txtBoxNewFirmSearch.Text = txtBoxCurrFirmSearch.Text;
+                    txtBoxNewGroupSearch.Text = txtBoxCurrGroupSearch.Text;
+                    btnSearch_Click(sender, e);
+                }
+                    
                 cmbBoxUsers.Text = "";
                 cmbBoxUsers.Text = pram.userName;
 
