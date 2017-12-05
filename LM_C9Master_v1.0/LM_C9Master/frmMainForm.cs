@@ -88,7 +88,7 @@ namespace LM_C9Master
         // Main method, loads all forms and settings
         private void frmMainForm_Load(object sender, EventArgs e)
         {
-            this.Width = 1035;
+            this.Width = 1200;
             this.Height = 475;
             foreach (Process p in System.Diagnostics.Process.GetProcesses())
             {
@@ -1653,14 +1653,36 @@ namespace LM_C9Master
 
         private void txtBoxFirm_TextChanged(object sender, EventArgs e)
         {
-            btnSaveFirm.Enabled = true;
-            btnDefaultFirm.Enabled = true;
+            if (!cmbBoxUsers.Text.Equals(""))
+            {
+                foreach(AppAccount AC in AccountsFromSettings)
+                {
+                    if (AC.strUserName.Equals(cmbBoxUsers.Text))
+                    {
+                        btnSaveFirm.Enabled = true;
+                        btnDefaultFirm.Enabled = true;
+                        break;
+                    }
+                }
+                
+            }
         }
 
         private void txtBoxGroup_TextChanged(object sender, EventArgs e)
         {
-            btnDefaultGroup.Enabled = true;
-            btnSaveGroup.Enabled = true;
+            if (!cmbBoxUsers.Text.Equals(""))
+            {
+                foreach (AppAccount AC in AccountsFromSettings)
+                {
+                    if (AC.strUserName.Equals(cmbBoxUsers.Text))
+                    {
+                        btnDefaultGroup.Enabled = true;
+                        btnSaveGroup.Enabled = true;
+                        break;
+                    }
+                }
+
+            }
         }
 
         private void btnSaveFirm_Click(object sender, EventArgs e)
@@ -1701,24 +1723,101 @@ namespace LM_C9Master
 
         private void btnDefaultFirm_Click(object sender, EventArgs e)
         {
-            String selectedUser = cmbBoxUsers.Text;
-            String currGroup = txtBoxGroup.Text;
-            LoadSettings("APPACCOUNTS");
-            cmbBoxUsers.SelectedItem = selectedUser;
-            txtBoxGroup.Text = currGroup;
-            btnDefaultFirm.Enabled = false;
-            btnSaveFirm.Enabled = false;
+            foreach (AppAccount AC in AccountsFromSettings)
+            {
+                if (AC.strUserName.Equals(cmbBoxUsers.Text))
+                {
+                    txtBoxFirm.Text = AC.strFirm;
+                    btnDefaultFirm.Enabled = false;
+                    btnSaveFirm.Enabled = false;
+                    break;
+                }  
+            }
         }
 
         private void btnDefaultGroup_Click(object sender, EventArgs e)
         {
-            String selectedUser = cmbBoxUsers.Text;
-            String currFirm = txtBoxFirm.Text;
-            LoadSettings("APPACCOUNTS");
-            cmbBoxUsers.SelectedItem = selectedUser;
-            txtBoxFirm.Text = currFirm;
-            btnDefaultGroup.Enabled = false;
-            btnSaveGroup.Enabled = false;
+            foreach (AppAccount AC in AccountsFromSettings)
+            {
+                if (AC.strUserName.Equals(cmbBoxUsers.Text))
+                {
+                    txtBoxGroup.Text = AC.strGroup;
+                    btnDefaultGroup.Enabled = false;
+                    btnSaveGroup.Enabled = false;
+                    break;
+                }
+            }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            int listChangeChecker = AccountsFromSettings.Count();
+            txtBoxCurrUserSearch.Text = txtBoxNewUserSearch.Text;
+            txtBoxCurrFirmSearch.Text = txtBoxNewFirmSearch.Text;
+            txtBoxCurrGroupSearch.Text = txtBoxNewGroupSearch.Text;
+
+            txtBoxNewUserSearch.Clear();
+            txtBoxNewFirmSearch.Clear();
+            txtBoxNewGroupSearch.Clear();
+
+            txtBoxFirm.Clear();
+            txtBoxGroup.Clear();
+            cmbBoxUsers.Items.Clear();
+            cmbBoxUsers.Text = "";
+
+            List<AppAccount> searchResults = new List<AppAccount>();
+
+            foreach (AppAccount AC in AccountsFromSettings)
+            {
+                
+                if ((txtBoxCurrUserSearch.Text.Equals("") || txtBoxCurrUserSearch.Text.Equals(null)))
+                {
+                    searchResults.Add(AC);
+                }
+                else
+                {
+                    if (AC.strUserName.Contains(txtBoxCurrUserSearch.Text))
+                    {
+                        searchResults.Add(AC);
+                    }
+                }
+                if (!(txtBoxCurrFirmSearch.Text.Equals("") && !txtBoxCurrFirmSearch.Text.Equals(null)))
+                {
+                    if (!AC.strFirm.Contains(txtBoxCurrFirmSearch.Text) && searchResults.Contains(AC))
+                        searchResults.Remove(AC);
+                }
+                if (!(txtBoxCurrGroupSearch.Text.Equals("") || txtBoxCurrGroupSearch.Text.Equals(null)))
+                {
+                    if (!AC.strGroup.Contains(txtBoxCurrGroupSearch.Text) && searchResults.Contains(AC))
+                        searchResults.Remove(AC);
+                }
+            }
+            foreach (AppAccount AC in searchResults)
+            {
+                cmbBoxUsers.Items.Add(AC.strUserName);
+            }
+            if (cmbBoxUsers.Items.Count > 0)
+                cmbBoxUsers.Text = searchResults.ElementAt(0).strUserName;
+            if (cmbBoxUsers.Items.Count!=listChangeChecker)
+                cmbBoxUsers.ForeColor = Color.Goldenrod;
+        }
+
+        private void btnClearSearch_Click(object sender, EventArgs e)
+        {
+            txtBoxNewUserSearch.Clear();
+            txtBoxNewFirmSearch.Clear();
+            txtBoxNewGroupSearch.Clear();
+            txtBoxCurrUserSearch.Clear();
+            txtBoxCurrFirmSearch.Clear();
+            txtBoxCurrGroupSearch.Clear();
+
+
+            cmbBoxUsers.ForeColor = Color.Black;
+            cmbBoxUsers.Items.Clear();
+            foreach (AppAccount AC in AccountsFromSettings)
+                cmbBoxUsers.Items.Add(AC.strUserName);
+            if (cmbBoxUsers.Items.Count > 0)
+                cmbBoxUsers.Text = AccountsFromSettings.ElementAt(0).strUserName;
         }
     }
 }

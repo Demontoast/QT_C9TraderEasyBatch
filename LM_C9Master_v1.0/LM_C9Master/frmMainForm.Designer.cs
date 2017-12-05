@@ -79,6 +79,10 @@
             this.opnFDVPNClientSelector = new System.Windows.Forms.OpenFileDialog();
             this.fldBrwsDiagSharedFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnSaveGroup = new System.Windows.Forms.Button();
+            this.btnDefaultGroup = new System.Windows.Forms.Button();
+            this.btnSaveFirm = new System.Windows.Forms.Button();
+            this.btnDefaultFirm = new System.Windows.Forms.Button();
             this.lblGroup = new System.Windows.Forms.Label();
             this.lblFirm = new System.Windows.Forms.Label();
             this.txtBoxGroup = new System.Windows.Forms.TextBox();
@@ -136,10 +140,23 @@
             this.addServerTT = new System.Windows.Forms.ToolTip(this.components);
             this.removeServerTT = new System.Windows.Forms.ToolTip(this.components);
             this.splunkTT = new System.Windows.Forms.ToolTip(this.components);
-            this.btnSaveFirm = new System.Windows.Forms.Button();
-            this.btnDefaultFirm = new System.Windows.Forms.Button();
-            this.btnSaveGroup = new System.Windows.Forms.Button();
-            this.btnDefaultGroup = new System.Windows.Forms.Button();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.btnClearSearch = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtBoxNewFirmSearch = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtBoxNewGroupSearch = new System.Windows.Forms.TextBox();
+            this.txtBoxNewUserSearch = new System.Windows.Forms.TextBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtBoxCurrUserSearch = new System.Windows.Forms.TextBox();
+            this.txtBoxCurrGroupSearch = new System.Windows.Forms.TextBox();
+            this.txtBoxCurrFirmSearch = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -148,6 +165,9 @@
             this.groupBox4.SuspendLayout();
             this.Links.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.reeEEE)).BeginInit();
+            this.groupBox7.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -155,7 +175,7 @@
             this.groupBox1.Controls.Add(this.btnVPNClientLaunch);
             this.groupBox1.Controls.Add(this.BtnVPNSwitch);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(329, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(569, 175);
             this.groupBox1.TabIndex = 0;
@@ -201,7 +221,7 @@
             this.groupBox2.Controls.Add(this.groupBox6);
             this.groupBox2.Controls.Add(this.groupBox5);
             this.groupBox2.Controls.Add(this.groupBox3);
-            this.groupBox2.Location = new System.Drawing.Point(587, 12);
+            this.groupBox2.Location = new System.Drawing.Point(904, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(645, 811);
             this.groupBox2.TabIndex = 1;
@@ -697,12 +717,52 @@
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.lblServer);
-            this.groupBox4.Location = new System.Drawing.Point(15, 189);
+            this.groupBox4.Location = new System.Drawing.Point(332, 189);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(565, 634);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "App Manager";
+            // 
+            // btnSaveGroup
+            // 
+            this.btnSaveGroup.Location = new System.Drawing.Point(415, 284);
+            this.btnSaveGroup.Name = "btnSaveGroup";
+            this.btnSaveGroup.Size = new System.Drawing.Size(142, 51);
+            this.btnSaveGroup.TabIndex = 32;
+            this.btnSaveGroup.Text = "Save";
+            this.btnSaveGroup.UseVisualStyleBackColor = true;
+            this.btnSaveGroup.Click += new System.EventHandler(this.btnSaveGroup_Click);
+            // 
+            // btnDefaultGroup
+            // 
+            this.btnDefaultGroup.Location = new System.Drawing.Point(281, 284);
+            this.btnDefaultGroup.Name = "btnDefaultGroup";
+            this.btnDefaultGroup.Size = new System.Drawing.Size(128, 51);
+            this.btnDefaultGroup.TabIndex = 31;
+            this.btnDefaultGroup.Text = "Default";
+            this.btnDefaultGroup.UseVisualStyleBackColor = true;
+            this.btnDefaultGroup.Click += new System.EventHandler(this.btnDefaultGroup_Click);
+            // 
+            // btnSaveFirm
+            // 
+            this.btnSaveFirm.Location = new System.Drawing.Point(415, 204);
+            this.btnSaveFirm.Name = "btnSaveFirm";
+            this.btnSaveFirm.Size = new System.Drawing.Size(142, 51);
+            this.btnSaveFirm.TabIndex = 30;
+            this.btnSaveFirm.Text = "Save";
+            this.btnSaveFirm.UseVisualStyleBackColor = true;
+            this.btnSaveFirm.Click += new System.EventHandler(this.btnSaveFirm_Click);
+            // 
+            // btnDefaultFirm
+            // 
+            this.btnDefaultFirm.Location = new System.Drawing.Point(281, 204);
+            this.btnDefaultFirm.Name = "btnDefaultFirm";
+            this.btnDefaultFirm.Size = new System.Drawing.Size(128, 51);
+            this.btnDefaultFirm.TabIndex = 29;
+            this.btnDefaultFirm.Text = "Default";
+            this.btnDefaultFirm.UseVisualStyleBackColor = true;
+            this.btnDefaultFirm.Click += new System.EventHandler(this.btnDefaultFirm_Click);
             // 
             // lblGroup
             // 
@@ -949,7 +1009,7 @@
             this.Links.Controls.Add(this.btnTestCycles);
             this.Links.Controls.Add(this.label8);
             this.Links.Controls.Add(this.label4);
-            this.Links.Location = new System.Drawing.Point(1238, 12);
+            this.Links.Location = new System.Drawing.Point(1555, 12);
             this.Links.Name = "Links";
             this.Links.Size = new System.Drawing.Size(765, 802);
             this.Links.TabIndex = 3;
@@ -1190,54 +1250,177 @@
             // 
             this.splunkTT.ToolTipTitle = "Splunk";
             // 
-            // btnSaveFirm
+            // groupBox7
             // 
-            this.btnSaveFirm.Location = new System.Drawing.Point(415, 204);
-            this.btnSaveFirm.Name = "btnSaveFirm";
-            this.btnSaveFirm.Size = new System.Drawing.Size(142, 51);
-            this.btnSaveFirm.TabIndex = 30;
-            this.btnSaveFirm.Text = "Save";
-            this.btnSaveFirm.UseVisualStyleBackColor = true;
-            this.btnSaveFirm.Click += new System.EventHandler(this.btnSaveFirm_Click);
+            this.groupBox7.Controls.Add(this.groupBox9);
+            this.groupBox7.Controls.Add(this.groupBox8);
+            this.groupBox7.Location = new System.Drawing.Point(13, 12);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(306, 811);
+            this.groupBox7.TabIndex = 4;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "User Searching";
             // 
-            // btnDefaultFirm
+            // groupBox9
             // 
-            this.btnDefaultFirm.Location = new System.Drawing.Point(281, 204);
-            this.btnDefaultFirm.Name = "btnDefaultFirm";
-            this.btnDefaultFirm.Size = new System.Drawing.Size(128, 51);
-            this.btnDefaultFirm.TabIndex = 29;
-            this.btnDefaultFirm.Text = "Default";
-            this.serverDefaultTT.SetToolTip(this.btnDefaultFirm, "Reverts the server field to https://qa1-rest.xhoot.com");
-            this.btnDefaultFirm.UseVisualStyleBackColor = true;
-            this.btnDefaultFirm.Click += new System.EventHandler(this.btnDefaultFirm_Click);
+            this.groupBox9.Controls.Add(this.btnClearSearch);
+            this.groupBox9.Controls.Add(this.btnSearch);
+            this.groupBox9.Controls.Add(this.label11);
+            this.groupBox9.Controls.Add(this.label12);
+            this.groupBox9.Controls.Add(this.txtBoxNewFirmSearch);
+            this.groupBox9.Controls.Add(this.label13);
+            this.groupBox9.Controls.Add(this.txtBoxNewGroupSearch);
+            this.groupBox9.Controls.Add(this.txtBoxNewUserSearch);
+            this.groupBox9.Location = new System.Drawing.Point(6, 316);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(286, 480);
+            this.groupBox9.TabIndex = 1;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Search For:";
             // 
-            // btnSaveGroup
+            // btnClearSearch
             // 
-            this.btnSaveGroup.Location = new System.Drawing.Point(415, 284);
-            this.btnSaveGroup.Name = "btnSaveGroup";
-            this.btnSaveGroup.Size = new System.Drawing.Size(142, 51);
-            this.btnSaveGroup.TabIndex = 32;
-            this.btnSaveGroup.Text = "Save";
-            this.btnSaveGroup.UseVisualStyleBackColor = true;
-            this.btnSaveGroup.Click += new System.EventHandler(this.btnSaveGroup_Click);
+            this.btnClearSearch.Location = new System.Drawing.Point(44, 382);
+            this.btnClearSearch.Name = "btnClearSearch";
+            this.btnClearSearch.Size = new System.Drawing.Size(181, 69);
+            this.btnClearSearch.TabIndex = 46;
+            this.btnClearSearch.Text = "Clear Search";
+            this.btnClearSearch.UseVisualStyleBackColor = true;
+            this.btnClearSearch.Click += new System.EventHandler(this.btnClearSearch_Click);
             // 
-            // btnDefaultGroup
+            // btnSearch
             // 
-            this.btnDefaultGroup.Location = new System.Drawing.Point(281, 284);
-            this.btnDefaultGroup.Name = "btnDefaultGroup";
-            this.btnDefaultGroup.Size = new System.Drawing.Size(128, 51);
-            this.btnDefaultGroup.TabIndex = 31;
-            this.btnDefaultGroup.Text = "Default";
-            this.serverDefaultTT.SetToolTip(this.btnDefaultGroup, "Reverts the server field to https://qa1-rest.xhoot.com");
-            this.btnDefaultGroup.UseVisualStyleBackColor = true;
-            this.btnDefaultGroup.Click += new System.EventHandler(this.btnDefaultGroup_Click);
+            this.btnSearch.BackColor = System.Drawing.Color.Goldenrod;
+            this.btnSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnSearch.Location = new System.Drawing.Point(44, 280);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(183, 69);
+            this.btnSearch.TabIndex = 45;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(11, 196);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(71, 25);
+            this.label11.TabIndex = 44;
+            this.label11.Text = "Group";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 36);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(57, 25);
+            this.label12.TabIndex = 40;
+            this.label12.Text = "User";
+            // 
+            // txtBoxNewFirmSearch
+            // 
+            this.txtBoxNewFirmSearch.Location = new System.Drawing.Point(5, 142);
+            this.txtBoxNewFirmSearch.Name = "txtBoxNewFirmSearch";
+            this.txtBoxNewFirmSearch.Size = new System.Drawing.Size(269, 31);
+            this.txtBoxNewFirmSearch.TabIndex = 41;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 114);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(54, 25);
+            this.label13.TabIndex = 43;
+            this.label13.Text = "Firm";
+            // 
+            // txtBoxNewGroupSearch
+            // 
+            this.txtBoxNewGroupSearch.Location = new System.Drawing.Point(10, 224);
+            this.txtBoxNewGroupSearch.Name = "txtBoxNewGroupSearch";
+            this.txtBoxNewGroupSearch.Size = new System.Drawing.Size(269, 31);
+            this.txtBoxNewGroupSearch.TabIndex = 42;
+            // 
+            // txtBoxNewUserSearch
+            // 
+            this.txtBoxNewUserSearch.Location = new System.Drawing.Point(5, 64);
+            this.txtBoxNewUserSearch.Name = "txtBoxNewUserSearch";
+            this.txtBoxNewUserSearch.Size = new System.Drawing.Size(269, 31);
+            this.txtBoxNewUserSearch.TabIndex = 39;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.label7);
+            this.groupBox8.Controls.Add(this.label10);
+            this.groupBox8.Controls.Add(this.label9);
+            this.groupBox8.Controls.Add(this.txtBoxCurrUserSearch);
+            this.groupBox8.Controls.Add(this.txtBoxCurrGroupSearch);
+            this.groupBox8.Controls.Add(this.txtBoxCurrFirmSearch);
+            this.groupBox8.Location = new System.Drawing.Point(6, 31);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(287, 279);
+            this.groupBox8.TabIndex = 0;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Current Search:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 199);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(71, 25);
+            this.label7.TabIndex = 38;
+            this.label7.Text = "Group";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(1, 39);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(57, 25);
+            this.label10.TabIndex = 34;
+            this.label10.Text = "User";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(1, 117);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(54, 25);
+            this.label9.TabIndex = 37;
+            this.label9.Text = "Firm";
+            // 
+            // txtBoxCurrUserSearch
+            // 
+            this.txtBoxCurrUserSearch.Enabled = false;
+            this.txtBoxCurrUserSearch.Location = new System.Drawing.Point(0, 67);
+            this.txtBoxCurrUserSearch.Name = "txtBoxCurrUserSearch";
+            this.txtBoxCurrUserSearch.Size = new System.Drawing.Size(269, 31);
+            this.txtBoxCurrUserSearch.TabIndex = 33;
+            // 
+            // txtBoxCurrGroupSearch
+            // 
+            this.txtBoxCurrGroupSearch.Enabled = false;
+            this.txtBoxCurrGroupSearch.Location = new System.Drawing.Point(5, 227);
+            this.txtBoxCurrGroupSearch.Name = "txtBoxCurrGroupSearch";
+            this.txtBoxCurrGroupSearch.Size = new System.Drawing.Size(269, 31);
+            this.txtBoxCurrGroupSearch.TabIndex = 36;
+            // 
+            // txtBoxCurrFirmSearch
+            // 
+            this.txtBoxCurrFirmSearch.Enabled = false;
+            this.txtBoxCurrFirmSearch.Location = new System.Drawing.Point(0, 145);
+            this.txtBoxCurrFirmSearch.Name = "txtBoxCurrFirmSearch";
+            this.txtBoxCurrFirmSearch.Size = new System.Drawing.Size(269, 31);
+            this.txtBoxCurrFirmSearch.TabIndex = 35;
             // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(2112, 854);
+            this.ClientSize = new System.Drawing.Size(2346, 854);
+            this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.Links);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -1261,6 +1444,11 @@
             this.Links.ResumeLayout(false);
             this.Links.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.reeEEE)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1377,6 +1565,23 @@
         private System.Windows.Forms.Button btnDefaultGroup;
         private System.Windows.Forms.Button btnSaveFirm;
         private System.Windows.Forms.Button btnDefaultFirm;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtBoxCurrUserSearch;
+        private System.Windows.Forms.TextBox txtBoxCurrGroupSearch;
+        private System.Windows.Forms.TextBox txtBoxCurrFirmSearch;
+        private System.Windows.Forms.Button btnClearSearch;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox txtBoxNewFirmSearch;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txtBoxNewGroupSearch;
+        private System.Windows.Forms.TextBox txtBoxNewUserSearch;
     }
 }
 
