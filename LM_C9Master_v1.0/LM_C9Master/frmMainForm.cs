@@ -2017,7 +2017,7 @@ namespace LM_C9Master
             bool newData = false;
             if (Directory.Exists(loadFromDirectory))
             {
-                foreach (String file in Directory.GetFiles(loadFromDirectory, "*.bat"))
+                foreach (String file in Directory.GetFiles(loadFromDirectory, "*.bat", SearchOption.AllDirectories))
                 {
                     using (StreamReader SR = new StreamReader(file))
                     {
