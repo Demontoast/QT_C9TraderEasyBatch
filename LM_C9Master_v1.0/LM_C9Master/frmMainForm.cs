@@ -90,7 +90,7 @@ namespace LM_C9Master
         private void frmMainForm_Load(object sender, EventArgs e)
         {
             this.Width = 1200;
-            this.Height = 475;
+            this.Height = 485;
             foreach (Process p in System.Diagnostics.Process.GetProcesses())
             {
                 if (p.ProcessName.Contains("C9Shell"))
@@ -210,33 +210,69 @@ namespace LM_C9Master
                 case "VPNCLIENT":
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
-                        Line = SR.ReadLine();
-                        while (Line != "</VPNClient>")
+                        while ((Line = SR.ReadLine()) != "<VPNClient>")
                         {
-                            LineSplit = Line.Split('=');
-                            if (LineSplit[0] == "VPNClientLocation")
+                            if (Line.Equals(null))
                             {
-                                lblVPNClientTarget.Text = LineSplit[1];
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <VPNClient>");
                                 break;
                             }
-                            
-                            Line = SR.ReadLine();
+                        }
+                        while ((Line = SR.ReadLine())!= "</VPNClient>")
+                        {
+                            try
+                            {
+                                LineSplit = Line.Split('=');
+                                if (LineSplit[0] == "VPNClientLocation")
+                                {
+                                    lblVPNClientTarget.Text = LineSplit[1];
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </VPNClient>");
+                                break;
+                            }
                         }
                     }
                     break;
                 case "C9TRADERROOT":
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
-                        Line = SR.ReadLine();
-                        while (Line != "</AppManager>")
+                        while ((Line = SR.ReadLine()) != "<AppManager>")
                         {
-                            LineSplit = Line.Split('=');
-                            if (LineSplit[0] == "C9TraderRootLocation")
+                            if (Line.Equals(null))
                             {
-                                lblC9TraderRoot.Text = LineSplit[1];
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <AppManager>");
                                 break;
                             }
-                            Line = SR.ReadLine();
+                        }
+                        while ((Line = SR.ReadLine()) != "</AppManager>")
+                        {
+                            try
+                            {
+                                LineSplit = Line.Split('=');
+                                if (LineSplit[0] == "C9TraderRootLocation")
+                                {
+                                    lblC9TraderRoot.Text = LineSplit[1];
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </AppManager>");
+                                break;
+                            }
                         }
                     }
                     break;
@@ -246,15 +282,37 @@ namespace LM_C9Master
                     AccountsFromSettings.Clear();
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
-                        while ((Line = SR.ReadLine()) != "<UserCollection>") ;
+                        while ((Line = SR.ReadLine()) != "<UserCollection>")
+                        {
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <UserCollection>");
+                                break;
+                            }
+                        }
                         if ((Line = SR.ReadLine()) != "</UserCollection>")
                         {
                             while (Line != "</UserCollection>")
                             {
                                 AppAccount TmpAccount = new AppAccount();
                                 LineSplit = Line.Split(':');
-                                TmpAccount.strUserName = LineSplit[0];
-                                TmpAccount.strPassword = LineSplit[1];
+                                try
+                                {
+                                    TmpAccount.strUserName = LineSplit[0];
+                                    try
+                                    {
+                                        TmpAccount.strPassword = LineSplit[1];
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                }
+                                catch
+                                {
+
+                                }
+                                
                                 try
                                 {
                                     TmpAccount.strFirm = LineSplit[2];
@@ -269,9 +327,16 @@ namespace LM_C9Master
                                 catch
                                 { }
                                 
-                                AccountsFromSettings.Add(TmpAccount);
+                                if(TmpAccount!=null)
+                                    AccountsFromSettings.Add(TmpAccount);
 
+                                if (Line.Equals(null))
+                                {
+                                    MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </UserCollection>");
+                                    break;
+                                }
                                 Line = SR.ReadLine();
+                                
                             }
 
 
@@ -300,16 +365,34 @@ namespace LM_C9Master
                     txtBoxVMPath.Clear();
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
-                        Line = SR.ReadLine();
-                        while (Line != "</VersionManager>")
+                        while ((Line = SR.ReadLine()) != "<VersionManager>")
                         {
-                            LineSplit = Line.Split('=');
-                            if (LineSplit[0] == "VMLocation")
+                            if (Line.Equals(null))
                             {
-                                txtBoxVMPath.Text = LineSplit[1];
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <VersionManager>");
                                 break;
                             }
-                            Line = SR.ReadLine();
+                        }
+                        while ((Line = SR.ReadLine()) != "</VersionManager>")
+                        {
+                            try
+                            {
+                                LineSplit = Line.Split('=');
+                                if (LineSplit[0] == "VMLocation")
+                                {
+                                    txtBoxVMPath.Text = LineSplit[1];
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </VersionManager>");
+                                break;
+                            }
                         }
                     }
                     
@@ -319,15 +402,34 @@ namespace LM_C9Master
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
                         Line = SR.ReadLine();
-                        while (Line != "</TCPView>")
+                        while ((Line = SR.ReadLine()) != "<TCPView>")
                         {
-                            LineSplit = Line.Split('=');
-                            if (LineSplit[0] == "TCPViewLocation")
+                            if (Line.Equals(null))
                             {
-                                txtBoxTCPViewPath.Text = LineSplit[1];
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <TCPView>");
                                 break;
                             }
-                            Line = SR.ReadLine();
+                        }
+                        while ((Line = SR.ReadLine())!= "</TCPView>")
+                        {
+                            try
+                            {
+                                LineSplit = Line.Split('=');
+                                if (LineSplit[0] == "TCPViewLocation")
+                                {
+                                    txtBoxTCPViewPath.Text = LineSplit[1];
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </TCPView>");
+                                break;
+                            }
                         }
                     }
                     break;
@@ -338,7 +440,14 @@ namespace LM_C9Master
                     bool flag = false;
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
-                        while ((Line = SR.ReadLine()) != "<DesignatedServer>") ;
+                        while ((Line = SR.ReadLine()) != "<DesignatedServer>")
+                        {
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <DesignatedServer>");
+                                break;
+                            }
+                        }
                         while ((Line = SR.ReadLine()) != "</DesignatedServer>")
                         {
                                 if (Line.Contains("Server="))
@@ -351,6 +460,11 @@ namespace LM_C9Master
                                 }
                                 serverList.Add(Line);
                                 flag = true;
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </DesignatedServer>");
+                                break;
+                            }
                         }
                         
                         if (!flag)
@@ -369,16 +483,34 @@ namespace LM_C9Master
                     txtBoxSQDBLite.Clear();
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
-                        Line = SR.ReadLine();
-                        while (Line != "</SQDBLite>")
+                        while ((Line = SR.ReadLine()) != "<SQDBLite>")
                         {
-                            LineSplit = Line.Split('=');
-                            if (LineSplit[0] == "SQDBLiteLocation")
+                            if (Line.Equals(null))
                             {
-                                txtBoxSQDBLite.Text = LineSplit[1];
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <SQDBLite>");
                                 break;
                             }
-                            Line = SR.ReadLine();
+                        }
+                        while ((Line = SR.ReadLine()) != "</SQDBLite>")
+                        {
+                            try
+                            {
+                                LineSplit = Line.Split('=');
+                                if (LineSplit[0] == "SQDBLiteLocation")
+                                {
+                                    txtBoxSQDBLite.Text = LineSplit[1];
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </SQDBLite>");
+                                break;
+                            }
                         }
                     }
                     break;
@@ -386,16 +518,34 @@ namespace LM_C9Master
                     txtBoxTranscriptionServer.Clear();
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
-                        Line = SR.ReadLine();
-                        while (Line != "</TranscriptionServer>")
+                        while ((Line = SR.ReadLine()) != "<TranscriptionServer>")
                         {
-                            LineSplit = Line.Split('=');
-                            if (LineSplit[0] == "TranscriptionServer")
+                            if (Line.Equals(null))
                             {
-                                txtBoxTranscriptionServer.Text = LineSplit[1];
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <TranscriptionServer>");
                                 break;
                             }
-                            Line = SR.ReadLine();
+                        }
+                        while ((Line= SR.ReadLine()) != "</TranscriptionServer>")
+                        {
+                            try
+                            {
+                                LineSplit = Line.Split('=');
+                                if (LineSplit[0] == "TranscriptionServer")
+                                {
+                                    txtBoxTranscriptionServer.Text = LineSplit[1];
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </TranscriptionServer>");
+                                break;
+                            }
                         }
                     }
                     break;
@@ -463,7 +613,6 @@ namespace LM_C9Master
             lblC9TraderRoot.Select();
         }
 
-        // @Leo not sure about this one
         private void btnVPNSaveSettings_Click(object sender, EventArgs e)
         {
             List<string> strCurrentSettings = new List<string>();
@@ -976,6 +1125,7 @@ namespace LM_C9Master
         // selected in the user combo box
         private void btnCloseAppSelUser_Click(object sender, EventArgs e)
         {
+            List<ProcessUser> closeUsers = new List<ProcessUser>();
             if (ActiveProcesses.Count != 0)
             {
                 bool exists = false;
@@ -989,16 +1139,13 @@ namespace LM_C9Master
                             if (!p.userProcess.HasExited)
                                 p.userProcess.Kill();
 
-                            ActiveProcesses.Remove(p);
+                            closeUsers.Add(p);
                         }
                         catch
                         {
                             MessageBox.Show("Error: Something went wrong!");
                         }
-                        btnCloseAppSelUser.Enabled = false;
-                        Thread.Sleep(1500);
-                        btnCloseAppSelUser.Enabled = true;
-                        break;
+                        
                     }
                 }
                 if (!exists)
@@ -1008,6 +1155,13 @@ namespace LM_C9Master
             }
             else
                 MessageBox.Show("Error: No active applications.");
+            foreach (ProcessUser PU in closeUsers)
+            {
+                ActiveProcesses.Remove(PU);
+            }
+            btnCloseAppSelUser.Enabled = false;
+            Thread.Sleep(1500);
+            btnCloseAppSelUser.Enabled = true;
         }
 
         // Action Listener for the VPN Default button, reverts the text box for the VPN filepath to known defaults
@@ -1812,13 +1966,16 @@ namespace LM_C9Master
                 cmbBoxUsers.ForeColor = Color.Goldenrod;
                 btnAddUser.Enabled = false;
                 btnRemoveUser.Enabled = false;
+                btnLoadBatch.Enabled = false;
                 searchFlag = true;
+                btnSearch.Enabled = false;
             }
                 
         }
 
         private void btnClearSearch_Click(object sender, EventArgs e)
         {
+            btnLoadBatch.Enabled = true;
             txtBoxNewUserSearch.Clear();
             txtBoxNewFirmSearch.Clear();
             txtBoxNewGroupSearch.Clear();
@@ -1835,6 +1992,120 @@ namespace LM_C9Master
                 cmbBoxUsers.Items.Add(AC.strUserName);
             if (cmbBoxUsers.Items.Count > 0)
                 cmbBoxUsers.Text = AccountsFromSettings.ElementAt(0).strUserName;
+        }
+
+        private void btnChangeBatchFolder_Click(object sender, EventArgs e)
+        {
+            DialogResult VMSelectorResult = new DialogResult();
+            VMSelectorResult = fldBrwsDiagLoadBatches.ShowDialog();
+            if (VMSelectorResult == DialogResult.OK)
+            {
+                string strResultChangeCheck = fldBrwsDiagLoadBatches.SelectedPath;
+                if (strResultChangeCheck != txtBoxLoadBatchFolder.Text)
+                {
+                    txtBoxLoadBatchFolder.Text = strResultChangeCheck;
+                }
+
+            }
+        }
+
+        private void btnLoadBatch_Click(object sender, EventArgs e)
+        {
+            String loadFromDirectory = txtBoxLoadBatchFolder.Text;
+            List<AppAccount> newAccs = new List<AppAccount>();
+            String[] LineSplit = null;
+            bool newData = false;
+            if (Directory.Exists(loadFromDirectory))
+            {
+                foreach (String file in Directory.GetFiles(loadFromDirectory, "*.bat"))
+                {
+                    using (StreamReader SR = new StreamReader(file))
+                    {
+                        string Line = SR.ReadLine();
+                        while (Line != null)
+                        {
+                            LineSplit = Line.Split('-');
+                            AppAccount tempAcc = new AppAccount();
+
+                            try
+                            {
+                                foreach (String f in LineSplit)
+                                {
+                                    if (f.First() == 'u')
+                                    {
+                                        tempAcc.strUserName = f.Remove(0, 2);
+                                        tempAcc.strUserName = tempAcc.strUserName.Remove(tempAcc.strUserName.Length - 1, 1);
+                                    }
+
+                                    if (f.First() == 'p')
+                                    {
+                                        tempAcc.strPassword = f.Remove(0, 2);
+                                        tempAcc.strPassword = tempAcc.strPassword.Remove(tempAcc.strPassword.Length - 1, 1);
+                                    }
+
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            if (!tempAcc.strUserName.Equals("") && !tempAcc.strUserName.Equals(null))
+                            {
+                                newAccs.Add(tempAcc);
+                            }
+                            Line = SR.ReadLine();
+                        }
+                    }
+                }
+                foreach (AppAccount AC in newAccs)
+                {
+                    bool isDuplicate = false;
+                    foreach (AppAccount OAC in AccountsFromSettings)
+                    {
+                        if (AC.strUserName.Equals(OAC.strUserName))
+                            isDuplicate = true;
+                    }
+                    if (!isDuplicate)
+                    {
+                        newData = true;
+                        AccountsFromSettings.Add(AC);
+                        MessageBox.Show("Adding user " + AC.strUserName + ":" + AC.strPassword + " to settings file");
+                    }
+
+                }
+                SaveAccountsToSettings();
+                if (!newData)
+                {
+                    MessageBox.Show("No new data found");
+                }
+            }
+            else
+                MessageBox.Show("Directory in text box does not exist!");
+            
+        }
+
+        private void txtBoxNewUserSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (txtBoxNewUserSearch.Text.Equals("") && txtBoxNewFirmSearch.Equals("") && txtBoxNewGroupSearch.Equals(""))
+                btnSearch.Enabled = false;
+            else
+                btnSearch.Enabled = true;
+        }
+
+        private void txtBoxNewFirmSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (txtBoxNewUserSearch.Text.Equals("") && txtBoxNewFirmSearch.Equals("") && txtBoxNewGroupSearch.Equals(""))
+                btnSearch.Enabled = false;
+            else
+                btnSearch.Enabled = true;
+        }
+
+        private void txtBoxNewGroupSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (txtBoxNewUserSearch.Text.Equals("") && txtBoxNewFirmSearch.Equals("") && txtBoxNewGroupSearch.Equals(""))
+                btnSearch.Enabled = false;
+            else
+                btnSearch.Enabled = true;
         }
     }
 }

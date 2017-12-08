@@ -36,6 +36,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.btnLoadBatch = new System.Windows.Forms.Button();
+            this.btnChangeBatchFolder = new System.Windows.Forms.Button();
+            this.txtBoxLoadBatchFolder = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.btnSavePathSQDBLite = new System.Windows.Forms.Button();
             this.btnDefaultSQDBLite = new System.Windows.Forms.Button();
             this.btnChangePathSQDBLite = new System.Windows.Forms.Button();
@@ -157,6 +161,7 @@
             this.txtBoxCurrUserSearch = new System.Windows.Forms.TextBox();
             this.txtBoxCurrGroupSearch = new System.Windows.Forms.TextBox();
             this.txtBoxCurrFirmSearch = new System.Windows.Forms.TextBox();
+            this.fldBrwsDiagLoadBatches = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -223,13 +228,17 @@
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Location = new System.Drawing.Point(904, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(645, 811);
+            this.groupBox2.Size = new System.Drawing.Size(645, 830);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Settings";
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.btnLoadBatch);
+            this.groupBox6.Controls.Add(this.btnChangeBatchFolder);
+            this.groupBox6.Controls.Add(this.txtBoxLoadBatchFolder);
+            this.groupBox6.Controls.Add(this.label14);
             this.groupBox6.Controls.Add(this.btnSavePathSQDBLite);
             this.groupBox6.Controls.Add(this.btnDefaultSQDBLite);
             this.groupBox6.Controls.Add(this.btnChangePathSQDBLite);
@@ -250,10 +259,47 @@
             this.groupBox6.Controls.Add(this.btnChangeVMPath);
             this.groupBox6.Location = new System.Drawing.Point(7, 394);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(627, 408);
+            this.groupBox6.Size = new System.Drawing.Size(627, 430);
             this.groupBox6.TabIndex = 3;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "C9 Trader Accessories Manager";
+            // 
+            // btnLoadBatch
+            // 
+            this.btnLoadBatch.Location = new System.Drawing.Point(499, 332);
+            this.btnLoadBatch.Name = "btnLoadBatch";
+            this.btnLoadBatch.Size = new System.Drawing.Size(122, 42);
+            this.btnLoadBatch.TabIndex = 22;
+            this.btnLoadBatch.Text = "Load";
+            this.btnLoadBatch.UseVisualStyleBackColor = true;
+            this.btnLoadBatch.Click += new System.EventHandler(this.btnLoadBatch_Click);
+            // 
+            // btnChangeBatchFolder
+            // 
+            this.btnChangeBatchFolder.Location = new System.Drawing.Point(311, 332);
+            this.btnChangeBatchFolder.Name = "btnChangeBatchFolder";
+            this.btnChangeBatchFolder.Size = new System.Drawing.Size(182, 41);
+            this.btnChangeBatchFolder.TabIndex = 21;
+            this.btnChangeBatchFolder.Text = "Change Folder";
+            this.btnChangeBatchFolder.UseVisualStyleBackColor = true;
+            this.btnChangeBatchFolder.Click += new System.EventHandler(this.btnChangeBatchFolder_Click);
+            // 
+            // txtBoxLoadBatchFolder
+            // 
+            this.txtBoxLoadBatchFolder.Location = new System.Drawing.Point(12, 379);
+            this.txtBoxLoadBatchFolder.Name = "txtBoxLoadBatchFolder";
+            this.txtBoxLoadBatchFolder.Size = new System.Drawing.Size(595, 31);
+            this.txtBoxLoadBatchFolder.TabIndex = 20;
+            this.txtBoxLoadBatchFolder.Text = "Enter Folder Path for Batch Files";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(14, 341);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(293, 25);
+            this.label14.TabIndex = 19;
+            this.label14.Text = "Load Accounts from Batches:";
             // 
             // btnSavePathSQDBLite
             // 
@@ -627,7 +673,7 @@
             // btnRemoveUser
             // 
             this.btnRemoveUser.Enabled = false;
-            this.btnRemoveUser.Location = new System.Drawing.Point(439, 133);
+            this.btnRemoveUser.Location = new System.Drawing.Point(430, 133);
             this.btnRemoveUser.Name = "btnRemoveUser";
             this.btnRemoveUser.Size = new System.Drawing.Size(42, 36);
             this.btnRemoveUser.TabIndex = 10;
@@ -719,7 +765,7 @@
             this.groupBox4.Controls.Add(this.lblServer);
             this.groupBox4.Location = new System.Drawing.Point(332, 189);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(565, 634);
+            this.groupBox4.Size = new System.Drawing.Size(565, 653);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "App Manager";
@@ -1011,7 +1057,7 @@
             this.Links.Controls.Add(this.label4);
             this.Links.Location = new System.Drawing.Point(1555, 12);
             this.Links.Name = "Links";
-            this.Links.Size = new System.Drawing.Size(765, 802);
+            this.Links.Size = new System.Drawing.Size(765, 830);
             this.Links.TabIndex = 3;
             this.Links.TabStop = false;
             this.Links.Text = "Links";
@@ -1049,7 +1095,7 @@
             // 
             // btnPortalGateway
             // 
-            this.btnPortalGateway.Location = new System.Drawing.Point(556, 285);
+            this.btnPortalGateway.Location = new System.Drawing.Point(556, 282);
             this.btnPortalGateway.Name = "btnPortalGateway";
             this.btnPortalGateway.Size = new System.Drawing.Size(170, 50);
             this.btnPortalGateway.TabIndex = 12;
@@ -1256,7 +1302,7 @@
             this.groupBox7.Controls.Add(this.groupBox8);
             this.groupBox7.Location = new System.Drawing.Point(13, 12);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(306, 811);
+            this.groupBox7.Size = new System.Drawing.Size(306, 830);
             this.groupBox7.TabIndex = 4;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "User Searching";
@@ -1273,7 +1319,7 @@
             this.groupBox9.Controls.Add(this.txtBoxNewUserSearch);
             this.groupBox9.Location = new System.Drawing.Point(6, 316);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(286, 480);
+            this.groupBox9.Size = new System.Drawing.Size(286, 495);
             this.groupBox9.TabIndex = 1;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Search For:";
@@ -1324,6 +1370,7 @@
             this.txtBoxNewFirmSearch.Name = "txtBoxNewFirmSearch";
             this.txtBoxNewFirmSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxNewFirmSearch.TabIndex = 41;
+            this.txtBoxNewFirmSearch.TextChanged += new System.EventHandler(this.txtBoxNewFirmSearch_TextChanged);
             // 
             // label13
             // 
@@ -1340,6 +1387,7 @@
             this.txtBoxNewGroupSearch.Name = "txtBoxNewGroupSearch";
             this.txtBoxNewGroupSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxNewGroupSearch.TabIndex = 42;
+            this.txtBoxNewGroupSearch.TextChanged += new System.EventHandler(this.txtBoxNewGroupSearch_TextChanged);
             // 
             // txtBoxNewUserSearch
             // 
@@ -1347,6 +1395,7 @@
             this.txtBoxNewUserSearch.Name = "txtBoxNewUserSearch";
             this.txtBoxNewUserSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxNewUserSearch.TabIndex = 39;
+            this.txtBoxNewUserSearch.TextChanged += new System.EventHandler(this.txtBoxNewUserSearch_TextChanged);
             // 
             // groupBox8
             // 
@@ -1582,6 +1631,11 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox txtBoxNewGroupSearch;
         private System.Windows.Forms.TextBox txtBoxNewUserSearch;
+        private System.Windows.Forms.Button btnLoadBatch;
+        private System.Windows.Forms.Button btnChangeBatchFolder;
+        private System.Windows.Forms.TextBox txtBoxLoadBatchFolder;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.FolderBrowserDialog fldBrwsDiagLoadBatches;
     }
 }
 
