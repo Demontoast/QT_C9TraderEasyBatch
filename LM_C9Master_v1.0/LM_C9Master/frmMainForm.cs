@@ -1593,18 +1593,24 @@ namespace LM_C9Master
         private void btnDeleteShout_Click(object sender, EventArgs e)
         {
             string currUser = Environment.UserName;
-            foreach (String s in Directory.GetFiles(@"C:\Users\"+currUser+ @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\shoutdowns"))
+            if (Directory.Exists(@"C: \Users\"+currUser+ @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\shoutdowns"))
             {
-                File.Delete(s);
-            }
+                foreach (String s in Directory.GetFiles(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\shoutdowns"))
+                {
+                    File.Delete(s);
+                }
+            }   
         }
 
         private void btnDeleteRD_Click(object sender, EventArgs e)
         {
             string currUser = Environment.UserName;
-            foreach (String s in Directory.GetFiles(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\ringdowns"))
+            if (Directory.Exists(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\ringdowns"))
             {
-                File.Delete(s);
+                foreach (String s in Directory.GetFiles(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\ringdowns"))
+                {
+                    File.Delete(s);
+                }
             }
         }
 
@@ -2123,6 +2129,36 @@ namespace LM_C9Master
         private void userInfoClosedEventHandler(object sender, EventArgs e)
         {
             btnUserInfo.Enabled = true;
+        }
+
+        private void btnFlushC2C_Click(object sender, EventArgs e)
+        {
+            string currUser = Environment.UserName;
+            if (Directory.Exists(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\clicktocalls"))
+            {
+                foreach (String s in Directory.GetFiles(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\clicktocalls"))
+                {
+                    File.Delete(s);
+                }
+            }
+        }
+
+        private void chkBoxInC9_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkBoxInC9.Checked == true)
+            {
+                BtnLaunchApp.Enabled = true;
+                btnCloseApp.Enabled = true;
+                btnCloseAppSelUser.Enabled = true;
+                btnVersionManager.Enabled = true;
+            }
+            if (chkBoxInC9.Checked == false && BtnVPNSwitch.Text.Equals("OFF"))
+            {
+                BtnLaunchApp.Enabled = false;
+                btnCloseApp.Enabled = false;
+                btnCloseAppSelUser.Enabled = false;
+                btnVersionManager.Enabled = false;
+            }
         }
     }
 }

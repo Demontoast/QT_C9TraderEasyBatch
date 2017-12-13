@@ -83,6 +83,7 @@
             this.opnFDVPNClientSelector = new System.Windows.Forms.OpenFileDialog();
             this.fldBrwsDiagSharedFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnUserInfo = new System.Windows.Forms.Button();
             this.btnSaveGroup = new System.Windows.Forms.Button();
             this.btnDefaultGroup = new System.Windows.Forms.Button();
             this.btnSaveFirm = new System.Windows.Forms.Button();
@@ -162,7 +163,8 @@
             this.txtBoxCurrGroupSearch = new System.Windows.Forms.TextBox();
             this.txtBoxCurrFirmSearch = new System.Windows.Forms.TextBox();
             this.fldBrwsDiagLoadBatches = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnUserInfo = new System.Windows.Forms.Button();
+            this.btnFlushC2C = new System.Windows.Forms.Button();
+            this.chkBoxInC9 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -178,6 +180,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkBoxInC9);
             this.groupBox1.Controls.Add(this.btnVPNClientLaunch);
             this.groupBox1.Controls.Add(this.BtnVPNSwitch);
             this.groupBox1.Controls.Add(this.label1);
@@ -204,7 +207,7 @@
             this.BtnVPNSwitch.BackColor = System.Drawing.Color.LightCoral;
             this.BtnVPNSwitch.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnVPNSwitch.ForeColor = System.Drawing.Color.DarkRed;
-            this.BtnVPNSwitch.Location = new System.Drawing.Point(336, 40);
+            this.BtnVPNSwitch.Location = new System.Drawing.Point(309, 40);
             this.BtnVPNSwitch.Name = "BtnVPNSwitch";
             this.BtnVPNSwitch.Size = new System.Drawing.Size(107, 40);
             this.BtnVPNSwitch.TabIndex = 1;
@@ -216,7 +219,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(43, 48);
+            this.label1.Location = new System.Drawing.Point(10, 47);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(288, 25);
             this.label1.TabIndex = 0;
@@ -772,6 +775,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "App Manager";
             // 
+            // btnUserInfo
+            // 
+            this.btnUserInfo.Location = new System.Drawing.Point(416, 127);
+            this.btnUserInfo.Name = "btnUserInfo";
+            this.btnUserInfo.Size = new System.Drawing.Size(137, 48);
+            this.btnUserInfo.TabIndex = 33;
+            this.btnUserInfo.Text = "User Info";
+            this.btnUserInfo.UseVisualStyleBackColor = true;
+            this.btnUserInfo.Click += new System.EventHandler(this.btnUserInfo_Click_1);
+            // 
             // btnSaveGroup
             // 
             this.btnSaveGroup.Location = new System.Drawing.Point(415, 284);
@@ -1041,6 +1054,7 @@
             // 
             // Links
             // 
+            this.Links.Controls.Add(this.btnFlushC2C);
             this.Links.Controls.Add(this.btnAudioCodes);
             this.Links.Controls.Add(this.btnDeleteRD);
             this.Links.Controls.Add(this.btnDeleteShout);
@@ -1465,15 +1479,26 @@
             this.txtBoxCurrFirmSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxCurrFirmSearch.TabIndex = 35;
             // 
-            // btnUserInfo
+            // btnFlushC2C
             // 
-            this.btnUserInfo.Location = new System.Drawing.Point(416, 127);
-            this.btnUserInfo.Name = "btnUserInfo";
-            this.btnUserInfo.Size = new System.Drawing.Size(137, 48);
-            this.btnUserInfo.TabIndex = 33;
-            this.btnUserInfo.Text = "User Info";
-            this.btnUserInfo.UseVisualStyleBackColor = true;
-            this.btnUserInfo.Click += new System.EventHandler(this.btnUserInfo_Click_1);
+            this.btnFlushC2C.Location = new System.Drawing.Point(165, 559);
+            this.btnFlushC2C.Name = "btnFlushC2C";
+            this.btnFlushC2C.Size = new System.Drawing.Size(209, 49);
+            this.btnFlushC2C.TabIndex = 16;
+            this.btnFlushC2C.Text = "Flush C2C";
+            this.btnFlushC2C.UseVisualStyleBackColor = true;
+            this.btnFlushC2C.Click += new System.EventHandler(this.btnFlushC2C_Click);
+            // 
+            // chkBoxInC9
+            // 
+            this.chkBoxInC9.AutoSize = true;
+            this.chkBoxInC9.Location = new System.Drawing.Point(434, 47);
+            this.chkBoxInC9.Name = "chkBoxInC9";
+            this.chkBoxInC9.Size = new System.Drawing.Size(120, 29);
+            this.chkBoxInC9.TabIndex = 3;
+            this.chkBoxInC9.Text = "Inhouse";
+            this.chkBoxInC9.UseVisualStyleBackColor = true;
+            this.chkBoxInC9.CheckedChanged += new System.EventHandler(this.chkBoxInC9_CheckedChanged);
             // 
             // frmMainForm
             // 
@@ -1649,6 +1674,8 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.FolderBrowserDialog fldBrwsDiagLoadBatches;
         private System.Windows.Forms.Button btnUserInfo;
+        private System.Windows.Forms.Button btnFlushC2C;
+        private System.Windows.Forms.CheckBox chkBoxInC9;
     }
 }
 
