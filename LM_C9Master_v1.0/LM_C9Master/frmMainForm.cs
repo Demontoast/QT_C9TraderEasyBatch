@@ -85,6 +85,7 @@ namespace LM_C9Master
         List<ProcessUser> ActiveProcesses = new List<ProcessUser>();
         List<String> serverList = new List<String>();
         bool searchFlag = false;
+        EventWaitHandle waitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
 
         // Main method, loads all forms and settings
         private void frmMainForm_Load(object sender, EventArgs e)
@@ -2106,6 +2107,22 @@ namespace LM_C9Master
                 btnSearch.Enabled = false;
             else
                 btnSearch.Enabled = true;
+        }
+
+        private void btnUserInfo_Click_1(object sender, EventArgs e)
+        {
+            frmUserInfoForm userInfoForm = new frmUserInfoForm();
+            userInfoForm.loadSettings(cmbBoxUsers.Text);
+            userInfoForm.Activate();
+            userInfoForm.BringToFront();
+            userInfoForm.Show();
+            userInfoForm.FormClosed += userInfoClosedEventHandler;
+            btnUserInfo.Enabled = false;
+        }
+
+        private void userInfoClosedEventHandler(object sender, EventArgs e)
+        {
+            btnUserInfo.Enabled = true;
         }
     }
 }

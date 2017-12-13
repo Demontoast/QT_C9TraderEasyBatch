@@ -162,6 +162,7 @@
             this.txtBoxCurrGroupSearch = new System.Windows.Forms.TextBox();
             this.txtBoxCurrFirmSearch = new System.Windows.Forms.TextBox();
             this.fldBrwsDiagLoadBatches = new System.Windows.Forms.FolderBrowserDialog();
+            this.btnUserInfo = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -673,7 +674,7 @@
             // btnRemoveUser
             // 
             this.btnRemoveUser.Enabled = false;
-            this.btnRemoveUser.Location = new System.Drawing.Point(430, 133);
+            this.btnRemoveUser.Location = new System.Drawing.Point(356, 133);
             this.btnRemoveUser.Name = "btnRemoveUser";
             this.btnRemoveUser.Size = new System.Drawing.Size(42, 36);
             this.btnRemoveUser.TabIndex = 10;
@@ -685,7 +686,7 @@
             // btnAddUser
             // 
             this.btnAddUser.Enabled = false;
-            this.btnAddUser.Location = new System.Drawing.Point(357, 133);
+            this.btnAddUser.Location = new System.Drawing.Point(288, 133);
             this.btnAddUser.Name = "btnAddUser";
             this.btnAddUser.Size = new System.Drawing.Size(40, 36);
             this.btnAddUser.TabIndex = 9;
@@ -730,6 +731,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnUserInfo);
             this.groupBox4.Controls.Add(this.btnSaveGroup);
             this.groupBox4.Controls.Add(this.btnDefaultGroup);
             this.groupBox4.Controls.Add(this.btnSaveFirm);
@@ -1463,6 +1465,16 @@
             this.txtBoxCurrFirmSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxCurrFirmSearch.TabIndex = 35;
             // 
+            // btnUserInfo
+            // 
+            this.btnUserInfo.Location = new System.Drawing.Point(416, 127);
+            this.btnUserInfo.Name = "btnUserInfo";
+            this.btnUserInfo.Size = new System.Drawing.Size(137, 48);
+            this.btnUserInfo.TabIndex = 33;
+            this.btnUserInfo.Text = "User Info";
+            this.btnUserInfo.UseVisualStyleBackColor = true;
+            this.btnUserInfo.Click += new System.EventHandler(this.btnUserInfo_Click_1);
+            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -1636,6 +1648,7 @@
         private System.Windows.Forms.TextBox txtBoxLoadBatchFolder;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.FolderBrowserDialog fldBrwsDiagLoadBatches;
+        private System.Windows.Forms.Button btnUserInfo;
     }
 }
 
