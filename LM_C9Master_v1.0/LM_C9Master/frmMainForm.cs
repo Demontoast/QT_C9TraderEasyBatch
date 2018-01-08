@@ -85,11 +85,14 @@ namespace LM_C9Master
         List<ProcessUser> ActiveProcesses = new List<ProcessUser>();
         List<String> serverList = new List<String>();
         bool searchFlag = false;
-        EventWaitHandle waitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
+        String[] traderRoots = new String[2];
+        
 
         // Main method, loads all forms and settings
         private void frmMainForm_Load(object sender, EventArgs e)
         {
+            traderRoots[0] = "";
+            traderRoots[1] = "";
             this.Width = 1200;
             this.Height = 485;
             foreach (Process p in System.Diagnostics.Process.GetProcesses())
@@ -177,6 +180,7 @@ namespace LM_C9Master
                 SW.WriteLine("<AppManager>");
                 String currUser = Environment.UserName.ToString();
                 SW.WriteLine(@"C9TraderRootLocation=C:\Users\" + currUser + @"\AppData\Local\C9Trader");
+                SW.WriteLine(@"C9TraderMSILocation=C:\");
                 SW.WriteLine("</AppManager>");
                 SW.WriteLine("<VersionManager>");
                 SW.WriteLine("VMLocation=");
@@ -193,6 +197,8 @@ namespace LM_C9Master
                 SW.WriteLine("<TranscriptionServer>");
                 SW.WriteLine("TranscriptionServer=");
                 SW.WriteLine("</TranscriptionServer>");
+                SW.WriteLine("<UserInfo>");
+                SW.WriteLine("</UserInfo>");
                 SW.WriteLine("<UserCollection>");
                 SW.WriteLine("</UserCollection>");
                 SW.Close();
@@ -261,8 +267,16 @@ namespace LM_C9Master
                                 if (LineSplit[0] == "C9TraderRootLocation")
                                 {
                                     lblC9TraderRoot.Text = LineSplit[1];
-                                    break;
+                                    traderRoots[0] = LineSplit[1];
                                 }
+                                if (LineSplit[0] == "C9TraderMSILocation")
+                                {
+                                    traderRoots[1] = LineSplit[1];
+                                }
+                                if (MSI_Toggle.Text.Equals("Squirrel") || MSI_Toggle.Text.Equals("Production"))
+                                    lblC9TraderRoot.Text = traderRoots[0];
+                                else
+                                    lblC9TraderRoot.Text = traderRoots[1];
                             }
                             catch
                             {
@@ -780,7 +794,10 @@ namespace LM_C9Master
                 }
                 else if (MSI_Toggle.Text == "MSI")
                 {
-                    startPath = @"C:\Program Files (x86)\Cloud9 Technologies LLC\C9Trader";
+                    if (!traderRoots[1].Equals(null) && !traderRoots[1].Equals(""))
+                        startPath = traderRoots[1];
+                    else
+                        startPath = @"C:\Program Files (x86)\Cloud9 Technologies LLC\C9Trader";
                     lblC9TraderRoot.Text = startPath;
                 }
             }
@@ -842,6 +859,7 @@ namespace LM_C9Master
                 cmbBoxUsers.Text = "";
                 txtBoxSetUsrPassword.Text = "";
                 cmbBoxUsers.SelectedText = tmpAcc.strUserName;
+                MessageBox.Show("User " + tmpAcc.strUserName + ":" + tmpAcc.strPassword + " has been added!");
                 //cmbBoxUsers.SelectedText = tmpAcc.strUserName;
                 //cmbBoxUsers.Text = tmpAcc.strUserName;
                 //txtBoxSetUsrPassword.Text = tmpAcc.strPassword;
@@ -993,6 +1011,19 @@ namespace LM_C9Master
                 MSI_Toggle.Text = "Production";
             else if (MSI_Toggle.Text == "Production")
                 MSI_Toggle.Text = "Squirrel";
+
+            if (MSI_Toggle.Text.Equals("Squirrel") || MSI_Toggle.Text.Equals("Production"))
+            {
+                if (!lblC9TraderRoot.Text.Equals(traderRoots[0]) && !traderRoots[0].Equals(""))
+                    lblC9TraderRoot.Text = traderRoots[0];
+
+            }
+            else if (MSI_Toggle.Text.Equals("MSI"))
+            {
+
+                if (!lblC9TraderRoot.Text.Equals(traderRoots[1]) && !traderRoots[1].Equals(""))
+                    lblC9TraderRoot.Text = traderRoots[1];
+            }
             RefreshVersions();
         }
 
@@ -1179,6 +1210,8 @@ namespace LM_C9Master
         {
             btnTraderRootSave.Enabled = true;
             btnDefaultC9TraderRoot.Enabled = true;
+            
+                
         }
 
         // Action Listener for the vpn target text box, enables the save settings and default vpn buttons
@@ -1276,14 +1309,28 @@ namespace LM_C9Master
                 {
                     foreach (string s in strCurrentSettings)
                     {
-                        if (s.Contains("C9TraderRootLocation="))
+                        if (MSI_Toggle.Text.Equals("Squirrel") || MSI_Toggle.Text.Equals("Production"))
                         {
-                            String append = s;
-                            append = "C9TraderRootLocation=" + lblC9TraderRoot.Text;
-                            SW.WriteLine(append);
+                            if (s.Contains("C9TraderRootLocation="))
+                            {
+                                String append = s;
+                                append = "C9TraderRootLocation=" + lblC9TraderRoot.Text;
+                                SW.WriteLine(append);
+                            }
+                            else
+                                SW.WriteLine(s);
                         }
                         else
-                            SW.WriteLine(s);
+                        {
+                            if (s.Contains("C9TraderMSILocation="))
+                            {
+                                String append = s;
+                                append = "C9TraderMSILocation=" + lblC9TraderRoot.Text;
+                                SW.WriteLine(append);
+                            }
+                            else
+                                SW.WriteLine(s);
+                        }
                     }
                 }
             }
@@ -1593,18 +1640,22 @@ namespace LM_C9Master
         private void btnDeleteShout_Click(object sender, EventArgs e)
         {
             string currUser = Environment.UserName;
+            int count = 0;
             if (Directory.Exists(@"C: \Users\"+currUser+ @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\shoutdowns"))
             {
                 foreach (String s in Directory.GetFiles(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\shoutdowns"))
                 {
                     File.Delete(s);
+                    count++;
                 }
-            }   
+            }
+            MessageBox.Show(count + " files deleted!");
         }
 
         private void btnDeleteRD_Click(object sender, EventArgs e)
         {
             string currUser = Environment.UserName;
+            int count = 0;
             if (Directory.Exists(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\ringdowns"))
             {
                 foreach (String s in Directory.GetFiles(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\ringdowns"))
@@ -1612,6 +1663,7 @@ namespace LM_C9Master
                     File.Delete(s);
                 }
             }
+            MessageBox.Show(count + " files deleted!");
         }
 
         private void btnAudioCodes_Click(object sender, EventArgs e)
@@ -1968,7 +2020,7 @@ namespace LM_C9Master
             }
             if (cmbBoxUsers.Items.Count > 0)
                 cmbBoxUsers.Text = searchResults.ElementAt(0).strUserName;
-            if (cmbBoxUsers.Items.Count!=listChangeChecker)
+            if (cmbBoxUsers.Items.Count != listChangeChecker)
             {
                 cmbBoxUsers.ForeColor = Color.Goldenrod;
                 btnAddUser.Enabled = false;
@@ -1977,6 +2029,16 @@ namespace LM_C9Master
                 searchFlag = true;
                 btnSearch.Enabled = false;
             }
+            else
+            {
+                cmbBoxUsers.ForeColor = Color.Black;
+                btnAddUser.Enabled = true;
+                btnRemoveUser.Enabled = true;
+                btnLoadBatch.Enabled = true;
+                searchFlag = false;
+                btnSearch.Enabled = true;
+            }
+                
                 
         }
 
@@ -2134,6 +2196,7 @@ namespace LM_C9Master
         private void btnFlushC2C_Click(object sender, EventArgs e)
         {
             string currUser = Environment.UserName;
+            int count = 0;
             if (Directory.Exists(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\clicktocalls"))
             {
                 foreach (String s in Directory.GetFiles(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\clicktocalls"))
@@ -2141,6 +2204,7 @@ namespace LM_C9Master
                     File.Delete(s);
                 }
             }
+            MessageBox.Show(count + " files deleted!");
         }
 
         private void chkBoxInC9_CheckedChanged(object sender, EventArgs e)
