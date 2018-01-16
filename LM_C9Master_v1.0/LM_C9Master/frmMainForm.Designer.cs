@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkBoxInC9 = new System.Windows.Forms.CheckBox();
             this.btnVPNClientLaunch = new System.Windows.Forms.Button();
             this.BtnVPNSwitch = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -112,6 +113,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lblServer = new System.Windows.Forms.Label();
             this.Links = new System.Windows.Forms.GroupBox();
+            this.btnFlushC2C = new System.Windows.Forms.Button();
             this.btnAudioCodes = new System.Windows.Forms.Button();
             this.btnDeleteRD = new System.Windows.Forms.Button();
             this.btnDeleteShout = new System.Windows.Forms.Button();
@@ -163,8 +165,6 @@
             this.txtBoxCurrGroupSearch = new System.Windows.Forms.TextBox();
             this.txtBoxCurrFirmSearch = new System.Windows.Forms.TextBox();
             this.fldBrwsDiagLoadBatches = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnFlushC2C = new System.Windows.Forms.Button();
-            this.chkBoxInC9 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -190,6 +190,17 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "VPN Manager";
+            // 
+            // chkBoxInC9
+            // 
+            this.chkBoxInC9.AutoSize = true;
+            this.chkBoxInC9.Location = new System.Drawing.Point(434, 47);
+            this.chkBoxInC9.Name = "chkBoxInC9";
+            this.chkBoxInC9.Size = new System.Drawing.Size(120, 29);
+            this.chkBoxInC9.TabIndex = 3;
+            this.chkBoxInC9.Text = "Inhouse";
+            this.chkBoxInC9.UseVisualStyleBackColor = true;
+            this.chkBoxInC9.CheckedChanged += new System.EventHandler(this.chkBoxInC9_CheckedChanged);
             // 
             // btnVPNClientLaunch
             // 
@@ -1076,8 +1087,18 @@
             this.Links.Size = new System.Drawing.Size(765, 830);
             this.Links.TabIndex = 3;
             this.Links.TabStop = false;
-            this.Links.Text = "Links";
+            this.Links.Text = "Useful Shortcuts";
             this.Links.Enter += new System.EventHandler(this.Links_Enter);
+            // 
+            // btnFlushC2C
+            // 
+            this.btnFlushC2C.Location = new System.Drawing.Point(165, 559);
+            this.btnFlushC2C.Name = "btnFlushC2C";
+            this.btnFlushC2C.Size = new System.Drawing.Size(209, 49);
+            this.btnFlushC2C.TabIndex = 16;
+            this.btnFlushC2C.Text = "Flush C2C";
+            this.btnFlushC2C.UseVisualStyleBackColor = true;
+            this.btnFlushC2C.Click += new System.EventHandler(this.btnFlushC2C_Click);
             // 
             // btnAudioCodes
             // 
@@ -1478,27 +1499,6 @@
             this.txtBoxCurrFirmSearch.Name = "txtBoxCurrFirmSearch";
             this.txtBoxCurrFirmSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxCurrFirmSearch.TabIndex = 35;
-            // 
-            // btnFlushC2C
-            // 
-            this.btnFlushC2C.Location = new System.Drawing.Point(165, 559);
-            this.btnFlushC2C.Name = "btnFlushC2C";
-            this.btnFlushC2C.Size = new System.Drawing.Size(209, 49);
-            this.btnFlushC2C.TabIndex = 16;
-            this.btnFlushC2C.Text = "Flush C2C";
-            this.btnFlushC2C.UseVisualStyleBackColor = true;
-            this.btnFlushC2C.Click += new System.EventHandler(this.btnFlushC2C_Click);
-            // 
-            // chkBoxInC9
-            // 
-            this.chkBoxInC9.AutoSize = true;
-            this.chkBoxInC9.Location = new System.Drawing.Point(434, 47);
-            this.chkBoxInC9.Name = "chkBoxInC9";
-            this.chkBoxInC9.Size = new System.Drawing.Size(120, 29);
-            this.chkBoxInC9.TabIndex = 3;
-            this.chkBoxInC9.Text = "Inhouse";
-            this.chkBoxInC9.UseVisualStyleBackColor = true;
-            this.chkBoxInC9.CheckedChanged += new System.EventHandler(this.chkBoxInC9_CheckedChanged);
             // 
             // frmMainForm
             // 

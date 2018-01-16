@@ -24,7 +24,7 @@ namespace LM_C9Master
         private void frmUserInfoForm_Load(object sender, EventArgs e)
         {
             this.Height = 380;
-            this.Width = 180;
+            this.Width = 260;
             this.FormClosed += userInfoClosedEventHandler;
         }
 
