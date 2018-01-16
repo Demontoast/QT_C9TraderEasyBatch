@@ -921,15 +921,16 @@ namespace LM_C9Master
                 txtBoxServerName.Text = "https://qa1-rest.xhoot.com";
 
             parameters += "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text + " -r " + txtBoxServerName.Text;
+            if (chkBoxMultiApp.Checked == true)
+                parameters += " -a";
+            if (chkBoxNoUpd.Checked == true)
+                parameters += " -x";
             if (!txtBoxTranscriptionServer.Text.Equals("") || !txtBoxTranscriptionServer.Text.Equals(null))
                 parameters += " -t " + txtBoxTranscriptionServer.Text;
             ProcessUser pram = new ProcessUser();
             Process p = new Process();
             pram.userName = cmbBoxUsers.Text;
-            if (chkBoxMultiApp.Checked == true)
-                parameters += " -a";
-            if (chkBoxNoUpd.Checked == true)
-                parameters += " -x";
+            
             //Launches the app using user settings
             try
             {
