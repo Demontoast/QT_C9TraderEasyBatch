@@ -62,7 +62,8 @@
             "600 Buttons",
             "Firmline",
             "Gateway Connections",
-            "Positional Audio"});
+            "Positional Audio",
+            "SFU"});
             this.chkBoxListSettings.Location = new System.Drawing.Point(28, 60);
             this.chkBoxListSettings.Name = "chkBoxListSettings";
             this.chkBoxListSettings.Size = new System.Drawing.Size(370, 446);

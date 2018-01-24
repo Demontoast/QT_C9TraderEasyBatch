@@ -38,6 +38,7 @@ namespace LM_C9Master
             public string strPassword = "";
             public string strFirm = "";
             public string strGroup = "";
+            public string strFeatures = "";
 
             public String getUserName()
             {
@@ -57,6 +58,11 @@ namespace LM_C9Master
             public string getGroup()
             {
                 return strGroup;
+            }
+
+            public string getFeatures()
+            {
+                return strFeatures;
             }
         }
 
@@ -86,11 +92,13 @@ namespace LM_C9Master
         List<String> serverList = new List<String>();
         bool searchFlag = false;
         String[] traderRoots = new String[2];
-        
+        frmUserInfoForm userInfoForm;
+        frmMainForm mainForm;
 
         // Main method, loads all forms and settings
         private void frmMainForm_Load(object sender, EventArgs e)
         {
+            mainForm = this;
             traderRoots[0] = "";
             traderRoots[1] = "";
             this.Width = 1200;
@@ -117,6 +125,7 @@ namespace LM_C9Master
             LoadSettings("TCPVIEW");
             LoadSettings("SQDB");
             LoadSettings("TRSCPSERV");
+            LoadSettings("FEATURES");
 
             btnDefaultC9TraderRoot.Enabled = false;
             btnTraderRootSave.Enabled = false;
@@ -561,6 +570,43 @@ namespace LM_C9Master
                                 MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </TranscriptionServer>");
                                 break;
                             }
+                        }
+                    }
+                    break;
+                case "FEATURES":
+                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                    {
+                        while (!(Line = SR.ReadLine()).Equals("<UserInfo>"))
+                        {
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: <UserInfo> not found!");
+                                break;
+                            }
+                        }
+                        while (!(Line = SR.ReadLine()).Equals("</UserInfo>"))
+                        {
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: </UserInfo> not found, UserInfo is corrupted!");
+                                break;
+                            }
+                            try
+                            {
+                                LineSplit = Line.Split(':');
+
+                                foreach(AppAccount AC in AccountsFromSettings)
+                                {
+                                    if (AC.strUserName.Equals(LineSplit[0]))
+                                    {
+                                        AC.strFeatures = LineSplit[1];
+                                        break;
+                                    }   
+                                }
+                            }
+                            catch
+                            { }
+
                         }
                     }
                     break;
@@ -1978,10 +2024,19 @@ namespace LM_C9Master
             txtBoxCurrUserSearch.Text = txtBoxNewUserSearch.Text;
             txtBoxCurrFirmSearch.Text = txtBoxNewFirmSearch.Text;
             txtBoxCurrGroupSearch.Text = txtBoxNewGroupSearch.Text;
+            txtBoxCurrFeatureSearch.Text = cmbSearchFeature.Text;
+
+            int searchedFeature = -1;
+
+            if (!(cmbSearchFeature.Text.Equals("") && !cmbSearchFeature.Text.Equals(null)))
+            {
+                searchedFeature = cmbSearchFeature.SelectedIndex;
+            }
 
             txtBoxNewUserSearch.Clear();
             txtBoxNewFirmSearch.Clear();
             txtBoxNewGroupSearch.Clear();
+            cmbSearchFeature.Text = "";
 
             txtBoxFirm.Clear();
             txtBoxGroup.Clear();
@@ -2014,6 +2069,17 @@ namespace LM_C9Master
                     if (!AC.strGroup.ToLower().Contains(txtBoxCurrGroupSearch.Text.ToLower()) && searchResults.Contains(AC))
                         searchResults.Remove(AC);
                 }
+                if (!(searchedFeature==-1))
+                {
+                    if (AC.strFeatures.Equals(""))
+                    {
+                        searchResults.Remove(AC);
+                    }
+                    else if (AC.strFeatures[searchedFeature].Equals('0'))
+                    {
+                        searchResults.Remove(AC);
+                    }   
+                }
             }
             foreach (AppAccount AC in searchResults)
             {
@@ -2029,6 +2095,7 @@ namespace LM_C9Master
                 btnLoadBatch.Enabled = false;
                 searchFlag = true;
                 btnSearch.Enabled = false;
+                btnUserInfo.Enabled = false;
             }
             else
             {
@@ -2038,6 +2105,7 @@ namespace LM_C9Master
                 btnLoadBatch.Enabled = true;
                 searchFlag = false;
                 btnSearch.Enabled = true;
+                btnUserInfo.Enabled = true;
             }
                 
                 
@@ -2046,12 +2114,15 @@ namespace LM_C9Master
         private void btnClearSearch_Click(object sender, EventArgs e)
         {
             btnLoadBatch.Enabled = true;
+            btnSearch.Enabled = true;
+            btnUserInfo.Enabled = true;
             txtBoxNewUserSearch.Clear();
             txtBoxNewFirmSearch.Clear();
             txtBoxNewGroupSearch.Clear();
             txtBoxCurrUserSearch.Clear();
             txtBoxCurrFirmSearch.Clear();
             txtBoxCurrGroupSearch.Clear();
+            txtBoxCurrFeatureSearch.Clear();
 
             searchFlag = false;
 
@@ -2180,18 +2251,39 @@ namespace LM_C9Master
 
         private void btnUserInfo_Click_1(object sender, EventArgs e)
         {
-            frmUserInfoForm userInfoForm = new frmUserInfoForm();
-            userInfoForm.loadSettings(cmbBoxUsers.Text);
-            userInfoForm.Activate();
-            userInfoForm.BringToFront();
-            userInfoForm.Show();
-            userInfoForm.FormClosed += userInfoClosedEventHandler;
-            btnUserInfo.Enabled = false;
+            AppAccount AC = null;
+            
+            foreach (AppAccount newAC in AccountsFromSettings)
+            {
+                if (newAC.strUserName.Equals(cmbBoxUsers.Text))
+                {
+                    AC = newAC;
+                    break;
+                }
+            }
+            if (AC==null)
+            {
+                MessageBox.Show("ERROR: USERINFO NOT FOUND FOR " + cmbBoxUsers.Text);
+            }
+            else
+            {
+                userInfoForm = new frmUserInfoForm();
+                userInfoForm.loadSettings(AC.strUserName, AC.strFeatures);
+                userInfoForm.Activate();
+                userInfoForm.BringToFront();
+                userInfoForm.Show();
+                userInfoForm.FormClosed += userInfoClosedEventHandler;
+
+                mainForm.Enabled = false;
+            }
+            
         }
 
         private void userInfoClosedEventHandler(object sender, EventArgs e)
         {
             btnUserInfo.Enabled = true;
+            LoadSettings("FEATURES");
+            mainForm.Enabled = true;
         }
 
         private void btnFlushC2C_Click(object sender, EventArgs e)

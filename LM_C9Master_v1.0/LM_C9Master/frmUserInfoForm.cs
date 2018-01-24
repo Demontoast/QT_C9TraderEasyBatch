@@ -20,6 +20,7 @@ namespace LM_C9Master
 
         List<CheckBox> chkBoxes = new List<CheckBox>();
         String currUser = "";
+        String userFeatures = "";
 
         private void frmUserInfoForm_Load(object sender, EventArgs e)
         {
@@ -28,51 +29,43 @@ namespace LM_C9Master
             this.FormClosed += userInfoClosedEventHandler;
         }
 
-        public void loadSettings(String user)
+        public void loadSettings(String user, String features)
         {
+            chkBoxListSettings.ClearSelected();
             groupBox1.Text = user;
             currUser = user;
-            String Line = "";
-            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            userFeatures = features;
+            for (int i = 0; i < userFeatures.Length; i++)
             {
-                while (!(Line = SR.ReadLine()).Equals("<UserInfo>"))
+                if (userFeatures[i].Equals('1'))
                 {
-                    if (Line.Equals(null))
-                    {
-                        MessageBox.Show("WARNING: <UserInfo> not found!");
-                        break;
-                    }
-                }
-                while (!(Line = SR.ReadLine()).Equals("</UserInfo>"))
-                {
-                    if (Line.Equals(null))
-                    {
-                        MessageBox.Show(user + " does not have any saved user information!");
-                        break;
-                    }
                     try
                     {
-                        String[] LineSplit = Line.Split(':');
-
-                        if (LineSplit[0].Equals(user))
-                        {
-                            for (int i = 0; i < LineSplit[1].Length; i++)
-                            {
-                                if (LineSplit[1][i].Equals('1'))
-                                    chkBoxListSettings.SetItemChecked(i, true);
-                            }
-                        }
+                        chkBoxListSettings.SetItemChecked(i, true);
                     }
                     catch
-                    { }
+                    {
 
+                    }
                 }
+                else
+                {
+                    try
+                    {
+                        chkBoxListSettings.SetItemChecked(i, false);
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                    
             }
         }
 
         private void btnResetChanges_Click(object sender, EventArgs e)
         {
-            loadSettings(currUser);
+            loadSettings(currUser, userFeatures);
         }
 
         public void userInfoClosedEventHandler(object sender, EventArgs e)

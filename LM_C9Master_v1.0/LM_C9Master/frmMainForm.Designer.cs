@@ -165,6 +165,10 @@
             this.txtBoxCurrGroupSearch = new System.Windows.Forms.TextBox();
             this.txtBoxCurrFirmSearch = new System.Windows.Forms.TextBox();
             this.fldBrwsDiagLoadBatches = new System.Windows.Forms.FolderBrowserDialog();
+            this.label15 = new System.Windows.Forms.Label();
+            this.txtBoxCurrFeatureSearch = new System.Windows.Forms.TextBox();
+            this.cmbSearchFeature = new System.Windows.Forms.ComboBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -1346,6 +1350,8 @@
             // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.label16);
+            this.groupBox9.Controls.Add(this.cmbSearchFeature);
             this.groupBox9.Controls.Add(this.btnClearSearch);
             this.groupBox9.Controls.Add(this.btnSearch);
             this.groupBox9.Controls.Add(this.label11);
@@ -1354,16 +1360,16 @@
             this.groupBox9.Controls.Add(this.label13);
             this.groupBox9.Controls.Add(this.txtBoxNewGroupSearch);
             this.groupBox9.Controls.Add(this.txtBoxNewUserSearch);
-            this.groupBox9.Location = new System.Drawing.Point(6, 316);
+            this.groupBox9.Location = new System.Drawing.Point(6, 349);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(286, 495);
+            this.groupBox9.Size = new System.Drawing.Size(286, 462);
             this.groupBox9.TabIndex = 1;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Search For:";
             // 
             // btnClearSearch
             // 
-            this.btnClearSearch.Location = new System.Drawing.Point(44, 382);
+            this.btnClearSearch.Location = new System.Drawing.Point(42, 384);
             this.btnClearSearch.Name = "btnClearSearch";
             this.btnClearSearch.Size = new System.Drawing.Size(181, 69);
             this.btnClearSearch.TabIndex = 46;
@@ -1375,7 +1381,7 @@
             // 
             this.btnSearch.BackColor = System.Drawing.Color.Goldenrod;
             this.btnSearch.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnSearch.Location = new System.Drawing.Point(44, 280);
+            this.btnSearch.Location = new System.Drawing.Point(42, 310);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(183, 69);
             this.btnSearch.TabIndex = 45;
@@ -1386,7 +1392,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(11, 196);
+            this.label11.Location = new System.Drawing.Point(5, 171);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(71, 25);
             this.label11.TabIndex = 44;
@@ -1395,7 +1401,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 36);
+            this.label12.Location = new System.Drawing.Point(6, 30);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(57, 25);
             this.label12.TabIndex = 40;
@@ -1403,7 +1409,7 @@
             // 
             // txtBoxNewFirmSearch
             // 
-            this.txtBoxNewFirmSearch.Location = new System.Drawing.Point(5, 142);
+            this.txtBoxNewFirmSearch.Location = new System.Drawing.Point(5, 127);
             this.txtBoxNewFirmSearch.Name = "txtBoxNewFirmSearch";
             this.txtBoxNewFirmSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxNewFirmSearch.TabIndex = 41;
@@ -1412,7 +1418,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(6, 114);
+            this.label13.Location = new System.Drawing.Point(6, 99);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(54, 25);
             this.label13.TabIndex = 43;
@@ -1420,7 +1426,7 @@
             // 
             // txtBoxNewGroupSearch
             // 
-            this.txtBoxNewGroupSearch.Location = new System.Drawing.Point(10, 224);
+            this.txtBoxNewGroupSearch.Location = new System.Drawing.Point(4, 199);
             this.txtBoxNewGroupSearch.Name = "txtBoxNewGroupSearch";
             this.txtBoxNewGroupSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxNewGroupSearch.TabIndex = 42;
@@ -1428,7 +1434,7 @@
             // 
             // txtBoxNewUserSearch
             // 
-            this.txtBoxNewUserSearch.Location = new System.Drawing.Point(5, 64);
+            this.txtBoxNewUserSearch.Location = new System.Drawing.Point(5, 58);
             this.txtBoxNewUserSearch.Name = "txtBoxNewUserSearch";
             this.txtBoxNewUserSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxNewUserSearch.TabIndex = 39;
@@ -1436,6 +1442,8 @@
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.label15);
+            this.groupBox8.Controls.Add(this.txtBoxCurrFeatureSearch);
             this.groupBox8.Controls.Add(this.label7);
             this.groupBox8.Controls.Add(this.label10);
             this.groupBox8.Controls.Add(this.label9);
@@ -1444,7 +1452,7 @@
             this.groupBox8.Controls.Add(this.txtBoxCurrFirmSearch);
             this.groupBox8.Location = new System.Drawing.Point(6, 31);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(287, 279);
+            this.groupBox8.Size = new System.Drawing.Size(287, 312);
             this.groupBox8.TabIndex = 0;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Current Search:";
@@ -1452,7 +1460,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 199);
+            this.label7.Location = new System.Drawing.Point(11, 173);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(71, 25);
             this.label7.TabIndex = 38;
@@ -1461,7 +1469,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(1, 39);
+            this.label10.Location = new System.Drawing.Point(11, 35);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(57, 25);
             this.label10.TabIndex = 34;
@@ -1470,7 +1478,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(1, 117);
+            this.label9.Location = new System.Drawing.Point(11, 103);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(54, 25);
             this.label9.TabIndex = 37;
@@ -1479,7 +1487,7 @@
             // txtBoxCurrUserSearch
             // 
             this.txtBoxCurrUserSearch.Enabled = false;
-            this.txtBoxCurrUserSearch.Location = new System.Drawing.Point(0, 67);
+            this.txtBoxCurrUserSearch.Location = new System.Drawing.Point(10, 63);
             this.txtBoxCurrUserSearch.Name = "txtBoxCurrUserSearch";
             this.txtBoxCurrUserSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxCurrUserSearch.TabIndex = 33;
@@ -1487,7 +1495,7 @@
             // txtBoxCurrGroupSearch
             // 
             this.txtBoxCurrGroupSearch.Enabled = false;
-            this.txtBoxCurrGroupSearch.Location = new System.Drawing.Point(5, 227);
+            this.txtBoxCurrGroupSearch.Location = new System.Drawing.Point(10, 201);
             this.txtBoxCurrGroupSearch.Name = "txtBoxCurrGroupSearch";
             this.txtBoxCurrGroupSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxCurrGroupSearch.TabIndex = 36;
@@ -1495,10 +1503,59 @@
             // txtBoxCurrFirmSearch
             // 
             this.txtBoxCurrFirmSearch.Enabled = false;
-            this.txtBoxCurrFirmSearch.Location = new System.Drawing.Point(0, 145);
+            this.txtBoxCurrFirmSearch.Location = new System.Drawing.Point(10, 131);
             this.txtBoxCurrFirmSearch.Name = "txtBoxCurrFirmSearch";
             this.txtBoxCurrFirmSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxCurrFirmSearch.TabIndex = 35;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(11, 240);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(86, 25);
+            this.label15.TabIndex = 40;
+            this.label15.Text = "Feature";
+            // 
+            // txtBoxCurrFeatureSearch
+            // 
+            this.txtBoxCurrFeatureSearch.Enabled = false;
+            this.txtBoxCurrFeatureSearch.Location = new System.Drawing.Point(10, 268);
+            this.txtBoxCurrFeatureSearch.Name = "txtBoxCurrFeatureSearch";
+            this.txtBoxCurrFeatureSearch.Size = new System.Drawing.Size(269, 31);
+            this.txtBoxCurrFeatureSearch.TabIndex = 39;
+            // 
+            // cmbSearchFeature
+            // 
+            this.cmbSearchFeature.FormattingEnabled = true;
+            this.cmbSearchFeature.Items.AddRange(new object[] {
+            "Global Mute",
+            "Local Recording",
+            "Cloud Recording",
+            "OPUS Files",
+            "M4A Files",
+            "Recording Warning Tone",
+            "Local Trader Notification",
+            "Click 2 Call",
+            "Transcription",
+            "600 Buttons",
+            "Firmline",
+            "Gateway Connections",
+            "Positional Audio",
+            "SFU"});
+            this.cmbSearchFeature.Location = new System.Drawing.Point(4, 266);
+            this.cmbSearchFeature.Name = "cmbSearchFeature";
+            this.cmbSearchFeature.Size = new System.Drawing.Size(269, 33);
+            this.cmbSearchFeature.TabIndex = 47;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(6, 238);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(86, 25);
+            this.label16.TabIndex = 48;
+            this.label16.Text = "Feature";
             // 
             // frmMainForm
             // 
@@ -1676,6 +1733,10 @@
         private System.Windows.Forms.Button btnUserInfo;
         private System.Windows.Forms.Button btnFlushC2C;
         private System.Windows.Forms.CheckBox chkBoxInC9;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox txtBoxCurrFeatureSearch;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.ComboBox cmbSearchFeature;
     }
 }
 
