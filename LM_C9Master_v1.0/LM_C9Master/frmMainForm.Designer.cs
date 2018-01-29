@@ -149,6 +149,8 @@
             this.splunkTT = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.cmbSearchFeature = new System.Windows.Forms.ComboBox();
             this.btnClearSearch = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
@@ -158,6 +160,8 @@
             this.txtBoxNewGroupSearch = new System.Windows.Forms.TextBox();
             this.txtBoxNewUserSearch = new System.Windows.Forms.TextBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.txtBoxCurrFeatureSearch = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -165,10 +169,6 @@
             this.txtBoxCurrGroupSearch = new System.Windows.Forms.TextBox();
             this.txtBoxCurrFirmSearch = new System.Windows.Forms.TextBox();
             this.fldBrwsDiagLoadBatches = new System.Windows.Forms.FolderBrowserDialog();
-            this.label15 = new System.Windows.Forms.Label();
-            this.txtBoxCurrFeatureSearch = new System.Windows.Forms.TextBox();
-            this.cmbSearchFeature = new System.Windows.Forms.ComboBox();
-            this.label16 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -1367,6 +1367,38 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Search For:";
             // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(6, 238);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(86, 25);
+            this.label16.TabIndex = 48;
+            this.label16.Text = "Feature";
+            // 
+            // cmbSearchFeature
+            // 
+            this.cmbSearchFeature.FormattingEnabled = true;
+            this.cmbSearchFeature.Items.AddRange(new object[] {
+            "Global Mute",
+            "Local Recording",
+            "Cloud Recording",
+            "OPUS Files",
+            "M4A Files",
+            "Recording Warning Tone",
+            "Local Trader Notification",
+            "Click 2 Call",
+            "Transcription",
+            "600 Buttons",
+            "Firmline",
+            "Gateway Connections",
+            "Positional Audio",
+            "SFU"});
+            this.cmbSearchFeature.Location = new System.Drawing.Point(4, 266);
+            this.cmbSearchFeature.Name = "cmbSearchFeature";
+            this.cmbSearchFeature.Size = new System.Drawing.Size(269, 33);
+            this.cmbSearchFeature.TabIndex = 47;
+            // 
             // btnClearSearch
             // 
             this.btnClearSearch.Location = new System.Drawing.Point(42, 384);
@@ -1457,6 +1489,23 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Current Search:";
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(11, 240);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(86, 25);
+            this.label15.TabIndex = 40;
+            this.label15.Text = "Feature";
+            // 
+            // txtBoxCurrFeatureSearch
+            // 
+            this.txtBoxCurrFeatureSearch.Enabled = false;
+            this.txtBoxCurrFeatureSearch.Location = new System.Drawing.Point(10, 268);
+            this.txtBoxCurrFeatureSearch.Name = "txtBoxCurrFeatureSearch";
+            this.txtBoxCurrFeatureSearch.Size = new System.Drawing.Size(269, 31);
+            this.txtBoxCurrFeatureSearch.TabIndex = 39;
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -1508,55 +1557,6 @@
             this.txtBoxCurrFirmSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxCurrFirmSearch.TabIndex = 35;
             // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(11, 240);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(86, 25);
-            this.label15.TabIndex = 40;
-            this.label15.Text = "Feature";
-            // 
-            // txtBoxCurrFeatureSearch
-            // 
-            this.txtBoxCurrFeatureSearch.Enabled = false;
-            this.txtBoxCurrFeatureSearch.Location = new System.Drawing.Point(10, 268);
-            this.txtBoxCurrFeatureSearch.Name = "txtBoxCurrFeatureSearch";
-            this.txtBoxCurrFeatureSearch.Size = new System.Drawing.Size(269, 31);
-            this.txtBoxCurrFeatureSearch.TabIndex = 39;
-            // 
-            // cmbSearchFeature
-            // 
-            this.cmbSearchFeature.FormattingEnabled = true;
-            this.cmbSearchFeature.Items.AddRange(new object[] {
-            "Global Mute",
-            "Local Recording",
-            "Cloud Recording",
-            "OPUS Files",
-            "M4A Files",
-            "Recording Warning Tone",
-            "Local Trader Notification",
-            "Click 2 Call",
-            "Transcription",
-            "600 Buttons",
-            "Firmline",
-            "Gateway Connections",
-            "Positional Audio",
-            "SFU"});
-            this.cmbSearchFeature.Location = new System.Drawing.Point(4, 266);
-            this.cmbSearchFeature.Name = "cmbSearchFeature";
-            this.cmbSearchFeature.Size = new System.Drawing.Size(269, 33);
-            this.cmbSearchFeature.TabIndex = 47;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(6, 238);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(86, 25);
-            this.label16.TabIndex = 48;
-            this.label16.Text = "Feature";
-            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -1571,7 +1571,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "frmMainForm";
-            this.Text = "LM_C9Master_Alpha_1.9";
+            this.Text = "LM_C9Master_BETA_2.0";
             this.Load += new System.EventHandler(this.frmMainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

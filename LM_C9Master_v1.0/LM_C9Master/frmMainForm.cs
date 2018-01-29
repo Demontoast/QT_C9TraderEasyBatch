@@ -94,15 +94,22 @@ namespace LM_C9Master
         String[] traderRoots = new String[2];
         frmUserInfoForm userInfoForm;
         frmMainForm mainForm;
+        generateNewSettingsFilePrompt newFilePrompt;
+        String currVersion;
 
         // Main method, loads all forms and settings
         private void frmMainForm_Load(object sender, EventArgs e)
         {
             mainForm = this;
+
             traderRoots[0] = "";
             traderRoots[1] = "";
+            currVersion = mainForm.Text;
+
             this.Width = 1200;
             this.Height = 485;
+            this.SetDesktopLocation(43, 75);
+
             foreach (Process p in System.Diagnostics.Process.GetProcesses())
             {
                 if (p.ProcessName.Contains("C9Shell"))
@@ -112,9 +119,6 @@ namespace LM_C9Master
                     ActiveProcesses.Add(x);
                 }
             }
-
-            if (!File.Exists("LM_C9MSettings.set"))
-                generateSettings();
 
             LoadSettings("VPNCLIENT");
             LoadSettings("C9TRADERROOT");
@@ -175,43 +179,7 @@ namespace LM_C9Master
             RefreshVersions();
             ///
 
-
-        }
-
-        // Function generates a new settings file from scratch
-        public void generateSettings()
-        {
-            using (StreamWriter SW = File.CreateText("LM_C9MSettings.set"))
-            {
-                SW.WriteLine("<VPNClient>");
-                SW.WriteLine(@"VPNClientLocation=C:\Program Files (x86)\Cisco\Cisco AnyConnect Secure Mobility Client\vpnui.exe");
-                SW.WriteLine("</VPNClient>");
-                SW.WriteLine("<AppManager>");
-                String currUser = Environment.UserName.ToString();
-                SW.WriteLine(@"C9TraderRootLocation=C:\Users\" + currUser + @"\AppData\Local\C9Trader");
-                SW.WriteLine(@"C9TraderMSILocation=C:\");
-                SW.WriteLine("</AppManager>");
-                SW.WriteLine("<VersionManager>");
-                SW.WriteLine("VMLocation=");
-                SW.WriteLine("</VersionManager>");
-                SW.WriteLine("<SQDBLite>");
-                SW.WriteLine("SQDBLiteLocation=");
-                SW.WriteLine("</SQDBLite>");
-                SW.WriteLine("<TCPView>");
-                SW.WriteLine("TCPViewLocation=");
-                SW.WriteLine("</TCPView>");
-                SW.WriteLine("<DesignatedServer>");
-                SW.WriteLine("Server=https://qa1-rest.xhoot.com");
-                SW.WriteLine("</DesignatedServer>");
-                SW.WriteLine("<TranscriptionServer>");
-                SW.WriteLine("TranscriptionServer=");
-                SW.WriteLine("</TranscriptionServer>");
-                SW.WriteLine("<UserInfo>");
-                SW.WriteLine("</UserInfo>");
-                SW.WriteLine("<UserCollection>");
-                SW.WriteLine("</UserCollection>");
-                SW.Close();
-            }
+                
         }
 
         // Loads all settings from the LM_C9Settings.set file
@@ -389,15 +357,18 @@ namespace LM_C9Master
                     txtBoxVMPath.Clear();
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
-                        while ((Line = SR.ReadLine()) != "<VersionManager>")
+                        Line = SR.ReadLine();
+                        while (Line!="<VersionManager>" && Line!="<Accessories>")
                         {
-                            if (Line.Equals(null))
+
+                            if (Line==(null))
                             {
-                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <VersionManager>");
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <VersionManager> OR <Accessories>");
                                 break;
                             }
+                            Line = SR.ReadLine();
                         }
-                        while ((Line = SR.ReadLine()) != "</VersionManager>")
+                        while (Line != "</VersionManager>" && Line != "</Accessories>")
                         {
                             try
                             {
@@ -412,11 +383,12 @@ namespace LM_C9Master
                             {
 
                             }
-                            if (Line.Equals(null))
+                            if (Line==(null))
                             {
-                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </VersionManager>");
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </VersionManager> OR </Accessories>");
                                 break;
                             }
+                            Line = SR.ReadLine();
                         }
                     }
                     
@@ -426,15 +398,16 @@ namespace LM_C9Master
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
                         Line = SR.ReadLine();
-                        while ((Line = SR.ReadLine()) != "<TCPView>")
+                        while (Line != "<TCPView>" && Line!= "<Accessories>")
                         {
-                            if (Line.Equals(null))
+                            if (Line == null)
                             {
                                 MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <TCPView>");
                                 break;
                             }
+                            Line = SR.ReadLine();
                         }
-                        while ((Line = SR.ReadLine())!= "</TCPView>")
+                        while (Line != "</TCPView>" && Line != "</Accessories>")
                         {
                             try
                             {
@@ -454,6 +427,7 @@ namespace LM_C9Master
                                 MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </TCPView>");
                                 break;
                             }
+                            Line = SR.ReadLine();
                         }
                     }
                     break;
@@ -507,15 +481,17 @@ namespace LM_C9Master
                     txtBoxSQDBLite.Clear();
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
-                        while ((Line = SR.ReadLine()) != "<SQDBLite>")
+                        Line = SR.ReadLine();
+                        while (Line != "<SQDBLite>" && Line != "<Accessories>")
                         {
-                            if (Line.Equals(null))
+                            if (Line==(null))
                             {
                                 MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <SQDBLite>");
                                 break;
                             }
+                            Line = SR.ReadLine();
                         }
-                        while ((Line = SR.ReadLine()) != "</SQDBLite>")
+                        while (Line != "</SQDBLite>" && Line != "</Accessories>")
                         {
                             try
                             {
@@ -535,6 +511,7 @@ namespace LM_C9Master
                                 MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </SQDBLite>");
                                 break;
                             }
+                            Line = SR.ReadLine();
                         }
                     }
                     break;

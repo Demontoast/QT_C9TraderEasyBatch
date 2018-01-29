@@ -95,6 +95,7 @@ namespace LM_C9Master
                                     else
                                         SW.Write("0");
                                 }
+                                SW.WriteLine("");
                                 success = true;
                             }
                             else
@@ -113,8 +114,8 @@ namespace LM_C9Master
                             else
                                 SW.Write("0");
                         }
+                        SW.WriteLine();
                     }
-                    SW.WriteLine("");
                     SW.WriteLine("</UserInfo>");
                     while ((Line = SR.ReadLine()) != null)
                         SW.WriteLine(Line);

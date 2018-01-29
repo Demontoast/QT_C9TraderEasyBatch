@@ -16,7 +16,10 @@ namespace LM_C9Master
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMainForm());
+            frmMainForm mainForm = new frmMainForm();
+            generateNewSettingsFilePrompt filePrompt = new generateNewSettingsFilePrompt();
+            Application.Run(filePrompt);
+            Application.Run(mainForm);
         }
     }
 }
