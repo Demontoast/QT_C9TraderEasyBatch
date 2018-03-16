@@ -2168,7 +2168,7 @@ namespace LM_C9Master
                             {
 
                             }
-                            if (!tempAcc.strUserName.Equals("") && !tempAcc.strUserName.Equals(null))
+                            if (!tempAcc.strUserName.Equals("") && !tempAcc.strUserName.Equals(null) && !newAccs.Contains(tempAcc))
                             {
                                 newAccs.Add(tempAcc);
                             }
