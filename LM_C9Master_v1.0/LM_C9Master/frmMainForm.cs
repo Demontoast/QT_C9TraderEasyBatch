@@ -1600,7 +1600,7 @@ namespace LM_C9Master
         private void btnAnalyticsUploads_Click(object sender, EventArgs e)
         {
             String currUser = Environment.UserName;
-            Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics");
+            Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads");
         }
 
         private void btnPortalGateway_Click(object sender, EventArgs e)
@@ -1685,6 +1685,7 @@ namespace LM_C9Master
                 foreach (String s in Directory.GetFiles(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\ringdowns"))
                 {
                     File.Delete(s);
+                    count++;
                 }
             }
             MessageBox.Show(count + " files deleted!");
@@ -2272,6 +2273,7 @@ namespace LM_C9Master
                 foreach (String s in Directory.GetFiles(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\clicktocalls"))
                 {
                     File.Delete(s);
+                    count++;
                 }
             }
             MessageBox.Show(count + " files deleted!");
@@ -2293,6 +2295,12 @@ namespace LM_C9Master
                 btnCloseAppSelUser.Enabled = false;
                 btnVersionManager.Enabled = false;
             }
+        }
+
+        private void btnARs_Click(object sender, EventArgs e)
+        {
+            String currUser = Environment.UserName;
+            Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\C9Trader\calls");
         }
     }
 }

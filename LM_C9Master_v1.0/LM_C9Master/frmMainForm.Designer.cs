@@ -169,6 +169,7 @@
             this.txtBoxCurrGroupSearch = new System.Windows.Forms.TextBox();
             this.txtBoxCurrFirmSearch = new System.Windows.Forms.TextBox();
             this.fldBrwsDiagLoadBatches = new System.Windows.Forms.FolderBrowserDialog();
+            this.btnARs = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -1069,6 +1070,7 @@
             // 
             // Links
             // 
+            this.Links.Controls.Add(this.btnARs);
             this.Links.Controls.Add(this.btnFlushC2C);
             this.Links.Controls.Add(this.btnAudioCodes);
             this.Links.Controls.Add(this.btnDeleteRD);
@@ -1557,6 +1559,16 @@
             this.txtBoxCurrFirmSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxCurrFirmSearch.TabIndex = 35;
             // 
+            // btnARs
+            // 
+            this.btnARs.Location = new System.Drawing.Point(165, 614);
+            this.btnARs.Name = "btnARs";
+            this.btnARs.Size = new System.Drawing.Size(209, 50);
+            this.btnARs.TabIndex = 17;
+            this.btnARs.Text = "Activity Records";
+            this.btnARs.UseVisualStyleBackColor = true;
+            this.btnARs.Click += new System.EventHandler(this.btnARs_Click);
+            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -1737,6 +1749,7 @@
         private System.Windows.Forms.TextBox txtBoxCurrFeatureSearch;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ComboBox cmbSearchFeature;
+        private System.Windows.Forms.Button btnARs;
     }
 }
 
