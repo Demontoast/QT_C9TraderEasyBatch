@@ -12,6 +12,9 @@ using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading;
 using System.Media;
+using System.Runtime.InteropServices;
+using System.Net;
+using Microsoft.VisualBasic;
 
 //need to review the whole account retreival/saving system, the accounts get overwritten when saved.
 
@@ -19,7 +22,7 @@ namespace LM_C9Master
 {
     public partial class frmMainForm : Form
     {
-        
+
         // Initialization
         public frmMainForm()
         {
@@ -31,8 +34,36 @@ namespace LM_C9Master
         // @strPassword: String containing a user's password
         public class AppAccount
         {
-           public string strUserName{get;set;}
-           public string strPassword{get;set;}
+            public string strUserName = "";
+            public string strPassword = "";
+            public string strFirm = "";
+            public string strGroup = "";
+            public string strFeatures = "";
+
+            public String getUserName()
+            {
+                return strUserName;
+            }
+
+            public string getPassword()
+            {
+                return strPassword;
+            }
+
+            public string getFirm()
+            {
+                return strFirm;
+            }
+
+            public string getGroup()
+            {
+                return strGroup;
+            }
+
+            public string getFeatures()
+            {
+                return strFeatures;
+            }
         }
 
         // ProcessUser is a tuple of username and the process associated with it
@@ -41,99 +72,199 @@ namespace LM_C9Master
         public class ProcessUser
         {
             public Process userProcess { get; set; }
-            public String userName { get; set; }
+            public String userName = "";
+
+            public String getUserName()
+            {
+                return userName;
+            }
+
+            public Process getUserProcess()
+            {
+                return userProcess;
+            }
+
         }
 
         // Data lists containing app accounts and active processes used in the executable
         List<AppAccount> AccountsFromSettings = new List<AppAccount>();
         List<ProcessUser> ActiveProcesses = new List<ProcessUser>();
+        List<String> serverList = new List<String>();
+        bool searchFlag = false;
+        String[] traderRoots = new String[2];
+        frmUserInfoForm userInfoForm;
+        frmMainForm mainForm;
+        generateNewSettingsFilePrompt newFilePrompt;
+        String currVersion;
 
         // Main method, loads all forms and settings
         private void frmMainForm_Load(object sender, EventArgs e)
         {
-            this.Width = 1073;
-            this.Height = 345;
+            mainForm = this;
+
+            traderRoots[0] = "";
+            traderRoots[1] = "";
+            currVersion = mainForm.Text;
+
+            this.Width = 1200;
+            this.Height = 485;
+            this.SetDesktopLocation(43, 75);
+
             foreach (Process p in System.Diagnostics.Process.GetProcesses())
             {
-                if (p.ProcessName.Equals("C9Shell.exe"))
+                if (p.ProcessName.Contains("C9Shell"))
                 {
                     ProcessUser x = new ProcessUser();
                     x.userProcess = p;
-
                     ActiveProcesses.Add(x);
                 }
             }
-                
+
             LoadSettings("VPNCLIENT");
             LoadSettings("C9TRADERROOT");
-            
+            LoadSettings("SERVER");
+
             LoadSettings("APPACCOUNTS");
+            LoadSettings("VERSIONMANAGER");
+            LoadSettings("TCPVIEW");
+            LoadSettings("SQDB");
+            LoadSettings("TRSCPSERV");
+            LoadSettings("FEATURES");
+
+            btnDefaultC9TraderRoot.Enabled = false;
+            btnTraderRootSave.Enabled = false;
+            btnDefaultVPN.Enabled = false;
+            btnVPNSaveSettings.Enabled = false;
+            btnSaveTCPView.Enabled = false;
+            btnDefaultTCPView.Enabled = false;
+            btnDefaultVM.Enabled = false;
+            btnSaveVM.Enabled = false;
+            btnDefaultSQDBLite.Enabled = false;
+            btnSavePathSQDBLite.Enabled = false;
+            btnDefaultTrscpServ.Enabled = false;
+            btnSaveTrscpServ.Enabled = false;
+            btnSaveFirm.Enabled = false;
+            btnDefaultFirm.Enabled = false;
+            btnSaveGroup.Enabled = false;
+            btnDefaultGroup.Enabled = false;
 
             //VPN Manager Startup Setup
 
             ServiceController svcAcumbrella = new ServiceController("acumbrellaagent");
             ServiceController svcVPNAgent = new ServiceController("vpnagent");
-            if(svcAcumbrella.Status==ServiceControllerStatus.Stopped&&svcVPNAgent.Status==ServiceControllerStatus.Stopped)
+            if (svcAcumbrella.Status == ServiceControllerStatus.Stopped || svcVPNAgent.Status == ServiceControllerStatus.Stopped)
             {
                 BtnVPNSwitch.Text = "OFF";
                 BtnVPNSwitch.BackColor = Color.LightCoral;
                 BtnVPNSwitch.ForeColor = Color.DarkRed;
-                //btnOpenSharedFolder.Enabled = false;
                 btnVPNClientLaunch.Enabled = false;
+                BtnLaunchApp.Enabled = false;
+                btnCloseApp.Enabled = false;
+                btnCloseAppSelUser.Enabled = false;
+                btnVersionManager.Enabled = false;
             }
-            else if(svcAcumbrella.Status == ServiceControllerStatus.Running && svcVPNAgent.Status == ServiceControllerStatus.Running)
+            else if (svcAcumbrella.Status == ServiceControllerStatus.Running && svcVPNAgent.Status == ServiceControllerStatus.Running)
             {
                 BtnVPNSwitch.Text = "ON";
                 BtnVPNSwitch.BackColor = Color.LightGreen;
                 BtnVPNSwitch.ForeColor = Color.DarkGreen;
                 btnVPNClientLaunch.Enabled = true;
+                BtnLaunchApp.Enabled = true;
+                btnCloseApp.Enabled = true;
+                btnCloseAppSelUser.Enabled = true;
+                btnVersionManager.Enabled = true;
             }
             ///
             //App Manager Startup Setup
             RefreshVersions();
             ///
-            
-         
+
+                
         }
 
         // Loads all settings from the LM_C9Settings.set file
         // @string strWhat2Load: denotes the specific section of the .set file to read to load
         public void LoadSettings(string strWhat2Load)
         {
-            string[] LineSplit=null;
-            string Line=null;
-
-            switch(strWhat2Load)
+            string[] LineSplit= null;
+            string Line = "";
+            switch (strWhat2Load)
             {
-                
+
                 case "VPNCLIENT":
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
-                        Line = SR.ReadLine();
-                        while(Line!="</VPNManager>")
+                        while ((Line = SR.ReadLine()) != "<VPNClient>")
                         {
-                            LineSplit = Line.Split('=');
-                            if(LineSplit[0]== "VPNClientLocation")
+                            if (Line.Equals(null))
                             {
-                                lblVPNClientTarget.Text = LineSplit[1];
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <VPNClient>");
                                 break;
                             }
-                            Line = SR.ReadLine();
+                        }
+                        while ((Line = SR.ReadLine())!= "</VPNClient>")
+                        {
+                            try
+                            {
+                                LineSplit = Line.Split('=');
+                                if (LineSplit[0] == "VPNClientLocation")
+                                {
+                                    lblVPNClientTarget.Text = LineSplit[1];
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </VPNClient>");
+                                break;
+                            }
                         }
                     }
                     break;
                 case "C9TRADERROOT":
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
-                        Line = SR.ReadLine();
-                        while (Line != "</AppManager>")
+                        while ((Line = SR.ReadLine()) != "<AppManager>")
                         {
-                            LineSplit = Line.Split('=');
-                            if (LineSplit[0] == "C9TraderRootLocation")
+                            if (Line.Equals(null))
                             {
-                                lblC9TraderRoot.Text = LineSplit[1];
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <AppManager>");
+                                break;
                             }
-                            Line = SR.ReadLine();
+                        }
+                        while ((Line = SR.ReadLine()) != "</AppManager>")
+                        {
+                            try
+                            {
+                                LineSplit = Line.Split('=');
+                                if (LineSplit[0] == "C9TraderRootLocation")
+                                {
+                                    lblC9TraderRoot.Text = LineSplit[1];
+                                    traderRoots[0] = LineSplit[1];
+                                }
+                                if (LineSplit[0] == "C9TraderMSILocation")
+                                {
+                                    traderRoots[1] = LineSplit[1];
+                                }
+                                if (MSI_Toggle.Text.Equals("Squirrel") || MSI_Toggle.Text.Equals("Production"))
+                                    lblC9TraderRoot.Text = traderRoots[0];
+                                else
+                                    lblC9TraderRoot.Text = traderRoots[1];
+                            }
+                            catch
+                            {
+
+                            }
+                            
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </AppManager>");
+                                break;
+                            }
                         }
                     }
                     break;
@@ -143,20 +274,63 @@ namespace LM_C9Master
                     AccountsFromSettings.Clear();
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
-                        while ((Line = SR.ReadLine()) != "<UserCollection>") ;
-                        if((Line = SR.ReadLine())!="</UserCollection>")
+                        while ((Line = SR.ReadLine()) != "<UserCollection>")
                         {
-                            while (Line!= "</UserCollection>")
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <UserCollection>");
+                                break;
+                            }
+                        }
+                        if ((Line = SR.ReadLine()) != "</UserCollection>")
+                        {
+                            while (Line != "</UserCollection>")
                             {
                                 AppAccount TmpAccount = new AppAccount();
                                 LineSplit = Line.Split(':');
-                                TmpAccount.strUserName = LineSplit[0];
-                                TmpAccount.strPassword = LineSplit[1];
-                                AccountsFromSettings.Add(TmpAccount);
+                                try
+                                {
+                                    TmpAccount.strUserName = LineSplit[0];
+                                    try
+                                    {
+                                        TmpAccount.strPassword = LineSplit[1];
+                                    }
+                                    catch
+                                    {
 
+                                    }
+                                }
+                                catch
+                                {
+
+                                }
+                                
+                                try
+                                {
+                                    TmpAccount.strFirm = LineSplit[2];
+                                    try
+                                    {
+                                        TmpAccount.strGroup = LineSplit[3];
+                                    }
+                                    catch
+                                    {
+                                    }
+                                }
+                                catch
+                                { }
+                                
+                                if(TmpAccount!=null)
+                                    AccountsFromSettings.Add(TmpAccount);
+
+                                if (Line.Equals(null))
+                                {
+                                    MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </UserCollection>");
+                                    break;
+                                }
                                 Line = SR.ReadLine();
+                                
                             }
-                            
+
 
                         }
                         else
@@ -173,9 +347,244 @@ namespace LM_C9Master
                         }
 
                         cmbBoxUsers.SelectedIndex = 0;
-                        AutoSetPWD(cmbBoxUsers.Text); //works
-                        btnAddUser.Enabled = false;
-                        btnRemoveUser.Enabled = false;
+                        AutoSetAccSettings(cmbBoxUsers.Text); //works
+                        //btnAddUser.Enabled = false;
+                        //btnRemoveUser.Enabled = false;
+                    }
+                    
+                    break;
+                case "VERSIONMANAGER":
+                    txtBoxVMPath.Clear();
+                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                    {
+                        Line = SR.ReadLine();
+                        while (Line!="<VersionManager>" && Line!="<Accessories>")
+                        {
+
+                            if (Line==(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <VersionManager> OR <Accessories>");
+                                break;
+                            }
+                            Line = SR.ReadLine();
+                        }
+                        while (Line != "</VersionManager>" && Line != "</Accessories>")
+                        {
+                            try
+                            {
+                                LineSplit = Line.Split('=');
+                                if (LineSplit[0] == "VMLocation")
+                                {
+                                    txtBoxVMPath.Text = LineSplit[1];
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            if (Line==(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </VersionManager> OR </Accessories>");
+                                break;
+                            }
+                            Line = SR.ReadLine();
+                        }
+                    }
+                    
+                    break;
+                case "TCPVIEW":
+                    txtBoxTCPViewPath.Clear();
+                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                    {
+                        Line = SR.ReadLine();
+                        while (Line != "<TCPView>" && Line!= "<Accessories>")
+                        {
+                            if (Line == null)
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <TCPView>");
+                                break;
+                            }
+                            Line = SR.ReadLine();
+                        }
+                        while (Line != "</TCPView>" && Line != "</Accessories>")
+                        {
+                            try
+                            {
+                                LineSplit = Line.Split('=');
+                                if (LineSplit[0] == "TCPViewLocation")
+                                {
+                                    txtBoxTCPViewPath.Text = LineSplit[1];
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </TCPView>");
+                                break;
+                            }
+                            Line = SR.ReadLine();
+                        }
+                    }
+                    break;
+                case "SERVER":
+                    txtBoxServerName.Items.Clear();
+                    serverList.Clear();
+                    String defServ = "";
+                    bool flag = false;
+                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                    {
+                        while ((Line = SR.ReadLine()) != "<DesignatedServer>")
+                        {
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <DesignatedServer>");
+                                break;
+                            }
+                        }
+                        while ((Line = SR.ReadLine()) != "</DesignatedServer>")
+                        {
+                                if (Line.Contains("Server="))
+                                {
+                                    defServ = Line.Remove(0, 7);
+                                    if (!serverList.Contains(defServ))
+                                        serverList.Add(defServ);
+                                    flag = true;
+                                    continue;
+                                }
+                                serverList.Add(Line);
+                                flag = true;
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </DesignatedServer>");
+                                break;
+                            }
+                        }
+                        
+                        if (!flag)
+                        {
+                            defServ = "NoDefaultServer";
+                            serverList.Add("NoDefaultServer");
+                        }
+                        foreach (String s in serverList)
+                        {
+                            txtBoxServerName.Items.Add(s);
+                        }
+                    }
+                    txtBoxServerName.SelectedItem = defServ;
+                    break;
+                case "SQDB":
+                    txtBoxSQDBLite.Clear();
+                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                    {
+                        Line = SR.ReadLine();
+                        while (Line != "<SQDBLite>" && Line != "<Accessories>")
+                        {
+                            if (Line==(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <SQDBLite>");
+                                break;
+                            }
+                            Line = SR.ReadLine();
+                        }
+                        while (Line != "</SQDBLite>" && Line != "</Accessories>")
+                        {
+                            try
+                            {
+                                LineSplit = Line.Split('=');
+                                if (LineSplit[0] == "SQDBLiteLocation")
+                                {
+                                    txtBoxSQDBLite.Text = LineSplit[1];
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </SQDBLite>");
+                                break;
+                            }
+                            Line = SR.ReadLine();
+                        }
+                    }
+                    break;
+                case "TRSCPSERV":
+                    txtBoxTranscriptionServer.Clear();
+                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                    {
+                        while ((Line = SR.ReadLine()) != "<TranscriptionServer>")
+                        {
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <TranscriptionServer>");
+                                break;
+                            }
+                        }
+                        while ((Line= SR.ReadLine()) != "</TranscriptionServer>")
+                        {
+                            try
+                            {
+                                LineSplit = Line.Split('=');
+                                if (LineSplit[0] == "TranscriptionServer")
+                                {
+                                    txtBoxTranscriptionServer.Text = LineSplit[1];
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </TranscriptionServer>");
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case "FEATURES":
+                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                    {
+                        while (!(Line = SR.ReadLine()).Equals("<UserInfo>"))
+                        {
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: <UserInfo> not found!");
+                                break;
+                            }
+                        }
+                        while (!(Line = SR.ReadLine()).Equals("</UserInfo>"))
+                        {
+                            if (Line.Equals(null))
+                            {
+                                MessageBox.Show("WARNING: </UserInfo> not found, UserInfo is corrupted!");
+                                break;
+                            }
+                            try
+                            {
+                                LineSplit = Line.Split(':');
+
+                                foreach(AppAccount AC in AccountsFromSettings)
+                                {
+                                    if (AC.strUserName.Equals(LineSplit[0]))
+                                    {
+                                        AC.strFeatures = LineSplit[1];
+                                        break;
+                                    }   
+                                }
+                            }
+                            catch
+                            { }
+
+                        }
                     }
                     break;
             }
@@ -183,13 +592,15 @@ namespace LM_C9Master
 
         // Sets the password text box to the password known to be associated with an account
         // @string usrname: Parameter denoting which user's password to be supplied
-        public void AutoSetPWD(string usrname)
+        public void AutoSetAccSettings(string usrname)
         {
             foreach (AppAccount AC in AccountsFromSettings)
             {
-                if(AC.strUserName==usrname)
+                if (AC.strUserName == usrname)
                 {
                     txtBoxSetUsrPassword.Text = AC.strPassword;
+                    txtBoxFirm.Text = AC.strFirm;
+                    txtBoxGroup.Text = AC.strGroup;
                 }
             }
         }
@@ -199,34 +610,17 @@ namespace LM_C9Master
         {
             DialogResult VPNSelectorResult = new DialogResult();
             VPNSelectorResult = opnFDVPNClientSelector.ShowDialog();
-            if(VPNSelectorResult==DialogResult.OK)
+            if (VPNSelectorResult == DialogResult.OK)
             {
                 string strResultChangeCheck = opnFDVPNClientSelector.FileName;
-                if(strResultChangeCheck!=lblVPNClientTarget.Text)
+                if (strResultChangeCheck != lblVPNClientTarget.Text)
                 {
                     lblVPNClientTarget.Text = strResultChangeCheck;
-                    btnDefaultVPNClient.Enabled = true;
-                    btnSaveSettings.Enabled = true;
+                    btnDefaultVPN.Enabled = true;
+                    btnVPNSaveSettings.Enabled = true;
                 }
-                
+
             }
-        }
-
-        // @Leo Same with this one
-        private void btnDefaultVPNClient_Click(object sender, EventArgs e)
-        {
-            LoadSettings("VPNCLIENT");
-            btnDefaultVPNClient.Enabled = false;
-            //IF ALL OTHER DEFAULT BUTTONS ARE DISABLED, SAVE BUTTON SHOULD ALSO BE DISABLED
-            DefaultButtonsCheck();
-        }
-
-        // @Leo Not entirely sure what this method does
-        public void DefaultButtonsCheck()
-        {
-            btnSaveSettings.Enabled = false;
-            if (btnDefaultVPNClient.Enabled || btnDefaultC9TraderRoot.Enabled)
-                btnSaveSettings.Enabled = true;
         }
 
         // Action Listener for the Change button used to change the C9 Trader root directory
@@ -242,7 +636,7 @@ namespace LM_C9Master
                     lblC9TraderRoot.Clear();
                     lblC9TraderRoot.Text = strResultChangeCheck;
                     btnDefaultC9TraderRoot.Enabled = true;
-                    btnSaveSettings.Enabled = true;
+                    btnTraderRootSave.Enabled = true;
                 }
             }
         }
@@ -253,72 +647,43 @@ namespace LM_C9Master
         {
             LoadSettings("C9TRADERROOT");
             btnDefaultC9TraderRoot.Enabled = false;
-            DefaultButtonsCheck();
+            btnTraderRootSave.Enabled = false;
+            lblC9TraderRoot.Select();
         }
 
-        // @Leo not sure about this one
-        private void btnSaveSettings_Click(object sender, EventArgs e)
+        private void btnVPNSaveSettings_Click(object sender, EventArgs e)
         {
             List<string> strCurrentSettings = new List<string>();
-            
+
             using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
             {
                 string Line = SR.ReadLine();
-                while(Line!=null)
+                while (Line != null)
                 {
                     strCurrentSettings.Add(Line);
                     Line = SR.ReadLine();
                 }
             }
-            if(btnDefaultVPNClient.Enabled)
-            {
-                string[] strSplitCheck = null;
-                int intIndex = 0;
-                foreach (string s in strCurrentSettings)
-                {
-                    strSplitCheck = s.Split('=');
-                    if(strSplitCheck[0]=="VPNClientLocation")
-                    {
-                        strCurrentSettings[intIndex] = "VPNClientLocation=" + lblVPNClientTarget.Text;
-                        break;
-                    }
-                    intIndex++;
-                }
-            }
-            if (btnDefaultC9TraderRoot.Enabled)
-            {
-                string[] strSplitCheck = null;
-                int intIndex = 0;
-                foreach (string s in strCurrentSettings)
-                {
-                    strSplitCheck = s.Split('=');
-                    if (strSplitCheck[0] == "C9TraderRootLocation")
-                    {
-                        strCurrentSettings[intIndex] = "C9TraderRootLocation=" + lblC9TraderRoot.Text;
-                        break;
-                    }
-                    intIndex++;
-                }
-
-            }
-            //add more settings here
-
-            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.new"))
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
             {
                 if (strCurrentSettings != null)
                 {
-                    foreach(string s in strCurrentSettings)
+                    foreach (string s in strCurrentSettings)
                     {
-                        SW.WriteLine(s);
+                        if (s.Contains("VPNClientLocation="))
+                        {
+                            String append = s;
+                            append = "VPNClientLocation=" + lblVPNClientTarget.Text;
+                            SW.WriteLine(append);
+                        }
+                        else
+                            SW.WriteLine(s);
                     }
                 }
             }
-            File.Delete("LM_C9MSettings.set");
-            File.Copy("LM_C9MSettings.new", "LM_C9MSettings.set");
-            File.Delete("LM_C9MSettings.new");
 
-            btnDefaultVPNClient.Enabled = false;
-            btnSaveSettings.Enabled = false;
+            btnVPNSaveSettings.Enabled = false;
+            btnDefaultVPN.Enabled = false;
 
 
         }
@@ -348,6 +713,10 @@ namespace LM_C9Master
                     BtnVPNSwitch.ForeColor = Color.DarkGreen;
                     btnVPNClientLaunch.Enabled = true;
                     BtnVPNSwitch.Enabled = true;
+                    BtnLaunchApp.Enabled = true;
+                    btnCloseApp.Enabled = true;
+                    btnCloseAppSelUser.Enabled = true;
+                    btnVersionManager.Enabled = true;
                 }
                 catch
                 {
@@ -374,6 +743,10 @@ namespace LM_C9Master
                     BtnVPNSwitch.ForeColor = Color.DarkRed;
                     btnVPNClientLaunch.Enabled = false;
                     BtnVPNSwitch.Enabled = true;
+                    BtnLaunchApp.Enabled = false;
+                    btnCloseApp.Enabled = false;
+                    btnCloseAppSelUser.Enabled = false;
+                    btnVersionManager.Enabled = false;
                 }
                 catch
                 {
@@ -386,22 +759,33 @@ namespace LM_C9Master
         // Action Listener for the Launch Client button that will start the VPN client executable
         private void btnVPNClientLaunch_Click(object sender, EventArgs e)
         {
-            
-            ProcessStartInfo ProcVPNCli= new ProcessStartInfo();
+
+            ProcessStartInfo ProcVPNCli = new ProcessStartInfo();
             ProcVPNCli.FileName = lblVPNClientTarget.Text;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4c4ef47a60072628d1481e704ec7da4a70196ac4
             //@Will had to slightly modify this because the app was giving me the vpnui.exe not found error.
             //The reason for this is that ProcVPNCli.FileName contains the FULL PATH of the executable, so it can never match up to "vpnui.exe" only.
             //So, I split out the full path of the textbox and compared the last item from the split to "vpnui.exe". 
             //This step can stay here for now, but i have a few ideas on how to optimize the code a little and have it run in the form loading function,
             //instead of having it run every single time the user clicks this button. 
 
+<<<<<<< HEAD
             string[] strSafeFileName = lblVPNClientTarget.Text.Split('\\');
            
             if (strSafeFileName[strSafeFileName.Length-1] != "vpnui.exe")
+=======
+
+            String[] fileNameSplitter = lblVPNClientTarget.Text.Split('\\');
+            if (fileNameSplitter[fileNameSplitter.Length - 1] != "vpnui.exe")
+
+>>>>>>> 4c4ef47a60072628d1481e704ec7da4a70196ac4
             {
                 MessageBox.Show("Error: vpnui.exe not selected.");
-                btnDefaultVPNClient_Click(sender, e);      
+                btnDefaultVPN_Click(sender, e);
             }
             else
             {
@@ -421,25 +805,31 @@ namespace LM_C9Master
             {
                 string startPath;
                 // Determines if user has settings for Squirrel or MSI build
-                if (MSI_Toggle.Text == "Squirrel")
+                if (MSI_Toggle.Text == "Squirrel" || MSI_Toggle.Text == "Production")
                 {
-                    string currUser = Environment.UserName;
-                    startPath = @"C:\Users\" + currUser + "\\AppData\\Local\\C9Trader";
-                    lblC9TraderRoot.Text = startPath;
-                    string[] strSubDirList = Directory.GetDirectories(lblC9TraderRoot.Text);
-                    foreach (string s in strSubDirList)
+                    LoadSettings("C9TRADERROOT");
+                    try
                     {
-                        string[] strPathSplit = s.Split('\\');
-                        string[] strAppSplit = strPathSplit[strPathSplit.Length - 1].Split('-');
-                        if (strAppSplit[0] == "app" && !cmbBoxVersionsList.Items.Contains(strAppSplit[1]))
+                        string[] strSubDirList = Directory.GetDirectories(lblC9TraderRoot.Text);
+                        foreach (string s in strSubDirList)
                         {
-                            cmbBoxVersionsList.SelectedIndex = cmbBoxVersionsList.Items.Add(strAppSplit[1]);
-                        }   
+                            string[] strPathSplit = s.Split('\\');
+                            string[] strAppSplit = strPathSplit[strPathSplit.Length - 1].Split('-');
+                            if (strAppSplit[0] == "app" && !cmbBoxVersionsList.Items.Contains(strAppSplit[1]))
+                            {
+                                cmbBoxVersionsList.SelectedIndex = cmbBoxVersionsList.Items.Add(strAppSplit[1]);
+                            }
+                        }
                     }
+                    catch
+                    { }
                 }
-                else
+                else if (MSI_Toggle.Text == "MSI")
                 {
-                    startPath = @"C:\Program Files (x86)\Cloud9 Technologies LLC\C9Trader";
+                    if (!traderRoots[1].Equals(null) && !traderRoots[1].Equals(""))
+                        startPath = traderRoots[1];
+                    else
+                        startPath = @"C:\Program Files (x86)\Cloud9 Technologies LLC\C9Trader";
                     lblC9TraderRoot.Text = startPath;
                 }
             }
@@ -457,14 +847,14 @@ namespace LM_C9Master
         {
             txtBoxSetUsrPassword.UseSystemPasswordChar = !chkBoxSetViewPassword.Checked;
         }
-         
+
         // Action Listener for the user password text box that tracks any changes made in user password allowing
         // a new user to be added or an old user to be removed
         private void txtBoxSetUsrPassword_TextChanged(object sender, EventArgs e)
         {
             btnAddUser.Enabled = false;
             btnRemoveUser.Enabled = false;
-            if (txtBoxSetUsrPassword.Text != "" && (cmbBoxUsers.Text != "" && cmbBoxUsers.Text != "NoSavedAccounts"))
+            if (txtBoxSetUsrPassword.Text != "" && (cmbBoxUsers.Text != "" && cmbBoxUsers.Text != "NoSavedAccounts") && !searchFlag)
             {
                 btnAddUser.Enabled = true;
                 btnRemoveUser.Enabled = true;
@@ -481,31 +871,40 @@ namespace LM_C9Master
             if (AccountsFromSettings[0].strUserName == "NoSavedAccounts")
                 AccountsFromSettings[0].strUserName = "";
 
-            foreach(AppAccount AC in AccountsFromSettings)
+            foreach (AppAccount AC in AccountsFromSettings)
             {
                 if (AC.strUserName == cmbBoxUsers.Text)
                 {
                     flgMustAddNewUser = false;
                     break;
-                }                   
+                }
             }
-            if(flgMustAddNewUser)
+            if (flgMustAddNewUser)
             {
                 AppAccount tmpAcc = new AppAccount();
                 tmpAcc.strUserName = cmbBoxUsers.Text;
                 tmpAcc.strPassword = txtBoxSetUsrPassword.Text;
+                tmpAcc.strFirm = txtBoxFirm.Text;
+                tmpAcc.strGroup = txtBoxGroup.Text;
                 AccountsFromSettings.Add(tmpAcc);
                 SaveAccountsToSettings();
+                cmbBoxUsers.Text = "";
+                txtBoxSetUsrPassword.Text = "";
+                cmbBoxUsers.SelectedText = tmpAcc.strUserName;
+                MessageBox.Show("User " + tmpAcc.strUserName + ":" + tmpAcc.strPassword + " has been added!");
+                //cmbBoxUsers.SelectedText = tmpAcc.strUserName;
+                //cmbBoxUsers.Text = tmpAcc.strUserName;
+                //txtBoxSetUsrPassword.Text = tmpAcc.strPassword;
             }
             else
                 MessageBox.Show("User " + cmbBoxUsers.Text + " already exists.");
-    
+
         }
 
         // Function used to write new or modified accounts to the LM_C9Settings.set file
         public void SaveAccountsToSettings()
         {
-            
+
             string Line = null;
             using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
             {
@@ -514,9 +913,10 @@ namespace LM_C9Master
                     while ((Line = SR.ReadLine()) != "<UserCollection>")
                         SW.WriteLine(Line);
                     SW.WriteLine("<UserCollection>");
-                    foreach(AppAccount AC in AccountsFromSettings)
+                    foreach (AppAccount AC in AccountsFromSettings)
                     {
-                        SW.WriteLine(AC.strUserName + ":" + AC.strPassword);
+                        if (!AC.strUserName.Equals("") && !AC.strUserName.Equals("NoSavedAccounts"))
+                            SW.WriteLine(AC.strUserName + ":" + AC.strPassword + ":" + AC.strFirm + ":" + AC.strGroup);
                     }
                     SW.WriteLine("</UserCollection>");
                 }
@@ -535,12 +935,12 @@ namespace LM_C9Master
         {
             btnAddUser.Enabled = false;
             btnRemoveUser.Enabled = false;
-            if (txtBoxSetUsrPassword.Text != "" && cmbBoxUsers.Text != "")
+            if (txtBoxSetUsrPassword.Text != "" && cmbBoxUsers.Text != "" && !searchFlag)
             {
                 btnAddUser.Enabled = true;
                 btnRemoveUser.Enabled = true;
             }
-            AutoSetPWD(cmbBoxUsers.Text);
+            AutoSetAccSettings(cmbBoxUsers.Text);
         }
 
         // Action Listener for the button that launches the application using information supplied in the user
@@ -548,22 +948,30 @@ namespace LM_C9Master
         private void BtnLaunchApp_Click(object sender, EventArgs e)
         {
             String parameters = "";
-            parameters += "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text + " -r https://qa1-rest.xhoot.com";
-            ProcessUser pram = new ProcessUser();
-            Process p = new Process();
-            pram.userName = cmbBoxUsers.Text;
+
+            if (txtBoxServerName.Text.Equals("") || txtBoxServerName.Text.Equals(null))
+                txtBoxServerName.Text = "https://qa1-rest.xhoot.com";
+
+            parameters += "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text + " -r " + txtBoxServerName.Text;
             if (chkBoxMultiApp.Checked == true)
                 parameters += " -a";
             if (chkBoxNoUpd.Checked == true)
                 parameters += " -x";
+            if (!txtBoxTranscriptionServer.Text.Equals("") || !txtBoxTranscriptionServer.Text.Equals(null))
+                parameters += " -t " + txtBoxTranscriptionServer.Text;
+            ProcessUser pram = new ProcessUser();
+            Process p = new Process();
+            pram.userName = cmbBoxUsers.Text;
+            
             //Launches the app using user settings
             try
             {
                 if (MSI_Toggle.Text == "Squirrel")
-                { 
+                {
+                    p.StartInfo.Arguments = parameters;
                     p = Process.Start(lblC9TraderRoot.Text + "\\app-" + cmbBoxVersionsList.Text + "\\C9Shell.exe", parameters);
                 }
-                else
+                else if (MSI_Toggle.Text == "MSI")
                 {
                     ProcessStartInfo psi = new ProcessStartInfo();
                     psi.FileName = "C9Shell.exe";
@@ -571,19 +979,35 @@ namespace LM_C9Master
                     psi.Arguments = parameters;
                     p = Process.Start(psi);
                 }
+                else
+                {
+                    p = Process.Start(lblC9TraderRoot.Text + "\\app-" + cmbBoxVersionsList.Text + "\\C9Shell.exe");
+                }
 
-                // Overwrites password in settings file with that currently used
+                // Overwrites current settings in file with that currently used
                 foreach (AppAccount AC in AccountsFromSettings)
                 {
                     if (AC.strUserName == cmbBoxUsers.Text)
                     {
                         if (AC.strPassword != txtBoxSetUsrPassword.Text)
-                        {
                             AC.strPassword = txtBoxSetUsrPassword.Text;
-                        }
+                        if (AC.strFirm != txtBoxFirm.Text)
+                            AC.strFirm = txtBoxFirm.Text;
+                        if (AC.strGroup != txtBoxGroup.Text)
+                            AC.strGroup = txtBoxGroup.Text;
                     }
                 }
                 SaveAccountsToSettings();
+                if (searchFlag)
+                {
+                    txtBoxNewUserSearch.Text = txtBoxCurrUserSearch.Text;
+                    txtBoxNewFirmSearch.Text = txtBoxCurrFirmSearch.Text;
+                    txtBoxNewGroupSearch.Text = txtBoxCurrGroupSearch.Text;
+                    btnSearch_Click(sender, e);
+                }
+                    
+                cmbBoxUsers.Text = "";
+                cmbBoxUsers.Text = pram.userName;
 
                 pram.userProcess = p;
                 ActiveProcesses.Add(pram);
@@ -596,8 +1020,7 @@ namespace LM_C9Master
                 MessageBox.Show("Error: Invalid path, C9Trader not found.");
                 if (MSI_Toggle.Text == "Squirrel")
                 {
-                    string currUser = Environment.UserName;
-                    lblC9TraderRoot.Text = @"C:\Users\" + currUser + "\\AppData\\Local\\C9Trader";
+                    btnDefaultC9TraderRoot_Click(sender, e);
                 }
                 else
                 {
@@ -617,8 +1040,23 @@ namespace LM_C9Master
         {
             if (MSI_Toggle.Text == "Squirrel")
                 MSI_Toggle.Text = "MSI";
-            else
+            else if (MSI_Toggle.Text == "MSI")
+                MSI_Toggle.Text = "Production";
+            else if (MSI_Toggle.Text == "Production")
                 MSI_Toggle.Text = "Squirrel";
+
+            if (MSI_Toggle.Text.Equals("Squirrel") || MSI_Toggle.Text.Equals("Production"))
+            {
+                if (!lblC9TraderRoot.Text.Equals(traderRoots[0]) && !traderRoots[0].Equals(""))
+                    lblC9TraderRoot.Text = traderRoots[0];
+
+            }
+            else if (MSI_Toggle.Text.Equals("MSI"))
+            {
+
+                if (!lblC9TraderRoot.Text.Equals(traderRoots[1]) && !traderRoots[1].Equals(""))
+                    lblC9TraderRoot.Text = traderRoots[1];
+            }
             RefreshVersions();
         }
 
@@ -687,18 +1125,30 @@ namespace LM_C9Master
         {
             if (ActiveProcesses.Count != 0)
             {
-                foreach (Process p in System.Diagnostics.Process.GetProcesses())
+                while (ActiveProcesses.Count != 0)
                 {
-                    while (ActiveProcesses.Count!=0)
+                    try
                     {
                         ActiveProcesses.ElementAt(0).userProcess.Kill();
                         ActiveProcesses.Remove(ActiveProcesses.ElementAt(0));
+                    }
+                    catch
+                    {
+                        if (ActiveProcesses.ElementAt(0).userProcess.HasExited)
+                        {
+                            ActiveProcesses.Remove(ActiveProcesses.ElementAt(0));
+                        }
+                        else
+                        {
+                            ActiveProcesses.ElementAt(0).userProcess.Kill();
+                            ActiveProcesses.Remove(ActiveProcesses.ElementAt(0));
+                        }
                     }
                 }
             }
             else
                 MessageBox.Show("Error: No active applications.");
-            
+
             btnCloseApp.Enabled = false;
             Thread.Sleep(1500);
             btnCloseApp.Enabled = true;
@@ -707,7 +1157,12 @@ namespace LM_C9Master
         // For fun button
         private void reeEEE_Click(object sender, EventArgs e)
         {
-            SoundPlayer simpleSound = new SoundPlayer("reeeeeeeee2.wav");
+            //String soundLoc =
+            //SoundPlayer simpleSound = new SoundPlayer("reeeeeeeee2.wav");
+            String strAppPath = Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            String strFilePath = Path.Combine(strAppPath, "Resources");
+            String strFullFilename = Path.Combine(strFilePath, "reeeeeeeee2.wav");
+            SoundPlayer simpleSound = new SoundPlayer(strFullFilename);
             simpleSound.Play();
         }
 
@@ -723,17 +1178,19 @@ namespace LM_C9Master
                 {
                     lblVPNClientTarget.Clear();
                     lblVPNClientTarget.Text = strResultChangeCheck;
-                    btnDefaultVPNClient.Enabled = true;
-                    btnSaveSettings.Enabled = true;
+                    btnDefaultVPN.Enabled = true;
+                    btnVPNSaveSettings.Enabled = true;
                 }
 
             }
+            lblVPNClientTarget.Select();
         }
 
         // Action listener for the Close Selected User App button that closes an active C9 Trader based on user
         // selected in the user combo box
         private void btnCloseAppSelUser_Click(object sender, EventArgs e)
         {
+            List<ProcessUser> closeUsers = new List<ProcessUser>();
             if (ActiveProcesses.Count != 0)
             {
                 bool exists = false;
@@ -744,18 +1201,17 @@ namespace LM_C9Master
                         try
                         {
                             exists = true;
-                            p.userProcess.Kill();
-                            ActiveProcesses.Remove(p);
+                            if (!p.userProcess.HasExited)
+                                p.userProcess.Kill();
+
+                            closeUsers.Add(p);
                         }
                         catch
                         {
                             MessageBox.Show("Error: Something went wrong!");
                         }
-                        btnCloseAppSelUser.Enabled = false;
-                        Thread.Sleep(1500);
-                        btnCloseAppSelUser.Enabled = true;
-                        break;
-                    }   
+                        
+                    }
                 }
                 if (!exists)
                 {
@@ -764,6 +1220,1096 @@ namespace LM_C9Master
             }
             else
                 MessageBox.Show("Error: No active applications.");
+            foreach (ProcessUser PU in closeUsers)
+            {
+                ActiveProcesses.Remove(PU);
+            }
+            btnCloseAppSelUser.Enabled = false;
+            Thread.Sleep(1500);
+            btnCloseAppSelUser.Enabled = true;
+        }
+
+        // Action Listener for the VPN Default button, reverts the text box for the VPN filepath to known defaults
+        private void btnDefaultVPN_Click(object sender, EventArgs e)
+        {
+            LoadSettings("VPNCLIENT");
+            btnDefaultVPN.Enabled = false;
+            btnVPNSaveSettings.Enabled = false;
+            lblVPNClientTarget.Select();
+        }
+
+        // Action Listener for the trader root text box, enables the save settings and default trader root buttons
+        private void lblC9TraderRoot_TextChanged(object sender, EventArgs e)
+        {
+            btnTraderRootSave.Enabled = true;
+            btnDefaultC9TraderRoot.Enabled = true;
+            
+                
+        }
+
+        // Action Listener for the vpn target text box, enables the save settings and default vpn buttons
+        private void lblVPNClientTarget_TextChanged(object sender, EventArgs e)
+        {
+            btnVPNSaveSettings.Enabled = true;
+            btnDefaultVPN.Enabled = true;
+        }
+
+        // Action Listener for the Server Default button which defaults the server text box to https://qa1-rest.xhoot.com
+        private void btnServerDefault_Click(object sender, EventArgs e)
+        {
+            List<string> strCurrentSettings = new List<string>();
+            bool justAdded = false;
+            if (!serverList.Contains(txtBoxServerName.Text))
+            {
+                btnSaveServer_Click(btnSaveServer, EventArgs.Empty);
+                justAdded = true;
+            }
+                
+
+            String Line = "";
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+            bool alrdyDef = false;
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+            {
+                String defServ = "";
+                foreach (String s in strCurrentSettings)
+                {
+                    if (s.Contains("Server=") && !s.Contains("Transcription"))
+                    {
+                        String append = s;
+                        defServ = append.Remove(0, 7);
+                        append = "Server=" + txtBoxServerName.Text;
+                        SW.WriteLine(append);
+                        if (txtBoxServerName.Text.Equals(defServ))
+                        {
+                            if (!justAdded)
+                            {
+                                alrdyDef = true;
+                                MessageBox.Show(txtBoxServerName.Text + " is already the default server.");
+                            }   
+                            else
+                                MessageBox.Show(txtBoxServerName.Text + " has been added to the server list and designated as the default.");
+                            
+                            continue;
+                        }
+                        if (!defServ.Equals("NoDefaultServer"))
+                            SW.WriteLine(defServ);
+                        if (s.Contains("NoDefaultServer"))
+                            txtBoxServerName.Items.Remove("NoDefaultServer");
+                        continue;
+                    }
+                    if (s.Contains(txtBoxServerName.Text))
+                        continue;  
+                    SW.WriteLine(s);
+                }
+            }
+            if (!alrdyDef && !justAdded)
+            {
+                MessageBox.Show(txtBoxServerName.Text + " has been set as the default server on startup.");
+                if (!txtBoxServerName.Items.Contains(txtBoxServerName.Text))
+                    txtBoxServerName.Items.Add(txtBoxServerName.Text);
+            }
+                
+        }
+
+        // Action Listener for the Trader Root Save button which saves the current trader root in the settings file
+        private void btnTraderRootSave_Click(object sender, EventArgs e)
+        {
+            List<string> strCurrentSettings = new List<string>();
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                string Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                    
+                }
+            }
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+            {
+                if (strCurrentSettings != null)
+                {
+                    foreach (string s in strCurrentSettings)
+                    {
+                        if (MSI_Toggle.Text.Equals("Squirrel") || MSI_Toggle.Text.Equals("Production"))
+                        {
+                            if (s.Contains("C9TraderRootLocation="))
+                            {
+                                String append = s;
+                                append = "C9TraderRootLocation=" + lblC9TraderRoot.Text;
+                                SW.WriteLine(append);
+                            }
+                            else
+                                SW.WriteLine(s);
+                        }
+                        else
+                        {
+                            if (s.Contains("C9TraderMSILocation="))
+                            {
+                                String append = s;
+                                append = "C9TraderMSILocation=" + lblC9TraderRoot.Text;
+                                SW.WriteLine(append);
+                            }
+                            else
+                                SW.WriteLine(s);
+                        }
+                    }
+                }
+            }
+
+            btnTraderRootSave.Enabled = false;
+            btnDefaultC9TraderRoot.Enabled = false;
+        }
+
+        // Action Listener for the button that links the user to the C9 Portal
+        private void btnPortalLink_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://qa1-portal.xhoot.com/c9portal/#/login");
+        }
+
+        // Action Listener for the button that starts the local server for the user (api_server.py)
+        private void btnStartLocalServer_Click(object sender, EventArgs e)
+        {
+            string tempFilename = Path.ChangeExtension(Path.GetTempFileName(), ".bat");
+
+            string currUser = Environment.UserName;
+
+            if (!Directory.Exists(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\"))
+                Directory.CreateDirectory(@"C: \Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\");
+
+            String strAppPath = Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            String strFilePath = Path.Combine(strAppPath, "Resources");
+            String strFullFilename = Path.Combine(strFilePath, "api_server.py");
+            System.IO.File.Copy(strFullFilename, @"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\api_server.py", true);
+            strFullFilename = Path.Combine(strFilePath, "requirements.txt");
+            System.IO.File.Copy(strFullFilename, @"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\requirements.txt", true);
+            strFullFilename = Path.Combine(strFilePath, "c9localhost.crt");
+            System.IO.File.Copy(strFullFilename, @"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\c9localhost.crt", true);
+            strFullFilename = Path.Combine(strFilePath, "nopasskey.pem");
+            System.IO.File.Copy(strFullFilename, @"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\nopasskey.pem", true);
+
+            using (StreamWriter writer = new StreamWriter(tempFilename))
+            {
+                writer.WriteLine(@"@echo off");
+                writer.WriteLine("c:");
+                writer.WriteLine(@"cd C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\");
+                writer.WriteLine("pip install setuptools");
+                writer.WriteLine("pip install -r requirements.txt");
+                writer.WriteLine("python api_server.py");
+            }
+            Process.Start(tempFilename);
+        }
+
+        private void btnVersionManager_Click(object sender, EventArgs e)
+        {
+            if (!txtBoxVMPath.Text.Equals("Enter Custom Path") && !txtBoxVMPath.Text.Equals(""))
+            {
+                try
+                {
+                    Process.Start(txtBoxVMPath.Text, "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Error: C9 Version Manager not found");
+                }
+            }
+            else
+            {
+                String filePath = VMDirSearch("C:\\Program Files (x86)\\Cloud9 Technologies LLC\\");
+                txtBoxVMPath.Text = filePath;
+                try
+                {
+                    Process.Start(filePath, "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Error: C9 Version Manager not found");
+                }
+            }
+        }
+
+        public String VMDirSearch(String a)
+        {
+            String filePath = "";
+            foreach (string d in Directory.GetDirectories(a))
+            {
+                foreach (string f in Directory.GetFiles(d, "*.exe"))
+                {
+                    filePath = Path.GetFullPath(f);
+                    if (filePath.Contains("C9VersionManager"))
+                        return filePath;
+                }
+            }
+            return "";
+        }
+
+        private void btnTCPView_Click(object sender, EventArgs e)
+        {
+            String filePath = "";
+            try
+            {
+                filePath = txtBoxTCPViewPath.Text;
+                Process.Start(filePath);
+            }
+            catch
+            {
+                MessageBox.Show("Error: TCPView not found");
+            }          
+        }
+
+        private void btnChangeVMPath_Click(object sender, EventArgs e)
+        {
+            DialogResult VMSelectorResult = new DialogResult();
+            VMSelectorResult = openFileDialogVM.ShowDialog();
+            if (VMSelectorResult == DialogResult.OK)
+            {
+                string strResultChangeCheck = openFileDialogVM.FileName;
+                if (strResultChangeCheck != txtBoxVMPath.Text)
+                {
+                    txtBoxVMPath.Text = strResultChangeCheck;
+                    btnDefaultVM.Enabled = true;
+                    btnSaveVM.Enabled = true;
+                }
+
+            }
+        }
+
+        private void btnDefaultVM_Click(object sender, EventArgs e)
+        {
+            LoadSettings("VERSIONMANAGER");
+            btnDefaultVM.Enabled = false;
+            btnSaveVM.Enabled = false;
+            txtBoxVMPath.Select();
+        }
+
+        private void btnSaveVM_Click(object sender, EventArgs e)
+        {
+            List<string> strCurrentSettings = new List<string>();
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                string Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+            {
+                if (strCurrentSettings != null)
+                {
+                    foreach (string s in strCurrentSettings)
+                    {
+                        if (s.Contains("VMLocation="))
+                        {
+                            String append = s;
+                            append = "VMLocation=" + txtBoxVMPath.Text;
+                            SW.WriteLine(append);
+                        }
+                        else
+                            SW.WriteLine(s);
+                    }
+                }
+            }
+
+            btnSaveVM.Enabled = false;
+            btnDefaultVM.Enabled = false;
+        }
+
+        private void btnChangeTCPView_Click(object sender, EventArgs e)
+        {
+            DialogResult VMSelectorResult = new DialogResult();
+            VMSelectorResult = openFileDialogTCPView.ShowDialog();
+            if (VMSelectorResult == DialogResult.OK)
+            {
+                string strResultChangeCheck = openFileDialogTCPView.FileName;
+                if (strResultChangeCheck != txtBoxTCPViewPath.Text)
+                {
+                    txtBoxTCPViewPath.Text = strResultChangeCheck;
+                    btnDefaultTCPView.Enabled = true;
+                    btnSaveTCPView.Enabled = true;
+                }
+
+            }
+        }
+
+        private void btnDefaultTCPView_Click(object sender, EventArgs e)
+        {
+            LoadSettings("TCPVIEW");
+            btnDefaultTCPView.Enabled = false;
+            btnSaveTCPView.Enabled = false;
+            txtBoxTCPViewPath.Select();
+        }
+
+        private void btnSaveTCPView_Click(object sender, EventArgs e)
+        {
+            List<string> strCurrentSettings = new List<string>();
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                string Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+            {
+                if (strCurrentSettings != null)
+                {
+                    foreach (string s in strCurrentSettings)
+                    {
+                        if (s.Contains("TCPViewLocation="))
+                        {
+                            String append = s;
+                            append = "TCPViewLocation=" + txtBoxTCPViewPath.Text;
+                            SW.WriteLine(append);
+                        }
+                        else
+                            SW.WriteLine(s);
+                    }
+                }
+            }
+
+            btnSaveTCPView.Enabled = false;
+            btnDefaultTCPView.Enabled = false;
+        }
+
+        private void txtBoxVMPath_TextChanged(object sender, EventArgs e)
+        {
+            btnSaveVM.Enabled = true;
+            btnDefaultVM.Enabled = true;
+        }
+
+        private void txtBoxTCPViewPath_TextChanged(object sender, EventArgs e)
+        {
+            btnSaveTCPView.Enabled = true;
+            btnDefaultTCPView.Enabled = true;
+        }
+
+        private void btnRecordingFolder_Click(object sender, EventArgs e)
+        {
+            String currUser = Environment.UserName;
+            Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\C9Trader\recording");
+        }
+
+        private void btnAnalyticsUploads_Click(object sender, EventArgs e)
+        {
+            String currUser = Environment.UserName;
+            Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads");
+        }
+
+        private void btnPortalGateway_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://qa1-log1.xhoot.com:8443/en-US/account/login?return_to=%2Fen-US%2Fmanager%2Fsearch%2Flicenseusage");
+        }
+
+        private void btnSaveServer_Click(object sender, EventArgs e)
+        {
+            if (txtBoxServerName.Items.Contains(txtBoxServerName.Text))
+            {
+                MessageBox.Show(txtBoxServerName.Text + " is already in the server list.");
+            }
+            else
+            {
+                serverList.Add(txtBoxServerName.Text);
+                txtBoxServerName.Items.Add(txtBoxServerName.Text);
+                List<string> strCurrentSettings = new List<string>();
+
+                String Line = "";
+
+                using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                {
+                    Line = SR.ReadLine();
+                    while (Line != null)
+                    {
+                        strCurrentSettings.Add(Line);
+                        Line = SR.ReadLine();
+                    }
+                }
+
+                using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+                {
+                    bool defFlag = false;
+                    foreach (String s in strCurrentSettings)
+                    {
+                        if (s.Contains("NoDefaultServer"))
+                        {
+                            SW.WriteLine("Server=" + txtBoxServerName.Text);
+                            defFlag = true;
+                            txtBoxServerName.Items.Remove("NoDefaultServer");
+                            continue;
+                        }
+
+                        if (s.Contains("</DesignatedServer>") && !defFlag)
+                        {
+                            SW.WriteLine(txtBoxServerName.Text);
+                        }
+                        SW.WriteLine(s);
+                    }
+                }
+            } 
+        }
+
+        private void txtBoxServerName_TextChanged(object sender, EventArgs e)
+        {
+            btnSaveServer.Enabled = true;
+            btnServerDefault.Enabled = true;
+        }
+
+        private void btnDeleteShout_Click(object sender, EventArgs e)
+        {
+            string currUser = Environment.UserName;
+            int count = 0;
+            if (Directory.Exists(@"C: \Users\"+currUser+ @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\shoutdowns"))
+            {
+                foreach (String s in Directory.GetFiles(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\shoutdowns"))
+                {
+                    File.Delete(s);
+                    count++;
+                }
+            }
+            MessageBox.Show(count + " files deleted!");
+        }
+
+        private void btnDeleteRD_Click(object sender, EventArgs e)
+        {
+            string currUser = Environment.UserName;
+            int count = 0;
+            if (Directory.Exists(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\ringdowns"))
+            {
+                foreach (String s in Directory.GetFiles(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\ringdowns"))
+                {
+                    File.Delete(s);
+                    count++;
+                }
+            }
+            MessageBox.Show(count + " files deleted!");
+        }
+
+        private void btnAudioCodes_Click(object sender, EventArgs e)
+        {
+            Process.Start("http://qa1-gateway1.xhoot.com/QA%20Dual%20GW1/");
+        }
+
+        private void btnLaunchSQDBLite_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!txtBoxSQDBLite.Text.Contains("DB Browser for SQLite"))
+                    MessageBox.Show("SQDBLite not found");
+                else
+                    Process.Start(txtBoxSQDBLite.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Error: SQDBLite not found");
+            }
+        }
+
+        private void txtBoxSQDBLite_TextChanged(object sender, EventArgs e)
+        {
+            btnSavePathSQDBLite.Enabled = true;
+            btnDefaultSQDBLite.Enabled = true;
+        }
+
+        private void btnChangePathSQDBLite_Click(object sender, EventArgs e)
+        {
+            DialogResult VMSelectorResult = new DialogResult();
+            VMSelectorResult = openFileDialogSQDBLite.ShowDialog();
+            if (VMSelectorResult == DialogResult.OK)
+            {
+                string strResultChangeCheck = openFileDialogSQDBLite.FileName;
+                if (strResultChangeCheck != txtBoxSQDBLite.Text)
+                {
+                    txtBoxSQDBLite.Text = strResultChangeCheck;
+                }
+
+            }
+        }
+
+        private void btnDefaultSQDBLite_Click(object sender, EventArgs e)
+        {
+            LoadSettings("SQDB");
+            btnDefaultSQDBLite.Enabled = false;
+            btnSavePathSQDBLite.Enabled = false;
+            txtBoxSQDBLite.Select();
+        }
+
+        private void btnSavePathSQDBLite_Click(object sender, EventArgs e)
+        {
+            List<string> strCurrentSettings = new List<string>();
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                string Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+            {
+                if (strCurrentSettings != null)
+                {
+                    foreach (string s in strCurrentSettings)
+                    {
+                        if (s.Contains("SQDBLiteLocation="))
+                        {
+                            String append = s;
+                            append = "SQDBLiteLocation=" + txtBoxSQDBLite.Text;
+                            SW.WriteLine(append);
+                        }
+                        else
+                            SW.WriteLine(s);
+                    }
+                }
+            }
+
+            btnSavePathSQDBLite.Enabled = false;
+            btnDefaultSQDBLite.Enabled = false;
+        }
+
+        private void btnBackup_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(lblC9TraderRoot.Text))
+            {
+                List<String> directoryList = new List<String>();
+                List<String> fileList = new List<String>();
+                String rootDirectory = lblC9TraderRoot.Text;
+                rootDirectory = lblC9TraderRoot.Text.Remove(lblC9TraderRoot.Text.Length - 9, 9);
+                String newDirectory = rootDirectory + @"\C9TraderBackup";
+                if (!Directory.Exists(newDirectory))
+                    Directory.CreateDirectory(newDirectory);
+                Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(lblC9TraderRoot.Text, newDirectory, true);
+                Process.Start(newDirectory);
+            }
+            else
+                MessageBox.Show("Invalid C9Trader Squirrel Root Path for Backup");
+
+        }
+
+        private void btnBackupFolder_Click(object sender, EventArgs e)
+        {
+            String root = lblC9TraderRoot.Text;
+            root = root.Remove(root.Length - 9, 9);
+            if (Directory.Exists(root + @"\C9TraderBackup"))
+            {
+                Process.Start(root + @"\C9TraderBackup");
+            }
+            else
+            {
+                Directory.CreateDirectory(root + @"\C9TraderBackup");
+                Process.Start(root + @"\C9TraderBackup");
+            }
+        }
+
+        private void btnDefaultTrscpServ_Click(object sender, EventArgs e)
+        {
+            LoadSettings("TRSCPSERV");
+            btnDefaultTrscpServ.Enabled = false;
+            btnSaveTrscpServ.Enabled = false;
+            txtBoxTranscriptionServer.Select();
+        }
+
+        private void btnSaveTrscpServ_Click(object sender, EventArgs e)
+        {
+            List<string> strCurrentSettings = new List<string>();
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                string Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+            {
+                if (strCurrentSettings != null)
+                {
+                    foreach (string s in strCurrentSettings)
+                    {
+                        if (s.Contains("TranscriptionServer="))
+                        {
+                            String append = s;
+                            append = "TranscriptionServer=" + txtBoxTranscriptionServer.Text;
+                            SW.WriteLine(append);
+                        }
+                        else
+                            SW.WriteLine(s);
+                    }
+                }
+            }
+
+            btnSaveTrscpServ.Enabled = false;
+            btnDefaultTrscpServ.Enabled = false;
+        }
+
+        private void txtBoxTranscriptionServer_TextChanged(object sender, EventArgs e)
+        {
+            btnSaveTrscpServ.Enabled = true;
+            btnDefaultTrscpServ.Enabled = true;
+        }
+
+        private void btnRemoveServer_click(object sender, EventArgs e)
+        {
+            String Line = "";
+            List<String> strCurrentSettings = new List<String>();
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+            String defServ = "";
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+            {
+                foreach (String s in strCurrentSettings)
+                {
+                    if (s.Contains(txtBoxServerName.Text))
+                    {
+                        if (s.Equals(txtBoxServerName.Text))
+                            continue;
+                        else
+                        {
+                            SW.WriteLine("Server=NoDefaultServer");
+                            defServ = "NoDefaultServer";
+                            txtBoxServerName.Items.Add(defServ);
+                            continue;
+                        }
+                    }
+                    if (s.Contains("Server=") && !s.Contains("Transcription") && !s.Contains(txtBoxServerName.Text))
+                        defServ = s.Remove(0, 7);
+                    SW.WriteLine(s);
+                }
+            }
+            txtBoxServerName.Items.Remove(txtBoxServerName.SelectedItem);
+            txtBoxServerName.SelectedItem = defServ;
+        }
+
+        private void txtBoxFirm_TextChanged(object sender, EventArgs e)
+        {
+            if (!searchFlag)
+            {
+                foreach(AppAccount AC in AccountsFromSettings)
+                {
+                    if (AC.strUserName.Equals(cmbBoxUsers.Text))
+                    {
+                        btnSaveFirm.Enabled = true;
+                        btnDefaultFirm.Enabled = true;
+                        break;
+                    }
+                }
+                
+            }
+        }
+
+        private void txtBoxGroup_TextChanged(object sender, EventArgs e)
+        {
+            if (!searchFlag)
+            {
+                foreach (AppAccount AC in AccountsFromSettings)
+                {
+                    if (AC.strUserName.Equals(cmbBoxUsers.Text))
+                    {
+                        btnDefaultGroup.Enabled = true;
+                        btnSaveGroup.Enabled = true;
+                        break;
+                    }
+                }
+
+            }
+        }
+
+        private void btnSaveFirm_Click(object sender, EventArgs e)
+        {
+            String selectedUser = cmbBoxUsers.Text;
+            foreach (AppAccount AC in AccountsFromSettings)
+            {
+                if (AC.strUserName.Equals(cmbBoxUsers.Text))
+                {
+                    AC.strFirm = txtBoxFirm.Text;
+                    SaveAccountsToSettings();
+                    break;
+                }
+                      
+            }
+            cmbBoxUsers.SelectedItem = selectedUser;
+            btnSaveFirm.Enabled = false;
+            btnDefaultFirm.Enabled = false;
+        }
+
+        private void btnSaveGroup_Click(object sender, EventArgs e)
+        {
+            String selectedUser = cmbBoxUsers.Text;
+            foreach (AppAccount AC in AccountsFromSettings)
+            {
+                if (AC.strUserName.Equals(cmbBoxUsers.Text))
+                {
+                    AC.strGroup = txtBoxGroup.Text;
+                    SaveAccountsToSettings();
+                    break;
+                }
+
+            }
+            cmbBoxUsers.SelectedItem = selectedUser;
+            btnSaveGroup.Enabled = false;
+            btnDefaultGroup.Enabled = false;
+        }
+
+        private void btnDefaultFirm_Click(object sender, EventArgs e)
+        {
+            foreach (AppAccount AC in AccountsFromSettings)
+            {
+                if (AC.strUserName.Equals(cmbBoxUsers.Text))
+                {
+                    txtBoxFirm.Text = AC.strFirm;
+                    btnDefaultFirm.Enabled = false;
+                    btnSaveFirm.Enabled = false;
+                    break;
+                }  
+            }
+        }
+
+        private void btnDefaultGroup_Click(object sender, EventArgs e)
+        {
+            foreach (AppAccount AC in AccountsFromSettings)
+            {
+                if (AC.strUserName.Equals(cmbBoxUsers.Text))
+                {
+                    txtBoxGroup.Text = AC.strGroup;
+                    btnDefaultGroup.Enabled = false;
+                    btnSaveGroup.Enabled = false;
+                    break;
+                }
+            }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            int listChangeChecker = AccountsFromSettings.Count();
+            txtBoxCurrUserSearch.Text = txtBoxNewUserSearch.Text;
+            txtBoxCurrFirmSearch.Text = txtBoxNewFirmSearch.Text;
+            txtBoxCurrGroupSearch.Text = txtBoxNewGroupSearch.Text;
+            txtBoxCurrFeatureSearch.Text = cmbSearchFeature.Text;
+
+            int searchedFeature = -1;
+
+            if (!(cmbSearchFeature.Text.Equals("") && !cmbSearchFeature.Text.Equals(null)))
+            {
+                searchedFeature = cmbSearchFeature.SelectedIndex;
+            }
+
+            txtBoxNewUserSearch.Clear();
+            txtBoxNewFirmSearch.Clear();
+            txtBoxNewGroupSearch.Clear();
+            cmbSearchFeature.Text = "";
+
+            txtBoxFirm.Clear();
+            txtBoxGroup.Clear();
+            cmbBoxUsers.Items.Clear();
+            cmbBoxUsers.Text = "";
+
+            List<AppAccount> searchResults = new List<AppAccount>();
+
+            foreach (AppAccount AC in AccountsFromSettings)
+            {
+                
+                if ((txtBoxCurrUserSearch.Text.Equals("") || txtBoxCurrUserSearch.Text.Equals(null)))
+                {
+                    searchResults.Add(AC);
+                }
+                else
+                {
+                    if (AC.strUserName.ToLower().Contains(txtBoxCurrUserSearch.Text.ToLower()))
+                    {
+                        searchResults.Add(AC);
+                    }
+                }
+                if (!(txtBoxCurrFirmSearch.Text.Equals("") && !txtBoxCurrFirmSearch.Text.Equals(null)))
+                {
+                    if (!AC.strFirm.ToLower().Contains(txtBoxCurrFirmSearch.Text.ToLower()) && searchResults.Contains(AC))
+                        searchResults.Remove(AC);
+                }
+                if (!(txtBoxCurrGroupSearch.Text.Equals("") || txtBoxCurrGroupSearch.Text.Equals(null)))
+                {
+                    if (!AC.strGroup.ToLower().Contains(txtBoxCurrGroupSearch.Text.ToLower()) && searchResults.Contains(AC))
+                        searchResults.Remove(AC);
+                }
+                if (!(searchedFeature==-1))
+                {
+                    if (AC.strFeatures.Equals(""))
+                    {
+                        searchResults.Remove(AC);
+                    }
+                    else if (AC.strFeatures[searchedFeature].Equals('0'))
+                    {
+                        searchResults.Remove(AC);
+                    }   
+                }
+            }
+            foreach (AppAccount AC in searchResults)
+            {
+                cmbBoxUsers.Items.Add(AC.strUserName);
+            }
+            if (cmbBoxUsers.Items.Count > 0)
+                cmbBoxUsers.Text = searchResults.ElementAt(0).strUserName;
+            if (cmbBoxUsers.Items.Count != listChangeChecker)
+            {
+                cmbBoxUsers.ForeColor = Color.Goldenrod;
+                btnAddUser.Enabled = false;
+                btnRemoveUser.Enabled = false;
+                btnLoadBatch.Enabled = false;
+                searchFlag = true;
+                btnSearch.Enabled = false;
+                btnUserInfo.Enabled = false;
+            }
+            else
+            {
+                cmbBoxUsers.ForeColor = Color.Black;
+                btnAddUser.Enabled = true;
+                btnRemoveUser.Enabled = true;
+                btnLoadBatch.Enabled = true;
+                searchFlag = false;
+                btnSearch.Enabled = true;
+                btnUserInfo.Enabled = true;
+            }
+                
+                
+        }
+
+        private void btnClearSearch_Click(object sender, EventArgs e)
+        {
+            btnLoadBatch.Enabled = true;
+            btnSearch.Enabled = true;
+            btnUserInfo.Enabled = true;
+            txtBoxNewUserSearch.Clear();
+            txtBoxNewFirmSearch.Clear();
+            txtBoxNewGroupSearch.Clear();
+            txtBoxCurrUserSearch.Clear();
+            txtBoxCurrFirmSearch.Clear();
+            txtBoxCurrGroupSearch.Clear();
+            txtBoxCurrFeatureSearch.Clear();
+
+            searchFlag = false;
+
+
+            cmbBoxUsers.ForeColor = Color.Black;
+            cmbBoxUsers.Items.Clear();
+            foreach (AppAccount AC in AccountsFromSettings)
+                cmbBoxUsers.Items.Add(AC.strUserName);
+            if (cmbBoxUsers.Items.Count > 0)
+                cmbBoxUsers.Text = AccountsFromSettings.ElementAt(0).strUserName;
+        }
+
+        private void btnChangeBatchFolder_Click(object sender, EventArgs e)
+        {
+            DialogResult VMSelectorResult = new DialogResult();
+            VMSelectorResult = fldBrwsDiagLoadBatches.ShowDialog();
+            if (VMSelectorResult == DialogResult.OK)
+            {
+                string strResultChangeCheck = fldBrwsDiagLoadBatches.SelectedPath;
+                if (strResultChangeCheck != txtBoxLoadBatchFolder.Text)
+                {
+                    txtBoxLoadBatchFolder.Text = strResultChangeCheck;
+                }
+
+            }
+        }
+
+        private void btnLoadBatch_Click(object sender, EventArgs e)
+        {
+            String loadFromDirectory = txtBoxLoadBatchFolder.Text;
+            List<AppAccount> newAccs = new List<AppAccount>();
+            String[] LineSplit = null;
+            bool newData = false;
+            if (Directory.Exists(loadFromDirectory))
+            {
+                foreach (String file in Directory.GetFiles(loadFromDirectory, "*.bat", SearchOption.AllDirectories))
+                {
+                    using (StreamReader SR = new StreamReader(file))
+                    {
+                        string Line = SR.ReadLine();
+                        while (Line != null)
+                        {
+                            LineSplit = Line.Split('-');
+                            AppAccount tempAcc = new AppAccount();
+
+                            try
+                            {
+                                foreach (String f in LineSplit)
+                                {
+                                    if (f.First() == 'u')
+                                    {
+                                        tempAcc.strUserName = f.Remove(0, 2);
+                                        tempAcc.strUserName = tempAcc.strUserName.Remove(tempAcc.strUserName.Length - 1, 1);
+                                    }
+
+                                    if (f.First() == 'p')
+                                    {
+                                        tempAcc.strPassword = f.Remove(0, 2);
+                                        tempAcc.strPassword = tempAcc.strPassword.Remove(tempAcc.strPassword.Length - 1, 1);
+                                    }
+
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            if (!tempAcc.strUserName.Equals("") && !tempAcc.strUserName.Equals(null) && !newAccs.Contains(tempAcc))
+                            {
+                                newAccs.Add(tempAcc);
+                            }
+                            Line = SR.ReadLine();
+                        }
+                    }
+                }
+                foreach (AppAccount AC in newAccs)
+                {
+                    bool isDuplicate = false;
+                    foreach (AppAccount OAC in AccountsFromSettings)
+                    {
+                        if (AC.strUserName.Equals(OAC.strUserName))
+                            isDuplicate = true;
+                    }
+                    if (!isDuplicate)
+                    {
+                        newData = true;
+                        AccountsFromSettings.Add(AC);
+                        MessageBox.Show("Adding user " + AC.strUserName + ":" + AC.strPassword + " to settings file");
+                    }
+
+                }
+                SaveAccountsToSettings();
+                if (!newData)
+                {
+                    MessageBox.Show("No new data found");
+                }
+            }
+            else
+                MessageBox.Show("Directory in text box does not exist!");
+            
+        }
+
+        private void txtBoxNewUserSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (txtBoxNewUserSearch.Text.Equals("") && txtBoxNewFirmSearch.Equals("") && txtBoxNewGroupSearch.Equals(""))
+                btnSearch.Enabled = false;
+            else
+                btnSearch.Enabled = true;
+        }
+
+        private void txtBoxNewFirmSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (txtBoxNewUserSearch.Text.Equals("") && txtBoxNewFirmSearch.Equals("") && txtBoxNewGroupSearch.Equals(""))
+                btnSearch.Enabled = false;
+            else
+                btnSearch.Enabled = true;
+        }
+
+        private void txtBoxNewGroupSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (txtBoxNewUserSearch.Text.Equals("") && txtBoxNewFirmSearch.Equals("") && txtBoxNewGroupSearch.Equals(""))
+                btnSearch.Enabled = false;
+            else
+                btnSearch.Enabled = true;
+        }
+
+        private void btnUserInfo_Click_1(object sender, EventArgs e)
+        {
+            AppAccount AC = null;
+            
+            foreach (AppAccount newAC in AccountsFromSettings)
+            {
+                if (newAC.strUserName.Equals(cmbBoxUsers.Text))
+                {
+                    AC = newAC;
+                    break;
+                }
+            }
+            if (AC==null)
+            {
+                MessageBox.Show("ERROR: USERINFO NOT FOUND FOR " + cmbBoxUsers.Text);
+            }
+            else
+            {
+                userInfoForm = new frmUserInfoForm();
+                userInfoForm.loadSettings(AC.strUserName, AC.strFeatures);
+                userInfoForm.Activate();
+                userInfoForm.BringToFront();
+                userInfoForm.Show();
+                userInfoForm.FormClosed += userInfoClosedEventHandler;
+
+                mainForm.Enabled = false;
+            }
+            
+        }
+
+        private void userInfoClosedEventHandler(object sender, EventArgs e)
+        {
+            btnUserInfo.Enabled = true;
+            LoadSettings("FEATURES");
+            mainForm.Enabled = true;
+        }
+
+        private void btnFlushC2C_Click(object sender, EventArgs e)
+        {
+            string currUser = Environment.UserName;
+            int count = 0;
+            if (Directory.Exists(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\clicktocalls"))
+            {
+                foreach (String s in Directory.GetFiles(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads\clicktocalls"))
+                {
+                    File.Delete(s);
+                    count++;
+                }
+            }
+            MessageBox.Show(count + " files deleted!");
+        }
+
+        private void chkBoxInC9_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkBoxInC9.Checked == true)
+            {
+                BtnLaunchApp.Enabled = true;
+                btnCloseApp.Enabled = true;
+                btnCloseAppSelUser.Enabled = true;
+                btnVersionManager.Enabled = true;
+            }
+            if (chkBoxInC9.Checked == false && BtnVPNSwitch.Text.Equals("OFF"))
+            {
+                BtnLaunchApp.Enabled = false;
+                btnCloseApp.Enabled = false;
+                btnCloseAppSelUser.Enabled = false;
+                btnVersionManager.Enabled = false;
+            }
+        }
+
+        private void btnARs_Click(object sender, EventArgs e)
+        {
+            String currUser = Environment.UserName;
+            Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\C9Trader\calls");
         }
     }
 }
