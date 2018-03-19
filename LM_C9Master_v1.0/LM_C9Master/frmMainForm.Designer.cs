@@ -113,6 +113,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lblServer = new System.Windows.Forms.Label();
             this.Links = new System.Windows.Forms.GroupBox();
+            this.btnPortal3 = new System.Windows.Forms.Button();
+            this.btnPortal2 = new System.Windows.Forms.Button();
+            this.btnPortal1 = new System.Windows.Forms.Button();
+            this.btnARs = new System.Windows.Forms.Button();
             this.btnFlushC2C = new System.Windows.Forms.Button();
             this.btnAudioCodes = new System.Windows.Forms.Button();
             this.btnDeleteRD = new System.Windows.Forms.Button();
@@ -169,7 +173,7 @@
             this.txtBoxCurrGroupSearch = new System.Windows.Forms.TextBox();
             this.txtBoxCurrFirmSearch = new System.Windows.Forms.TextBox();
             this.fldBrwsDiagLoadBatches = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnARs = new System.Windows.Forms.Button();
+            this.btnTraderLogs = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -667,11 +671,12 @@
             // 
             // btnStartLocalServer
             // 
-            this.btnStartLocalServer.Location = new System.Drawing.Point(165, 394);
+            this.btnStartLocalServer.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStartLocalServer.Location = new System.Drawing.Point(188, 502);
             this.btnStartLocalServer.Name = "btnStartLocalServer";
-            this.btnStartLocalServer.Size = new System.Drawing.Size(209, 49);
+            this.btnStartLocalServer.Size = new System.Drawing.Size(216, 51);
             this.btnStartLocalServer.TabIndex = 0;
-            this.btnStartLocalServer.Text = "Local Server";
+            this.btnStartLocalServer.Text = "Local Collection Server";
             this.localServerTT.SetToolTip(this.btnStartLocalServer, "Runs api_server.py enabling a local server for the user, intended for testing API" +
         " Analytics");
             this.btnStartLocalServer.UseVisualStyleBackColor = true;
@@ -1070,6 +1075,10 @@
             // 
             // Links
             // 
+            this.Links.Controls.Add(this.btnTraderLogs);
+            this.Links.Controls.Add(this.btnPortal3);
+            this.Links.Controls.Add(this.btnPortal2);
+            this.Links.Controls.Add(this.btnPortal1);
             this.Links.Controls.Add(this.btnARs);
             this.Links.Controls.Add(this.btnFlushC2C);
             this.Links.Controls.Add(this.btnAudioCodes);
@@ -1090,25 +1099,66 @@
             this.Links.Controls.Add(this.label4);
             this.Links.Location = new System.Drawing.Point(1555, 12);
             this.Links.Name = "Links";
-            this.Links.Size = new System.Drawing.Size(765, 830);
+            this.Links.Size = new System.Drawing.Size(422, 830);
             this.Links.TabIndex = 3;
             this.Links.TabStop = false;
             this.Links.Text = "Useful Shortcuts";
             this.Links.Enter += new System.EventHandler(this.Links_Enter);
             // 
+            // btnPortal3
+            // 
+            this.btnPortal3.Location = new System.Drawing.Point(12, 444);
+            this.btnPortal3.Name = "btnPortal3";
+            this.btnPortal3.Size = new System.Drawing.Size(170, 51);
+            this.btnPortal3.TabIndex = 20;
+            this.btnPortal3.Text = "qa1-portal3";
+            this.btnPortal3.UseVisualStyleBackColor = true;
+            this.btnPortal3.Click += new System.EventHandler(this.btnPortal3_Click);
+            // 
+            // btnPortal2
+            // 
+            this.btnPortal2.Location = new System.Drawing.Point(12, 391);
+            this.btnPortal2.Name = "btnPortal2";
+            this.btnPortal2.Size = new System.Drawing.Size(170, 47);
+            this.btnPortal2.TabIndex = 19;
+            this.btnPortal2.Text = "qa1-portal2";
+            this.btnPortal2.UseVisualStyleBackColor = true;
+            this.btnPortal2.Click += new System.EventHandler(this.btnPortal2_Click);
+            // 
+            // btnPortal1
+            // 
+            this.btnPortal1.Location = new System.Drawing.Point(12, 338);
+            this.btnPortal1.Name = "btnPortal1";
+            this.btnPortal1.Size = new System.Drawing.Size(170, 47);
+            this.btnPortal1.TabIndex = 18;
+            this.btnPortal1.Text = "qa1-portal1";
+            this.btnPortal1.UseVisualStyleBackColor = true;
+            this.btnPortal1.Click += new System.EventHandler(this.btnPortal1_Click);
+            // 
+            // btnARs
+            // 
+            this.btnARs.Location = new System.Drawing.Point(188, 391);
+            this.btnARs.Name = "btnARs";
+            this.btnARs.Size = new System.Drawing.Size(216, 47);
+            this.btnARs.TabIndex = 17;
+            this.btnARs.Text = "Activity Records";
+            this.btnARs.UseVisualStyleBackColor = true;
+            this.btnARs.Click += new System.EventHandler(this.btnARs_Click);
+            // 
             // btnFlushC2C
             // 
-            this.btnFlushC2C.Location = new System.Drawing.Point(165, 559);
+            this.btnFlushC2C.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFlushC2C.Location = new System.Drawing.Point(188, 669);
             this.btnFlushC2C.Name = "btnFlushC2C";
-            this.btnFlushC2C.Size = new System.Drawing.Size(209, 49);
+            this.btnFlushC2C.Size = new System.Drawing.Size(216, 49);
             this.btnFlushC2C.TabIndex = 16;
-            this.btnFlushC2C.Text = "Flush C2C";
+            this.btnFlushC2C.Text = "Flush Local C2C";
             this.btnFlushC2C.UseVisualStyleBackColor = true;
             this.btnFlushC2C.Click += new System.EventHandler(this.btnFlushC2C_Click);
             // 
             // btnAudioCodes
             // 
-            this.btnAudioCodes.Location = new System.Drawing.Point(380, 282);
+            this.btnAudioCodes.Location = new System.Drawing.Point(12, 501);
             this.btnAudioCodes.Name = "btnAudioCodes";
             this.btnAudioCodes.Size = new System.Drawing.Size(170, 50);
             this.btnAudioCodes.TabIndex = 15;
@@ -1118,27 +1168,29 @@
             // 
             // btnDeleteRD
             // 
-            this.btnDeleteRD.Location = new System.Drawing.Point(165, 504);
+            this.btnDeleteRD.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeleteRD.Location = new System.Drawing.Point(188, 614);
             this.btnDeleteRD.Name = "btnDeleteRD";
-            this.btnDeleteRD.Size = new System.Drawing.Size(209, 49);
+            this.btnDeleteRD.Size = new System.Drawing.Size(216, 49);
             this.btnDeleteRD.TabIndex = 14;
-            this.btnDeleteRD.Text = "Flush RingDowns";
+            this.btnDeleteRD.Text = "Flush Local RingDowns";
             this.btnDeleteRD.UseVisualStyleBackColor = true;
             this.btnDeleteRD.Click += new System.EventHandler(this.btnDeleteRD_Click);
             // 
             // btnDeleteShout
             // 
-            this.btnDeleteShout.Location = new System.Drawing.Point(165, 449);
+            this.btnDeleteShout.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeleteShout.Location = new System.Drawing.Point(188, 559);
             this.btnDeleteShout.Name = "btnDeleteShout";
-            this.btnDeleteShout.Size = new System.Drawing.Size(209, 49);
+            this.btnDeleteShout.Size = new System.Drawing.Size(216, 49);
             this.btnDeleteShout.TabIndex = 13;
-            this.btnDeleteShout.Text = "Flush ShoutDowns";
+            this.btnDeleteShout.Text = "Flush Local ShoutDowns";
             this.btnDeleteShout.UseVisualStyleBackColor = true;
             this.btnDeleteShout.Click += new System.EventHandler(this.btnDeleteShout_Click);
             // 
             // btnPortalGateway
             // 
-            this.btnPortalGateway.Location = new System.Drawing.Point(556, 282);
+            this.btnPortalGateway.Location = new System.Drawing.Point(12, 557);
             this.btnPortalGateway.Name = "btnPortalGateway";
             this.btnPortalGateway.Size = new System.Drawing.Size(170, 50);
             this.btnPortalGateway.TabIndex = 12;
@@ -1149,9 +1201,9 @@
             // 
             // btnAnalyticsUploads
             // 
-            this.btnAnalyticsUploads.Location = new System.Drawing.Point(165, 282);
+            this.btnAnalyticsUploads.Location = new System.Drawing.Point(188, 282);
             this.btnAnalyticsUploads.Name = "btnAnalyticsUploads";
-            this.btnAnalyticsUploads.Size = new System.Drawing.Size(209, 50);
+            this.btnAnalyticsUploads.Size = new System.Drawing.Size(216, 50);
             this.btnAnalyticsUploads.TabIndex = 11;
             this.btnAnalyticsUploads.Text = "c9analytics";
             this.btnAnalyticsUploads.UseVisualStyleBackColor = true;
@@ -1159,9 +1211,9 @@
             // 
             // btnRecordingFolder
             // 
-            this.btnRecordingFolder.Location = new System.Drawing.Point(165, 338);
+            this.btnRecordingFolder.Location = new System.Drawing.Point(188, 338);
             this.btnRecordingFolder.Name = "btnRecordingFolder";
-            this.btnRecordingFolder.Size = new System.Drawing.Size(209, 50);
+            this.btnRecordingFolder.Size = new System.Drawing.Size(216, 47);
             this.btnRecordingFolder.TabIndex = 10;
             this.btnRecordingFolder.Text = "Recording Folder";
             this.btnRecordingFolder.UseVisualStyleBackColor = true;
@@ -1169,11 +1221,11 @@
             // 
             // btnPortalLink
             // 
-            this.btnPortalLink.Location = new System.Drawing.Point(12, 285);
+            this.btnPortalLink.Location = new System.Drawing.Point(12, 282);
             this.btnPortalLink.Name = "btnPortalLink";
-            this.btnPortalLink.Size = new System.Drawing.Size(147, 47);
+            this.btnPortalLink.Size = new System.Drawing.Size(170, 50);
             this.btnPortalLink.TabIndex = 9;
-            this.btnPortalLink.Text = "C9 Portal";
+            this.btnPortalLink.Text = "qa1-portal";
             this.btnPortalLink.UseVisualStyleBackColor = true;
             this.btnPortalLink.Click += new System.EventHandler(this.btnPortalLink_Click);
             // 
@@ -1182,14 +1234,14 @@
             this.lblPortal.AutoSize = true;
             this.lblPortal.Location = new System.Drawing.Point(16, 247);
             this.lblPortal.Name = "lblPortal";
-            this.lblPortal.Size = new System.Drawing.Size(457, 25);
+            this.lblPortal.Size = new System.Drawing.Size(336, 25);
             this.lblPortal.TabIndex = 8;
-            this.lblPortal.Text = "API Analytics / Cloud Recording / Gateway SIP";
+            this.lblPortal.Text = "Useful Links and Folder Shortcuts";
             // 
             // reeEEE
             // 
             this.reeEEE.Image = ((System.Drawing.Image)(resources.GetObject("reeEEE.Image")));
-            this.reeEEE.Location = new System.Drawing.Point(702, 738);
+            this.reeEEE.Location = new System.Drawing.Point(359, 771);
             this.reeEEE.Name = "reeEEE";
             this.reeEEE.Size = new System.Drawing.Size(57, 53);
             this.reeEEE.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -1219,9 +1271,9 @@
             // 
             // btnScrumBoard
             // 
-            this.btnScrumBoard.Location = new System.Drawing.Point(175, 65);
+            this.btnScrumBoard.Location = new System.Drawing.Point(174, 67);
             this.btnScrumBoard.Name = "btnScrumBoard";
-            this.btnScrumBoard.Size = new System.Drawing.Size(156, 47);
+            this.btnScrumBoard.Size = new System.Drawing.Size(156, 50);
             this.btnScrumBoard.TabIndex = 4;
             this.btnScrumBoard.Text = "Scrum Board";
             this.btnScrumBoard.UseVisualStyleBackColor = true;
@@ -1231,7 +1283,7 @@
             // 
             this.btnTestCycles.Location = new System.Drawing.Point(12, 65);
             this.btnTestCycles.Name = "btnTestCycles";
-            this.btnTestCycles.Size = new System.Drawing.Size(156, 47);
+            this.btnTestCycles.Size = new System.Drawing.Size(156, 52);
             this.btnTestCycles.TabIndex = 3;
             this.btnTestCycles.Text = "Test Cycles";
             this.btnTestCycles.UseVisualStyleBackColor = true;
@@ -1559,22 +1611,22 @@
             this.txtBoxCurrFirmSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxCurrFirmSearch.TabIndex = 35;
             // 
-            // btnARs
+            // btnTraderLogs
             // 
-            this.btnARs.Location = new System.Drawing.Point(165, 614);
-            this.btnARs.Name = "btnARs";
-            this.btnARs.Size = new System.Drawing.Size(209, 50);
-            this.btnARs.TabIndex = 17;
-            this.btnARs.Text = "Activity Records";
-            this.btnARs.UseVisualStyleBackColor = true;
-            this.btnARs.Click += new System.EventHandler(this.btnARs_Click);
+            this.btnTraderLogs.Location = new System.Drawing.Point(188, 446);
+            this.btnTraderLogs.Name = "btnTraderLogs";
+            this.btnTraderLogs.Size = new System.Drawing.Size(216, 49);
+            this.btnTraderLogs.TabIndex = 21;
+            this.btnTraderLogs.Text = "Trader Logs";
+            this.btnTraderLogs.UseVisualStyleBackColor = true;
+            this.btnTraderLogs.Click += new System.EventHandler(this.btnTraderLogs_Click);
             // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(2346, 854);
+            this.ClientSize = new System.Drawing.Size(1992, 854);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.Links);
             this.Controls.Add(this.groupBox2);
@@ -1750,6 +1802,10 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ComboBox cmbSearchFeature;
         private System.Windows.Forms.Button btnARs;
+        private System.Windows.Forms.Button btnPortal3;
+        private System.Windows.Forms.Button btnPortal2;
+        private System.Windows.Forms.Button btnPortal1;
+        private System.Windows.Forms.Button btnTraderLogs;
     }
 }
 

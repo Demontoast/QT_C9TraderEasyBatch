@@ -94,7 +94,6 @@ namespace LM_C9Master
         String[] traderRoots = new String[2];
         frmUserInfoForm userInfoForm;
         frmMainForm mainForm;
-        generateNewSettingsFilePrompt newFilePrompt;
         String currVersion;
 
         // Main method, loads all forms and settings
@@ -106,9 +105,9 @@ namespace LM_C9Master
             traderRoots[1] = "";
             currVersion = mainForm.Text;
 
-            this.Width = 1200;
+            this.Width = 1015;
             this.Height = 485;
-            this.SetDesktopLocation(43, 75);
+            this.SetDesktopLocation(130, 75);
 
             foreach (Process p in System.Diagnostics.Process.GetProcesses())
             {
@@ -2411,6 +2410,27 @@ namespace LM_C9Master
         {
             String currUser = Environment.UserName;
             Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\C9Trader\calls");
+        }
+
+        private void btnPortal1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://qa1-portal1.xhoot.com/c9portal/#/login");
+        }
+
+        private void btnPortal2_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://qa1-portal2.xhoot.com/c9portal/#/login");
+        }
+
+        private void btnPortal3_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://qa1-portal3.xhoot.com/c9portal/#/login");
+        }
+
+        private void btnTraderLogs_Click(object sender, EventArgs e)
+        {
+            String currUser = Environment.UserName;
+            Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\C9Trader\log");
         }
     }
 }
