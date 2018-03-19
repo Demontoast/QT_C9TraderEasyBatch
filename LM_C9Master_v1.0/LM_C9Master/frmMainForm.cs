@@ -2271,9 +2271,16 @@ namespace LM_C9Master
                             {
 
                             }
-                            if (!tempAcc.strUserName.Equals("") && !tempAcc.strUserName.Equals(null) && !newAccs.Contains(tempAcc))
+                            if (!tempAcc.strUserName.Equals("") && !tempAcc.strUserName.Equals(null))
                             {
-                                newAccs.Add(tempAcc);
+                                bool exists = false;
+                                foreach (AppAccount existingACs in newAccs)
+                                {
+                                    if (existingACs.strUserName.Equals(tempAcc.strUserName))
+                                        exists = true;
+                                }
+                                if (!exists)
+                                    newAccs.Add(tempAcc);
                             }
                             Line = SR.ReadLine();
                         }
