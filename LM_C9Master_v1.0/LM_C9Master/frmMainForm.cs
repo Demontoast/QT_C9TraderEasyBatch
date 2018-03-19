@@ -94,7 +94,6 @@ namespace LM_C9Master
         String[] traderRoots = new String[2];
         frmUserInfoForm userInfoForm;
         frmMainForm mainForm;
-        generateNewSettingsFilePrompt newFilePrompt;
         String currVersion;
 
         // Main method, loads all forms and settings
@@ -106,9 +105,9 @@ namespace LM_C9Master
             traderRoots[1] = "";
             currVersion = mainForm.Text;
 
-            this.Width = 1200;
+            this.Width = 1015;
             this.Height = 485;
-            this.SetDesktopLocation(43, 75);
+            this.SetDesktopLocation(130, 75);
 
             foreach (Process p in System.Diagnostics.Process.GetProcesses())
             {
@@ -150,9 +149,29 @@ namespace LM_C9Master
 
             //VPN Manager Startup Setup
 
-            ServiceController svcAcumbrella = new ServiceController("acumbrellaagent");
-            ServiceController svcVPNAgent = new ServiceController("vpnagent");
-            if (svcAcumbrella.Status == ServiceControllerStatus.Stopped || svcVPNAgent.Status == ServiceControllerStatus.Stopped)
+            bool acumbrellaFound = true;
+            ServiceController svcAcumbrella;
+            try
+            {
+                svcAcumbrella = new ServiceController("acumbrellaagent");
+            }
+            catch
+            {
+                acumbrellaFound = false;
+            }
+
+            bool vpnAgentFound = true;
+            ServiceController svcVPNAgent;
+            try
+            {
+                svcVPNAgent = new ServiceController("vpnagent");
+            }
+            catch
+            {
+                vpnAgentFound = false;
+            }
+            
+            if (!vpnAgentFound)
             {
                 BtnVPNSwitch.Text = "OFF";
                 BtnVPNSwitch.BackColor = Color.LightCoral;
@@ -163,17 +182,62 @@ namespace LM_C9Master
                 btnCloseAppSelUser.Enabled = false;
                 btnVersionManager.Enabled = false;
             }
-            else if (svcAcumbrella.Status == ServiceControllerStatus.Running && svcVPNAgent.Status == ServiceControllerStatus.Running)
+            else
             {
-                BtnVPNSwitch.Text = "ON";
-                BtnVPNSwitch.BackColor = Color.LightGreen;
-                BtnVPNSwitch.ForeColor = Color.DarkGreen;
-                btnVPNClientLaunch.Enabled = true;
-                BtnLaunchApp.Enabled = true;
-                btnCloseApp.Enabled = true;
-                btnCloseAppSelUser.Enabled = true;
-                btnVersionManager.Enabled = true;
+                svcVPNAgent = new ServiceController("vpnagent");
+                if (!acumbrellaFound)
+                {
+                    if (svcVPNAgent.Status == ServiceControllerStatus.Stopped)
+                    {
+                        BtnVPNSwitch.Text = "OFF";
+                        BtnVPNSwitch.BackColor = Color.LightCoral;
+                        BtnVPNSwitch.ForeColor = Color.DarkRed;
+                        btnVPNClientLaunch.Enabled = false;
+                        BtnLaunchApp.Enabled = false;
+                        btnCloseApp.Enabled = false;
+                        btnCloseAppSelUser.Enabled = false;
+                        btnVersionManager.Enabled = false;
+                    }
+                    else if (svcVPNAgent.Status == ServiceControllerStatus.Running)
+                    {
+                        BtnVPNSwitch.Text = "ON";
+                        BtnVPNSwitch.BackColor = Color.LightGreen;
+                        BtnVPNSwitch.ForeColor = Color.DarkGreen;
+                        btnVPNClientLaunch.Enabled = true;
+                        BtnLaunchApp.Enabled = true;
+                        btnCloseApp.Enabled = true;
+                        btnCloseAppSelUser.Enabled = true;
+                        btnVersionManager.Enabled = true;
+                    }
+                }
+                else
+                {
+                    svcAcumbrella = new ServiceController("acumbrellaagent");
+                    if (svcAcumbrella.Status == ServiceControllerStatus.Stopped || svcVPNAgent.Status == ServiceControllerStatus.Stopped)
+                    {
+                        BtnVPNSwitch.Text = "OFF";
+                        BtnVPNSwitch.BackColor = Color.LightCoral;
+                        BtnVPNSwitch.ForeColor = Color.DarkRed;
+                        btnVPNClientLaunch.Enabled = false;
+                        BtnLaunchApp.Enabled = false;
+                        btnCloseApp.Enabled = false;
+                        btnCloseAppSelUser.Enabled = false;
+                        btnVersionManager.Enabled = false;
+                    }
+                    else if (svcAcumbrella.Status == ServiceControllerStatus.Running && svcVPNAgent.Status == ServiceControllerStatus.Running)
+                    {
+                        BtnVPNSwitch.Text = "ON";
+                        BtnVPNSwitch.BackColor = Color.LightGreen;
+                        BtnVPNSwitch.ForeColor = Color.DarkGreen;
+                        btnVPNClientLaunch.Enabled = true;
+                        BtnLaunchApp.Enabled = true;
+                        btnCloseApp.Enabled = true;
+                        btnCloseAppSelUser.Enabled = true;
+                        btnVersionManager.Enabled = true;
+                    }
+                }
             }
+
             ///
             //App Manager Startup Setup
             RefreshVersions();
@@ -691,68 +755,106 @@ namespace LM_C9Master
         // Action Listener for the VPN Services button, turns VPN services on / off
         private void BtnVPNSwitch_Click(object sender, EventArgs e)
         {
-            ServiceController svcAcumbrella = new ServiceController("acumbrellaagent");
-            ServiceController svcVPNAgent = new ServiceController("vpnagent");
+            bool acumbrellaFound = true;
+            bool svcVPNAgentFound = true;
+
+            ServiceController svcAcumbrella;
+            ServiceController svcVPNAgent;
+            try
+            {
+                svcAcumbrella = new ServiceController("acumbrellaagent");
+            }
+            catch
+            {
+                acumbrellaFound = false;
+            }
+
+            try
+            {
+                svcVPNAgent = new ServiceController("vpnagent");
+            }
+            catch
+            {
+                svcVPNAgentFound = false;
+            }
+            
             if (BtnVPNSwitch.Text == "OFF")
             {
-                try
-                {
-                    if (svcAcumbrella.Status == ServiceControllerStatus.Stopped)
+                    if (acumbrellaFound)
                     {
-                        svcAcumbrella.Start();
+                        svcAcumbrella = new ServiceController("acumbrellaagent");
+
+                        if (svcAcumbrella.Status == ServiceControllerStatus.Stopped)
+                        {
+                            svcAcumbrella.Start();
+                        }
                     }
-                    if (svcVPNAgent.Status == ServiceControllerStatus.Stopped)
+                    
+                    
+                    if (svcVPNAgentFound)
                     {
-                        svcVPNAgent.Start();
+                        svcVPNAgent = new ServiceController("vpnagent");
+                        if (svcVPNAgent.Status == ServiceControllerStatus.Stopped)
+                        {
+                            svcVPNAgent.Start();
+                        }
+
+                        BtnVPNSwitch.Enabled = false;
+                        Thread.Sleep(1500);
+                        BtnVPNSwitch.Text = "ON";
+                        BtnVPNSwitch.BackColor = Color.LightGreen;
+                        BtnVPNSwitch.ForeColor = Color.DarkGreen;
+                        btnVPNClientLaunch.Enabled = true;
+                        BtnVPNSwitch.Enabled = true;
+                        BtnLaunchApp.Enabled = true;
+                        btnCloseApp.Enabled = true;
+                        btnCloseAppSelUser.Enabled = true;
+                        btnVersionManager.Enabled = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("VPN services are not working properly..." + Environment.NewLine + "Please verify their status in Windows Task Manager", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        BtnVPNSwitch.Enabled = false;
                     }
 
-                    BtnVPNSwitch.Enabled = false;
-                    Thread.Sleep(1500);
-                    BtnVPNSwitch.Text = "ON";
-                    BtnVPNSwitch.BackColor = Color.LightGreen;
-                    BtnVPNSwitch.ForeColor = Color.DarkGreen;
-                    btnVPNClientLaunch.Enabled = true;
-                    BtnVPNSwitch.Enabled = true;
-                    BtnLaunchApp.Enabled = true;
-                    btnCloseApp.Enabled = true;
-                    btnCloseAppSelUser.Enabled = true;
-                    btnVersionManager.Enabled = true;
-                }
-                catch
-                {
-                    MessageBox.Show("VPN services are not working properly..." + Environment.NewLine + "Please verify their status in Windows Task Manager", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    BtnVPNSwitch.Enabled = false;
-                }
+                    
             }
             else
             {
-                try
-                {
-                    if (svcAcumbrella.Status == ServiceControllerStatus.Running)
+                    if (acumbrellaFound)
                     {
-                        svcAcumbrella.Stop();
+                        svcAcumbrella = new ServiceController("acumbrellaagent");
+                        if (svcAcumbrella.Status == ServiceControllerStatus.Running)
+                        {
+                            svcAcumbrella.Stop();
+                        }
                     }
-                    if (svcVPNAgent.Status == ServiceControllerStatus.Running)
+                    
+                    if (svcVPNAgentFound)
                     {
-                        svcVPNAgent.Stop();
+                        svcVPNAgent = new ServiceController("vpnagent");
+                        if (svcVPNAgent.Status == ServiceControllerStatus.Running)
+                        {
+                            svcVPNAgent.Stop();
+                        }
+
+                        BtnVPNSwitch.Enabled = false;
+                        Thread.Sleep(1500);
+                        BtnVPNSwitch.Text = "OFF";
+                        BtnVPNSwitch.BackColor = Color.LightCoral;
+                        BtnVPNSwitch.ForeColor = Color.DarkRed;
+                        btnVPNClientLaunch.Enabled = false;
+                        BtnVPNSwitch.Enabled = true;
+                        BtnLaunchApp.Enabled = false;
+                        btnCloseApp.Enabled = false;
+                        btnCloseAppSelUser.Enabled = false;
+                        btnVersionManager.Enabled = false;
                     }
-                    BtnVPNSwitch.Enabled = false;
-                    Thread.Sleep(1500);
-                    BtnVPNSwitch.Text = "OFF";
-                    BtnVPNSwitch.BackColor = Color.LightCoral;
-                    BtnVPNSwitch.ForeColor = Color.DarkRed;
-                    btnVPNClientLaunch.Enabled = false;
-                    BtnVPNSwitch.Enabled = true;
-                    BtnLaunchApp.Enabled = false;
-                    btnCloseApp.Enabled = false;
-                    btnCloseAppSelUser.Enabled = false;
-                    btnVersionManager.Enabled = false;
-                }
-                catch
-                {
-                    MessageBox.Show("VPN services are not working properly..." + Environment.NewLine + "Please verify their status in Windows Task Manager", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    BtnVPNSwitch.Enabled = false;
-                }
+                    else
+                    {
+                        MessageBox.Show("VPN services are not working properly..." + Environment.NewLine + "Please verify their status in Windows Task Manager", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        BtnVPNSwitch.Enabled = false;
+                    } 
             }
         }
 
@@ -2168,9 +2270,16 @@ namespace LM_C9Master
                             {
 
                             }
-                            if (!tempAcc.strUserName.Equals("") && !tempAcc.strUserName.Equals(null) && !newAccs.Contains(tempAcc))
+                            if (!tempAcc.strUserName.Equals("") && !tempAcc.strUserName.Equals(null))
                             {
-                                newAccs.Add(tempAcc);
+                                bool exists = false;
+                                foreach (AppAccount existingACs in newAccs)
+                                {
+                                    if (existingACs.strUserName.Equals(tempAcc.strUserName))
+                                        exists = true;
+                                }
+                                if (!exists)
+                                    newAccs.Add(tempAcc);
                             }
                             Line = SR.ReadLine();
                         }
@@ -2301,6 +2410,27 @@ namespace LM_C9Master
         {
             String currUser = Environment.UserName;
             Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\C9Trader\calls");
+        }
+
+        private void btnPortal1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://qa1-portal1.xhoot.com/c9portal/#/login");
+        }
+
+        private void btnPortal2_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://qa1-portal2.xhoot.com/c9portal/#/login");
+        }
+
+        private void btnPortal3_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://qa1-portal3.xhoot.com/c9portal/#/login");
+        }
+
+        private void btnTraderLogs_Click(object sender, EventArgs e)
+        {
+            String currUser = Environment.UserName;
+            Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\C9Trader\log");
         }
     }
 }
