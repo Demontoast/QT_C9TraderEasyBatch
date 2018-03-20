@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ARComparer));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtBoxMediaFile = new System.Windows.Forms.TextBox();
             this.btnReset = new System.Windows.Forms.Button();
             this.checkMark = new System.Windows.Forms.PictureBox();
             this.btnCompareText = new System.Windows.Forms.Button();
@@ -39,8 +41,6 @@
             this.txtBoxUserARDisplay = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtBoxUserARs = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtBoxMediaFile = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkMark)).BeginInit();
             this.SuspendLayout();
@@ -63,6 +63,23 @@
             this.panel1.Size = new System.Drawing.Size(2541, 1146);
             this.panel1.TabIndex = 0;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(1287, 13);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(216, 25);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Drag Media File Here";
+            // 
+            // txtBoxMediaFile
+            // 
+            this.txtBoxMediaFile.AllowDrop = true;
+            this.txtBoxMediaFile.Location = new System.Drawing.Point(1505, 10);
+            this.txtBoxMediaFile.Name = "txtBoxMediaFile";
+            this.txtBoxMediaFile.Size = new System.Drawing.Size(1033, 31);
+            this.txtBoxMediaFile.TabIndex = 10;
+            // 
             // btnReset
             // 
             this.btnReset.Location = new System.Drawing.Point(908, 1033);
@@ -76,7 +93,7 @@
             // checkMark
             // 
             this.checkMark.Image = ((System.Drawing.Image)(resources.GetObject("checkMark.Image")));
-            this.checkMark.Location = new System.Drawing.Point(1640, 1033);
+            this.checkMark.Location = new System.Drawing.Point(1636, 1033);
             this.checkMark.Name = "checkMark";
             this.checkMark.Size = new System.Drawing.Size(91, 85);
             this.checkMark.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -98,11 +115,11 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(1511, 59);
+            this.label3.Location = new System.Drawing.Point(1466, 59);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(751, 63);
+            this.label3.Size = new System.Drawing.Size(840, 63);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Media File AR\'s for File Above";
+            this.label3.Text = "Media File AR\'s for the File Above";
             // 
             // label2
             // 
@@ -116,9 +133,9 @@
             // 
             // txtBoxMediaFileARDisplay
             // 
-            this.txtBoxMediaFileARDisplay.Location = new System.Drawing.Point(1275, 125);
+            this.txtBoxMediaFileARDisplay.Location = new System.Drawing.Point(1292, 125);
             this.txtBoxMediaFileARDisplay.Name = "txtBoxMediaFileARDisplay";
-            this.txtBoxMediaFileARDisplay.Size = new System.Drawing.Size(1250, 877);
+            this.txtBoxMediaFileARDisplay.Size = new System.Drawing.Size(1233, 877);
             this.txtBoxMediaFileARDisplay.TabIndex = 4;
             this.txtBoxMediaFileARDisplay.Text = "";
             this.txtBoxMediaFileARDisplay.TextChanged += new System.EventHandler(this.txtBoxMediaFileARDisplay_TextChanged);
@@ -127,7 +144,7 @@
             // 
             this.txtBoxUserARDisplay.Location = new System.Drawing.Point(14, 125);
             this.txtBoxUserARDisplay.Name = "txtBoxUserARDisplay";
-            this.txtBoxUserARDisplay.Size = new System.Drawing.Size(1250, 877);
+            this.txtBoxUserARDisplay.Size = new System.Drawing.Size(1238, 877);
             this.txtBoxUserARDisplay.TabIndex = 3;
             this.txtBoxUserARDisplay.Text = "";
             // 
@@ -147,23 +164,6 @@
             this.txtBoxUserARs.Name = "txtBoxUserARs";
             this.txtBoxUserARs.Size = new System.Drawing.Size(1006, 31);
             this.txtBoxUserARs.TabIndex = 0;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1270, 13);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(216, 25);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Drag Media File Here";
-            // 
-            // txtBoxMediaFile
-            // 
-            this.txtBoxMediaFile.AllowDrop = true;
-            this.txtBoxMediaFile.Location = new System.Drawing.Point(1492, 7);
-            this.txtBoxMediaFile.Name = "txtBoxMediaFile";
-            this.txtBoxMediaFile.Size = new System.Drawing.Size(1033, 31);
-            this.txtBoxMediaFile.TabIndex = 10;
             // 
             // ARComparer
             // 
