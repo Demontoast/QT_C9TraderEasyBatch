@@ -41,12 +41,15 @@
             this.txtBoxUserARDisplay = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtBoxUserARs = new System.Windows.Forms.TextBox();
+            this.errorX = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkMark)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorX)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.errorX);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.txtBoxMediaFile);
             this.panel1.Controls.Add(this.btnReset);
@@ -107,7 +110,7 @@
             this.btnCompareText.Name = "btnCompareText";
             this.btnCompareText.Size = new System.Drawing.Size(323, 85);
             this.btnCompareText.TabIndex = 7;
-            this.btnCompareText.Text = "Compare AR\'s";
+            this.btnCompareText.Text = "Verify AR\'s";
             this.btnCompareText.UseVisualStyleBackColor = true;
             this.btnCompareText.Click += new System.EventHandler(this.btnCompareText_Click);
             // 
@@ -165,6 +168,17 @@
             this.txtBoxUserARs.Size = new System.Drawing.Size(1006, 31);
             this.txtBoxUserARs.TabIndex = 0;
             // 
+            // errorX
+            // 
+            this.errorX.Image = ((System.Drawing.Image)(resources.GetObject("errorX.Image")));
+            this.errorX.Location = new System.Drawing.Point(1636, 1033);
+            this.errorX.Name = "errorX";
+            this.errorX.Size = new System.Drawing.Size(91, 85);
+            this.errorX.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.errorX.TabIndex = 12;
+            this.errorX.TabStop = false;
+            this.errorX.Visible = false;
+            // 
             // ARComparer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -177,6 +191,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkMark)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorX)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -195,5 +210,6 @@
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtBoxMediaFile;
+        private System.Windows.Forms.PictureBox errorX;
     }
 }
