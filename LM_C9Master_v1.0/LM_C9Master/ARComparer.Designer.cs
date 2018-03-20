@@ -30,21 +30,25 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ARComparer));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.checkMark = new System.Windows.Forms.PictureBox();
+            this.btnCompareText = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtBoxMediaFileARDisplay = new System.Windows.Forms.RichTextBox();
             this.txtBoxUserARDisplay = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtBoxUserARs = new System.Windows.Forms.TextBox();
-            this.btnCompareText = new System.Windows.Forms.Button();
-            this.checkMark = new System.Windows.Forms.PictureBox();
-            this.btnReset = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtBoxMediaFile = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkMark)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.txtBoxMediaFile);
             this.panel1.Controls.Add(this.btnReset);
             this.panel1.Controls.Add(this.checkMark);
             this.panel1.Controls.Add(this.btnCompareText);
@@ -59,15 +63,46 @@
             this.panel1.Size = new System.Drawing.Size(2541, 1146);
             this.panel1.TabIndex = 0;
             // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(908, 1033);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(344, 85);
+            this.btnReset.TabIndex = 9;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // checkMark
+            // 
+            this.checkMark.Image = ((System.Drawing.Image)(resources.GetObject("checkMark.Image")));
+            this.checkMark.Location = new System.Drawing.Point(1640, 1033);
+            this.checkMark.Name = "checkMark";
+            this.checkMark.Size = new System.Drawing.Size(91, 85);
+            this.checkMark.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.checkMark.TabIndex = 8;
+            this.checkMark.TabStop = false;
+            this.checkMark.Visible = false;
+            // 
+            // btnCompareText
+            // 
+            this.btnCompareText.Location = new System.Drawing.Point(1292, 1033);
+            this.btnCompareText.Name = "btnCompareText";
+            this.btnCompareText.Size = new System.Drawing.Size(323, 85);
+            this.btnCompareText.TabIndex = 7;
+            this.btnCompareText.Text = "Compare AR\'s";
+            this.btnCompareText.UseVisualStyleBackColor = true;
+            this.btnCompareText.Click += new System.EventHandler(this.btnCompareText_Click);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(1443, 59);
+            this.label3.Location = new System.Drawing.Point(1511, 59);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(982, 63);
+            this.label3.Size = new System.Drawing.Size(751, 63);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Paste Media File AR\'s Here to Compare";
+            this.label3.Text = "Media File AR\'s for File Above";
             // 
             // label2
             // 
@@ -110,39 +145,25 @@
             this.txtBoxUserARs.AllowDrop = true;
             this.txtBoxUserARs.Location = new System.Drawing.Point(246, 10);
             this.txtBoxUserARs.Name = "txtBoxUserARs";
-            this.txtBoxUserARs.Size = new System.Drawing.Size(2279, 31);
+            this.txtBoxUserARs.Size = new System.Drawing.Size(1006, 31);
             this.txtBoxUserARs.TabIndex = 0;
             // 
-            // btnCompareText
+            // label4
             // 
-            this.btnCompareText.Location = new System.Drawing.Point(1292, 1033);
-            this.btnCompareText.Name = "btnCompareText";
-            this.btnCompareText.Size = new System.Drawing.Size(323, 85);
-            this.btnCompareText.TabIndex = 7;
-            this.btnCompareText.Text = "Compare AR\'s";
-            this.btnCompareText.UseVisualStyleBackColor = true;
-            this.btnCompareText.Click += new System.EventHandler(this.btnCompareText_Click);
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(1270, 13);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(216, 25);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Drag Media File Here";
             // 
-            // checkMark
+            // txtBoxMediaFile
             // 
-            this.checkMark.Image = ((System.Drawing.Image)(resources.GetObject("checkMark.Image")));
-            this.checkMark.Location = new System.Drawing.Point(1640, 1033);
-            this.checkMark.Name = "checkMark";
-            this.checkMark.Size = new System.Drawing.Size(91, 85);
-            this.checkMark.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.checkMark.TabIndex = 8;
-            this.checkMark.TabStop = false;
-            this.checkMark.Visible = false;
-            // 
-            // btnReset
-            // 
-            this.btnReset.Location = new System.Drawing.Point(908, 1033);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(344, 85);
-            this.btnReset.TabIndex = 9;
-            this.btnReset.Text = "Reset";
-            this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            this.txtBoxMediaFile.AllowDrop = true;
+            this.txtBoxMediaFile.Location = new System.Drawing.Point(1492, 7);
+            this.txtBoxMediaFile.Name = "txtBoxMediaFile";
+            this.txtBoxMediaFile.Size = new System.Drawing.Size(1033, 31);
+            this.txtBoxMediaFile.TabIndex = 10;
             // 
             // ARComparer
             // 
@@ -172,5 +193,7 @@
         private System.Windows.Forms.Button btnCompareText;
         private System.Windows.Forms.PictureBox checkMark;
         private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtBoxMediaFile;
     }
 }

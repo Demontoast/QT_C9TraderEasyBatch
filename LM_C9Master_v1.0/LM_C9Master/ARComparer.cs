@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Drawing;
+using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
+using TagLib;
 
 namespace LM_C9Master
 {
@@ -19,6 +21,8 @@ namespace LM_C9Master
             InitializeComponent();
             txtBoxUserARs.DragEnter += txtBoxUserARs_DragEnter;
             txtBoxUserARs.DragOver += textBoxUserARs_DragOver;
+            txtBoxMediaFile.DragEnter += txtBoxMediaFile_DragEnter;
+            txtBoxMediaFile.DragOver += textBoxMediaFile_DragOver;
             
         }
 
@@ -34,21 +38,29 @@ namespace LM_C9Master
             String Line = "";
             List<String> arFileContents = new List<String>();
 
-            using (StreamReader SR = new StreamReader(txtBoxUserARs.Text))
+            try
             {
-                while ((Line = SR.ReadLine()) != null)
+                using (StreamReader SR = new StreamReader(txtBoxUserARs.Text))
                 {
-                    arFileContents.Add(Line);
+                    while ((Line = SR.ReadLine()) != null)
+                    {
+                        arFileContents.Add(Line);
+                    }
+                }
+
+                foreach (String textLine in arFileContents)
+                {
+                    string[] lineSplitter = null;
+                    lineSplitter = textLine.Split('|');
+                    txtBoxUserARDisplay.AppendText(lineSplitter[1]);
+                    txtBoxUserARDisplay.AppendText("\n\n");
                 }
             }
-
-            foreach (String textLine in arFileContents)
+            catch
             {
-                string[] lineSplitter = null;
-                lineSplitter = textLine.Split('|');
-                txtBoxUserARDisplay.AppendText(lineSplitter[1]);
-                txtBoxUserARDisplay.AppendText("\n\n");
+                MessageBox.Show("WARNING: INVALID USER AR LOG FILE DETECTED");
             }
+            
         }
 
         private void textBoxUserARs_DragOver(object sender, DragEventArgs e)
@@ -57,6 +69,36 @@ namespace LM_C9Master
                 e.Effect = DragDropEffects.Copy;
             else
                 e.Effect = DragDropEffects.None;
+        }
+
+        private void textBoxMediaFile_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void txtBoxMediaFile_DragEnter(object sender, DragEventArgs e)
+        {
+            txtBoxMediaFileARDisplay.Clear();
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files != null && files.Length != 0)
+            {
+                txtBoxMediaFile.Text = files[0];
+            }
+
+            
+            try
+            {
+                var mediaFile = TagLib.File.Create(txtBoxMediaFile.Text);
+                string Comments = mediaFile.Tag.Comment;
+                txtBoxMediaFileARDisplay.Text = Comments;
+            }
+            catch
+            {
+                MessageBox.Show("WARNING: INVALID MEDIA FILE");
+            }      
         }
 
         private void ARComparer_Load(object sender, EventArgs e)
@@ -126,6 +168,7 @@ namespace LM_C9Master
         {
             btnCompareText.Enabled = true;
             txtBoxMediaFileARDisplay.Clear();
+            txtBoxMediaFile.Clear();
             checkMark.Visible = false;
             txtBoxMediaFileARDisplay.ForeColor = Color.Black;
             txtBoxMediaFileARDisplay.TextChanged += txtBoxMediaFileARDisplay_TextChanged;
