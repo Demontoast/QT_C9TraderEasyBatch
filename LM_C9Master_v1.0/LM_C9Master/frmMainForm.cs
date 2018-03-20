@@ -94,6 +94,7 @@ namespace LM_C9Master
         String[] traderRoots = new String[2];
         frmUserInfoForm userInfoForm;
         frmMainForm mainForm;
+        ARComparer arCompareForm;
         String currVersion;
 
         // Main method, loads all forms and settings
@@ -154,6 +155,8 @@ namespace LM_C9Master
             try
             {
                 svcAcumbrella = new ServiceController("acumbrellaagent");
+                if (svcAcumbrella.Status == ServiceControllerStatus.Stopped || svcAcumbrella.Status == ServiceControllerStatus.Running)
+                    acumbrellaFound = true;
             }
             catch
             {
@@ -213,7 +216,7 @@ namespace LM_C9Master
                 else
                 {
                     svcAcumbrella = new ServiceController("acumbrellaagent");
-                    if (svcAcumbrella.Status == ServiceControllerStatus.Stopped || svcVPNAgent.Status == ServiceControllerStatus.Stopped)
+                    if (svcAcumbrella.Status == ServiceControllerStatus.Stopped)
                     {
                         BtnVPNSwitch.Text = "OFF";
                         BtnVPNSwitch.BackColor = Color.LightCoral;
@@ -224,7 +227,7 @@ namespace LM_C9Master
                         btnCloseAppSelUser.Enabled = false;
                         btnVersionManager.Enabled = false;
                     }
-                    else if (svcAcumbrella.Status == ServiceControllerStatus.Running && svcVPNAgent.Status == ServiceControllerStatus.Running)
+                    else if (svcAcumbrella.Status == ServiceControllerStatus.Running)
                     {
                         BtnVPNSwitch.Text = "ON";
                         BtnVPNSwitch.BackColor = Color.LightGreen;
@@ -2431,6 +2434,21 @@ namespace LM_C9Master
         {
             String currUser = Environment.UserName;
             Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\C9Trader\log");
+        }
+
+        private void btnOpenARComparer_Click(object sender, EventArgs e)
+        {
+            arCompareForm = new ARComparer();
+            arCompareForm.Activate();
+            arCompareForm.BringToFront();
+            arCompareForm.Show();
+            arCompareForm.FormClosed += arComparerClosedEventHandler;
+        }
+
+
+        public void arComparerClosedEventHandler(object sender, EventArgs e)
+        {
+            
         }
     }
 }

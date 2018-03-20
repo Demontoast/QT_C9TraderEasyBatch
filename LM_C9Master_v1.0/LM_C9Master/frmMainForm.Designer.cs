@@ -113,6 +113,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lblServer = new System.Windows.Forms.Label();
             this.Links = new System.Windows.Forms.GroupBox();
+            this.btnOpenARComparer = new System.Windows.Forms.Button();
+            this.btnTraderLogs = new System.Windows.Forms.Button();
             this.btnPortal3 = new System.Windows.Forms.Button();
             this.btnPortal2 = new System.Windows.Forms.Button();
             this.btnPortal1 = new System.Windows.Forms.Button();
@@ -173,7 +175,6 @@
             this.txtBoxCurrGroupSearch = new System.Windows.Forms.TextBox();
             this.txtBoxCurrFirmSearch = new System.Windows.Forms.TextBox();
             this.fldBrwsDiagLoadBatches = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnTraderLogs = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -671,7 +672,7 @@
             // 
             // btnStartLocalServer
             // 
-            this.btnStartLocalServer.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStartLocalServer.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStartLocalServer.Location = new System.Drawing.Point(188, 502);
             this.btnStartLocalServer.Name = "btnStartLocalServer";
             this.btnStartLocalServer.Size = new System.Drawing.Size(216, 51);
@@ -1075,6 +1076,7 @@
             // 
             // Links
             // 
+            this.Links.Controls.Add(this.btnOpenARComparer);
             this.Links.Controls.Add(this.btnTraderLogs);
             this.Links.Controls.Add(this.btnPortal3);
             this.Links.Controls.Add(this.btnPortal2);
@@ -1104,6 +1106,26 @@
             this.Links.TabStop = false;
             this.Links.Text = "Useful Shortcuts";
             this.Links.Enter += new System.EventHandler(this.Links_Enter);
+            // 
+            // btnOpenARComparer
+            // 
+            this.btnOpenARComparer.Location = new System.Drawing.Point(12, 613);
+            this.btnOpenARComparer.Name = "btnOpenARComparer";
+            this.btnOpenARComparer.Size = new System.Drawing.Size(170, 50);
+            this.btnOpenARComparer.TabIndex = 22;
+            this.btnOpenARComparer.Text = "AR Comparer";
+            this.btnOpenARComparer.UseVisualStyleBackColor = true;
+            this.btnOpenARComparer.Click += new System.EventHandler(this.btnOpenARComparer_Click);
+            // 
+            // btnTraderLogs
+            // 
+            this.btnTraderLogs.Location = new System.Drawing.Point(188, 446);
+            this.btnTraderLogs.Name = "btnTraderLogs";
+            this.btnTraderLogs.Size = new System.Drawing.Size(216, 49);
+            this.btnTraderLogs.TabIndex = 21;
+            this.btnTraderLogs.Text = "Trader Logs";
+            this.btnTraderLogs.UseVisualStyleBackColor = true;
+            this.btnTraderLogs.Click += new System.EventHandler(this.btnTraderLogs_Click);
             // 
             // btnPortal3
             // 
@@ -1611,16 +1633,6 @@
             this.txtBoxCurrFirmSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxCurrFirmSearch.TabIndex = 35;
             // 
-            // btnTraderLogs
-            // 
-            this.btnTraderLogs.Location = new System.Drawing.Point(188, 446);
-            this.btnTraderLogs.Name = "btnTraderLogs";
-            this.btnTraderLogs.Size = new System.Drawing.Size(216, 49);
-            this.btnTraderLogs.TabIndex = 21;
-            this.btnTraderLogs.Text = "Trader Logs";
-            this.btnTraderLogs.UseVisualStyleBackColor = true;
-            this.btnTraderLogs.Click += new System.EventHandler(this.btnTraderLogs_Click);
-            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -1806,6 +1818,7 @@
         private System.Windows.Forms.Button btnPortal2;
         private System.Windows.Forms.Button btnPortal1;
         private System.Windows.Forms.Button btnTraderLogs;
+        private System.Windows.Forms.Button btnOpenARComparer;
     }
 }
 
