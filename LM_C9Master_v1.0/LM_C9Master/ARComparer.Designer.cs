@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ARComparer));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.errorX = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtBoxMediaFile = new System.Windows.Forms.TextBox();
             this.btnReset = new System.Windows.Forms.Button();
@@ -41,10 +42,9 @@
             this.txtBoxUserARDisplay = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtBoxUserARs = new System.Windows.Forms.TextBox();
-            this.errorX = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.checkMark)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkMark)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -66,6 +66,17 @@
             this.panel1.Size = new System.Drawing.Size(2541, 1146);
             this.panel1.TabIndex = 0;
             // 
+            // errorX
+            // 
+            this.errorX.Image = ((System.Drawing.Image)(resources.GetObject("errorX.Image")));
+            this.errorX.Location = new System.Drawing.Point(1636, 1033);
+            this.errorX.Name = "errorX";
+            this.errorX.Size = new System.Drawing.Size(91, 85);
+            this.errorX.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.errorX.TabIndex = 12;
+            this.errorX.TabStop = false;
+            this.errorX.Visible = false;
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -85,9 +96,9 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(908, 1033);
+            this.btnReset.Location = new System.Drawing.Point(908, 1027);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(344, 85);
+            this.btnReset.Size = new System.Drawing.Size(344, 97);
             this.btnReset.TabIndex = 9;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = true;
@@ -106,9 +117,9 @@
             // 
             // btnCompareText
             // 
-            this.btnCompareText.Location = new System.Drawing.Point(1292, 1033);
+            this.btnCompareText.Location = new System.Drawing.Point(1292, 1027);
             this.btnCompareText.Name = "btnCompareText";
-            this.btnCompareText.Size = new System.Drawing.Size(323, 85);
+            this.btnCompareText.Size = new System.Drawing.Size(323, 97);
             this.btnCompareText.TabIndex = 7;
             this.btnCompareText.Text = "Verify AR\'s";
             this.btnCompareText.UseVisualStyleBackColor = true;
@@ -168,17 +179,6 @@
             this.txtBoxUserARs.Size = new System.Drawing.Size(1006, 31);
             this.txtBoxUserARs.TabIndex = 0;
             // 
-            // errorX
-            // 
-            this.errorX.Image = ((System.Drawing.Image)(resources.GetObject("errorX.Image")));
-            this.errorX.Location = new System.Drawing.Point(1636, 1033);
-            this.errorX.Name = "errorX";
-            this.errorX.Size = new System.Drawing.Size(91, 85);
-            this.errorX.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.errorX.TabIndex = 12;
-            this.errorX.TabStop = false;
-            this.errorX.Visible = false;
-            // 
             // ARComparer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -190,8 +190,8 @@
             this.Load += new System.EventHandler(this.ARComparer_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.checkMark)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkMark)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -138,36 +138,46 @@ namespace LM_C9Master
             btnCompareText.Enabled = false;
 
             List<String> uniqueARs = new List<String>();
-            string[] mediaARSplitter = txtBoxMediaFileARDisplay.Text.Split('\n'); ;
+            char[] parameters = new char[2];
+            parameters[0] = '\n';
+            parameters[1] = ' ';
+            string[] mediaARSplitter = txtBoxMediaFileARDisplay.Text.Split(parameters); ;
 
             foreach(string s in mediaARSplitter)
             {
                 if (!uniqueARs.Contains(s))
                     uniqueARs.Add(s);
-                else
+                else if (!s.Equals(" ") && !s.Equals(""))
                 {
                     errorX.Visible = true;
                     int index = -1;
+                    int searchIndex = 0;
                     if ((index = txtBoxMediaFileARDisplay.Find(s, 0, RichTextBoxFinds.WholeWord)) > -1)
                     {
-                        txtBoxMediaFileARDisplay.SelectionColor = Color.Goldenrod;
+                        txtBoxMediaFileARDisplay.SelectionColor = Color.Blue;
                         txtBoxMediaFileARDisplay.Select(index, s.Length);
+                        searchIndex = index + s.Length;
+                        while ((index = txtBoxMediaFileARDisplay.Find(s, searchIndex, RichTextBoxFinds.WholeWord)) > -1)
+                        {
+                            txtBoxMediaFileARDisplay.SelectionColor = Color.Red;
+                            txtBoxMediaFileARDisplay.Select(index, s.Length);
+                            searchIndex = index + s.Length;
+                        }
                     }
+                    
                 }
             }
 
-            if (errorX.Visible == false && txtBoxUserARDisplay.Text.Trim(' ', '\n').Contains(txtBoxMediaFileARDisplay.Text.Trim(' ', '\n')))
-            {
-                txtBoxMediaFileARDisplay.ForeColor = Color.Green;
-                checkMark.Visible = true;
-            }
-            else if (errorX.Visible == false)
+            if (errorX.Visible == false)
             {
                 List<String> missingARs = new List<String>();
                 foreach (string s in mediaARSplitter)
                 {
                     if (!txtBoxUserARDisplay.Text.Trim(' ', '\n').Contains(s.Trim(' ', '\n')))
+                    {
                         missingARs.Add(s);
+                    }
+                        
                 }
 
                 if (missingARs.Count > 0)
@@ -182,10 +192,15 @@ namespace LM_C9Master
                             txtBoxMediaFileARDisplay.SelectionColor = Color.Red;
                             txtBoxMediaFileARDisplay.Select(index, s.Length);
 
-                            startSearch = index + 1;
+                            startSearch = index + s.Length;
                         }
                     }
-                } 
+                }
+                else
+                {
+                    txtBoxMediaFileARDisplay.ForeColor = Color.Green;
+                    checkMark.Visible = true;
+                }
             }
                 
         }
