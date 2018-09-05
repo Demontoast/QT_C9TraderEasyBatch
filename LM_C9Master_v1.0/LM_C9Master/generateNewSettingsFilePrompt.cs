@@ -59,9 +59,6 @@ namespace LM_C9Master
                 SW.WriteLine(@"C9TraderMSILocation=C:\");
                 SW.WriteLine("</AppManager>");
                 SW.WriteLine("<Accessories>");
-                SW.WriteLine("VMLocation=");
-                SW.WriteLine("SQDBLiteLocation=");
-                SW.WriteLine("TCPViewLocation=");
                 SW.WriteLine("</Accessories>");
                 SW.WriteLine("<DesignatedServer>");
                 SW.WriteLine("Server=https://qa1-rest.xhoot.com");

@@ -103,8 +103,8 @@ namespace LM_C9Master
 
         private void ARComparer_Load(object sender, EventArgs e)
         {
-            this.Width = 1600;
-            this.Height = 650;
+            this.Width = 1138;
+            this.Height = 540;
             this.CenterToScreen();
         }
 
@@ -118,7 +118,6 @@ namespace LM_C9Master
             parameters[1] = '|';
             txtBoxAlteredText = txtBoxUnalteredText.Split(parameters);
             txtBoxMediaFileARDisplay.Clear();
-            List<String> uniqueARs = new List<String>();
             foreach (string s in txtBoxAlteredText)
             {
                 
@@ -138,13 +137,30 @@ namespace LM_C9Master
             btnCompareText.Enabled = false;
 
             List<String> uniqueARs = new List<String>();
+            List<String> missingARs = new List<String>();
             char[] parameters = new char[2];
             parameters[0] = '\n';
             parameters[1] = ' ';
+            int startEventCount = 0;
+            int stopEventCount = 0;
+            int pttEventCount = 0;
+
             string[] mediaARSplitter = txtBoxMediaFileARDisplay.Text.Split(parameters); ;
 
             foreach(string s in mediaARSplitter)
             {
+                if(s.Contains("crEvent=Initiated"))
+                    startEventCount++;
+                if (s.Contains("cr=ptt"))
+                    pttEventCount++;
+                if (s.Contains("crEvent=UserRelease") || s.Contains("crEvent=AutoRelease"))
+                    stopEventCount++;
+
+                if (!txtBoxUserARDisplay.Text.Trim(' ', '\n').Contains(s.Trim(' ', '\n')))
+                {
+                    missingARs.Add(s);
+                }
+
                 if (!uniqueARs.Contains(s))
                     uniqueARs.Add(s);
                 else if (!s.Equals(" ") && !s.Equals(""))
@@ -170,16 +186,6 @@ namespace LM_C9Master
 
             if (errorX.Visible == false)
             {
-                List<String> missingARs = new List<String>();
-                foreach (string s in mediaARSplitter)
-                {
-                    if (!txtBoxUserARDisplay.Text.Trim(' ', '\n').Contains(s.Trim(' ', '\n')))
-                    {
-                        missingARs.Add(s);
-                    }
-                        
-                }
-
                 if (missingARs.Count > 0)
                 {
                     errorX.Visible = true;
@@ -202,7 +208,18 @@ namespace LM_C9Master
                     checkMark.Visible = true;
                 }
             }
-                
+
+            if (startEventCount != stopEventCount)
+            {
+                if (startEventCount > stopEventCount)
+                    MessageBox.Show("WARNING: MORE START EVENTS DETECTED THAN STOP EVENTS");
+                else
+                    MessageBox.Show("WARNING: MORE STOP EVENTS DETECTED THAN START EVENTS");
+            }
+
+            if (pttEventCount % 2 != 0)
+                MessageBox.Show("WARNING: UNEVEN NUMBER OF PTT EVENTS");
+
         }
 
         private void btnReset_Click(object sender, EventArgs e)

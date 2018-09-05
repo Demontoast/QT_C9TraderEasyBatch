@@ -37,28 +37,18 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.btnLoadBatch = new System.Windows.Forms.Button();
-            this.btnChangeBatchFolder = new System.Windows.Forms.Button();
-            this.txtBoxLoadBatchFolder = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.btnSavePathSQDBLite = new System.Windows.Forms.Button();
-            this.btnDefaultSQDBLite = new System.Windows.Forms.Button();
-            this.btnChangePathSQDBLite = new System.Windows.Forms.Button();
-            this.btnLaunchSQDBLite = new System.Windows.Forms.Button();
-            this.txtBoxSQDBLite = new System.Windows.Forms.TextBox();
-            this.lblSQDBLite = new System.Windows.Forms.Label();
-            this.btnSaveTCPView = new System.Windows.Forms.Button();
-            this.btnDefaultTCPView = new System.Windows.Forms.Button();
-            this.btnChangeTCPView = new System.Windows.Forms.Button();
-            this.lblTCPView = new System.Windows.Forms.Label();
-            this.btnSaveVM = new System.Windows.Forms.Button();
-            this.btnDefaultVM = new System.Windows.Forms.Button();
-            this.lblVersionManager = new System.Windows.Forms.Label();
-            this.txtBoxTCPViewPath = new System.Windows.Forms.TextBox();
-            this.btnTCPView = new System.Windows.Forms.Button();
-            this.btnVersionManager = new System.Windows.Forms.Button();
-            this.txtBoxVMPath = new System.Windows.Forms.TextBox();
-            this.btnChangeVMPath = new System.Windows.Forms.Button();
+            this.btnEditAccessory = new System.Windows.Forms.Button();
+            this.accessoryModifications = new System.Windows.Forms.GroupBox();
+            this.btnFldrBrowser = new System.Windows.Forms.Button();
+            this.txtBoxNewAccessoryFilepath = new System.Windows.Forms.TextBox();
+            this.txtBoxNewAccessoryName = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.btnConfirmAccessory = new System.Windows.Forms.Button();
+            this.btnDefaultAccessoryEdits = new System.Windows.Forms.Button();
+            this.btnRemoveAccessory = new System.Windows.Forms.Button();
+            this.accessoryTabs = new System.Windows.Forms.TabControl();
+            this.btnLaunchAccessory = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnBackupFolder = new System.Windows.Forms.Button();
             this.btnBackup = new System.Windows.Forms.Button();
@@ -74,6 +64,10 @@
             this.btnVPNSaveSettings = new System.Windows.Forms.Button();
             this.labelx = new System.Windows.Forms.Label();
             this.btnChangeVPNClient = new System.Windows.Forms.Button();
+            this.btnLoadBatch = new System.Windows.Forms.Button();
+            this.btnChangeBatchFolder = new System.Windows.Forms.Button();
+            this.txtBoxLoadBatchFolder = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.btnStartLocalServer = new System.Windows.Forms.Button();
             this.btnCloseApp = new System.Windows.Forms.Button();
             this.btnRemoveUser = new System.Windows.Forms.Button();
@@ -175,9 +169,13 @@
             this.txtBoxCurrGroupSearch = new System.Windows.Forms.TextBox();
             this.txtBoxCurrFirmSearch = new System.Windows.Forms.TextBox();
             this.fldBrwsDiagLoadBatches = new System.Windows.Forms.FolderBrowserDialog();
+            this.label19 = new System.Windows.Forms.Label();
+            this.txtBoxExtraParams = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            this.accessoryModifications.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -249,262 +247,152 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.groupBox6);
+            this.groupBox2.Controls.Add(this.btnLoadBatch);
             this.groupBox2.Controls.Add(this.groupBox5);
             this.groupBox2.Controls.Add(this.groupBox3);
+            this.groupBox2.Controls.Add(this.label14);
+            this.groupBox2.Controls.Add(this.txtBoxLoadBatchFolder);
+            this.groupBox2.Controls.Add(this.btnChangeBatchFolder);
             this.groupBox2.Location = new System.Drawing.Point(904, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(645, 830);
+            this.groupBox2.Size = new System.Drawing.Size(645, 904);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Settings";
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.btnLoadBatch);
-            this.groupBox6.Controls.Add(this.btnChangeBatchFolder);
-            this.groupBox6.Controls.Add(this.txtBoxLoadBatchFolder);
-            this.groupBox6.Controls.Add(this.label14);
-            this.groupBox6.Controls.Add(this.btnSavePathSQDBLite);
-            this.groupBox6.Controls.Add(this.btnDefaultSQDBLite);
-            this.groupBox6.Controls.Add(this.btnChangePathSQDBLite);
-            this.groupBox6.Controls.Add(this.btnLaunchSQDBLite);
-            this.groupBox6.Controls.Add(this.txtBoxSQDBLite);
-            this.groupBox6.Controls.Add(this.lblSQDBLite);
-            this.groupBox6.Controls.Add(this.btnSaveTCPView);
-            this.groupBox6.Controls.Add(this.btnDefaultTCPView);
-            this.groupBox6.Controls.Add(this.btnChangeTCPView);
-            this.groupBox6.Controls.Add(this.lblTCPView);
-            this.groupBox6.Controls.Add(this.btnSaveVM);
-            this.groupBox6.Controls.Add(this.btnDefaultVM);
-            this.groupBox6.Controls.Add(this.lblVersionManager);
-            this.groupBox6.Controls.Add(this.txtBoxTCPViewPath);
-            this.groupBox6.Controls.Add(this.btnTCPView);
-            this.groupBox6.Controls.Add(this.btnVersionManager);
-            this.groupBox6.Controls.Add(this.txtBoxVMPath);
-            this.groupBox6.Controls.Add(this.btnChangeVMPath);
+            this.groupBox6.Controls.Add(this.btnEditAccessory);
+            this.groupBox6.Controls.Add(this.accessoryModifications);
+            this.groupBox6.Controls.Add(this.btnRemoveAccessory);
+            this.groupBox6.Controls.Add(this.accessoryTabs);
+            this.groupBox6.Controls.Add(this.btnLaunchAccessory);
             this.groupBox6.Location = new System.Drawing.Point(7, 394);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(627, 430);
+            this.groupBox6.Size = new System.Drawing.Size(627, 407);
             this.groupBox6.TabIndex = 3;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "C9 Trader Accessories Manager";
             // 
-            // btnLoadBatch
+            // btnEditAccessory
             // 
-            this.btnLoadBatch.Location = new System.Drawing.Point(499, 332);
-            this.btnLoadBatch.Name = "btnLoadBatch";
-            this.btnLoadBatch.Size = new System.Drawing.Size(122, 42);
-            this.btnLoadBatch.TabIndex = 22;
-            this.btnLoadBatch.Text = "Load";
-            this.btnLoadBatch.UseVisualStyleBackColor = true;
-            this.btnLoadBatch.Click += new System.EventHandler(this.btnLoadBatch_Click);
+            this.btnEditAccessory.Location = new System.Drawing.Point(213, 126);
+            this.btnEditAccessory.Name = "btnEditAccessory";
+            this.btnEditAccessory.Size = new System.Drawing.Size(178, 48);
+            this.btnEditAccessory.TabIndex = 29;
+            this.btnEditAccessory.Text = "Edit Selected";
+            this.btnEditAccessory.UseVisualStyleBackColor = true;
+            this.btnEditAccessory.Click += new System.EventHandler(this.btnEditAccessory_Click);
             // 
-            // btnChangeBatchFolder
+            // accessoryModifications
             // 
-            this.btnChangeBatchFolder.Location = new System.Drawing.Point(311, 332);
-            this.btnChangeBatchFolder.Name = "btnChangeBatchFolder";
-            this.btnChangeBatchFolder.Size = new System.Drawing.Size(182, 41);
-            this.btnChangeBatchFolder.TabIndex = 21;
-            this.btnChangeBatchFolder.Text = "Change Folder";
-            this.btnChangeBatchFolder.UseVisualStyleBackColor = true;
-            this.btnChangeBatchFolder.Click += new System.EventHandler(this.btnChangeBatchFolder_Click);
+            this.accessoryModifications.Controls.Add(this.btnFldrBrowser);
+            this.accessoryModifications.Controls.Add(this.txtBoxNewAccessoryFilepath);
+            this.accessoryModifications.Controls.Add(this.txtBoxNewAccessoryName);
+            this.accessoryModifications.Controls.Add(this.label18);
+            this.accessoryModifications.Controls.Add(this.label17);
+            this.accessoryModifications.Controls.Add(this.btnConfirmAccessory);
+            this.accessoryModifications.Controls.Add(this.btnDefaultAccessoryEdits);
+            this.accessoryModifications.Location = new System.Drawing.Point(6, 193);
+            this.accessoryModifications.Name = "accessoryModifications";
+            this.accessoryModifications.Size = new System.Drawing.Size(621, 199);
+            this.accessoryModifications.TabIndex = 28;
+            this.accessoryModifications.TabStop = false;
+            this.accessoryModifications.Text = "New Accessory Manager";
             // 
-            // txtBoxLoadBatchFolder
+            // btnFldrBrowser
             // 
-            this.txtBoxLoadBatchFolder.Location = new System.Drawing.Point(12, 379);
-            this.txtBoxLoadBatchFolder.Name = "txtBoxLoadBatchFolder";
-            this.txtBoxLoadBatchFolder.Size = new System.Drawing.Size(595, 31);
-            this.txtBoxLoadBatchFolder.TabIndex = 20;
-            this.txtBoxLoadBatchFolder.Text = "Enter Folder Path for Batch Files";
+            this.btnFldrBrowser.Location = new System.Drawing.Point(8, 135);
+            this.btnFldrBrowser.Name = "btnFldrBrowser";
+            this.btnFldrBrowser.Size = new System.Drawing.Size(126, 48);
+            this.btnFldrBrowser.TabIndex = 30;
+            this.btnFldrBrowser.Text = "Browse";
+            this.btnFldrBrowser.UseVisualStyleBackColor = true;
+            this.btnFldrBrowser.Click += new System.EventHandler(this.btnFldrBrowser_Click);
             // 
-            // label14
+            // txtBoxNewAccessoryFilepath
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(14, 341);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(293, 25);
-            this.label14.TabIndex = 19;
-            this.label14.Text = "Load Accounts from Batches:";
+            this.txtBoxNewAccessoryFilepath.Location = new System.Drawing.Point(107, 80);
+            this.txtBoxNewAccessoryFilepath.Name = "txtBoxNewAccessoryFilepath";
+            this.txtBoxNewAccessoryFilepath.Size = new System.Drawing.Size(499, 31);
+            this.txtBoxNewAccessoryFilepath.TabIndex = 29;
+            this.txtBoxNewAccessoryFilepath.TextChanged += new System.EventHandler(this.txtBoxNewAccessoryFilepath_TextChanged);
             // 
-            // btnSavePathSQDBLite
+            // txtBoxNewAccessoryName
             // 
-            this.btnSavePathSQDBLite.Enabled = false;
-            this.btnSavePathSQDBLite.Location = new System.Drawing.Point(460, 235);
-            this.btnSavePathSQDBLite.Name = "btnSavePathSQDBLite";
-            this.btnSavePathSQDBLite.Size = new System.Drawing.Size(102, 41);
-            this.btnSavePathSQDBLite.TabIndex = 18;
-            this.btnSavePathSQDBLite.Text = "Save";
-            this.btnSavePathSQDBLite.UseVisualStyleBackColor = true;
-            this.btnSavePathSQDBLite.Click += new System.EventHandler(this.btnSavePathSQDBLite_Click);
+            this.txtBoxNewAccessoryName.Location = new System.Drawing.Point(107, 36);
+            this.txtBoxNewAccessoryName.Name = "txtBoxNewAccessoryName";
+            this.txtBoxNewAccessoryName.Size = new System.Drawing.Size(499, 31);
+            this.txtBoxNewAccessoryName.TabIndex = 28;
+            this.txtBoxNewAccessoryName.TextChanged += new System.EventHandler(this.txtBoxNewAccessoryName_TextChanged);
             // 
-            // btnDefaultSQDBLite
+            // label18
             // 
-            this.btnDefaultSQDBLite.Enabled = false;
-            this.btnDefaultSQDBLite.Location = new System.Drawing.Point(352, 234);
-            this.btnDefaultSQDBLite.Name = "btnDefaultSQDBLite";
-            this.btnDefaultSQDBLite.Size = new System.Drawing.Size(102, 42);
-            this.btnDefaultSQDBLite.TabIndex = 17;
-            this.btnDefaultSQDBLite.Text = "Default";
-            this.btnDefaultSQDBLite.UseVisualStyleBackColor = true;
-            this.btnDefaultSQDBLite.Click += new System.EventHandler(this.btnDefaultSQDBLite_Click);
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(6, 80);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(95, 25);
+            this.label18.TabIndex = 27;
+            this.label18.Text = "Filepath:";
             // 
-            // btnChangePathSQDBLite
+            // label17
             // 
-            this.btnChangePathSQDBLite.Location = new System.Drawing.Point(243, 234);
-            this.btnChangePathSQDBLite.Name = "btnChangePathSQDBLite";
-            this.btnChangePathSQDBLite.Size = new System.Drawing.Size(103, 41);
-            this.btnChangePathSQDBLite.TabIndex = 16;
-            this.btnChangePathSQDBLite.Text = "Change";
-            this.btnChangePathSQDBLite.UseVisualStyleBackColor = true;
-            this.btnChangePathSQDBLite.Click += new System.EventHandler(this.btnChangePathSQDBLite_Click);
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(7, 42);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(74, 25);
+            this.label17.TabIndex = 26;
+            this.label17.Text = "Name:";
             // 
-            // btnLaunchSQDBLite
+            // btnConfirmAccessory
             // 
-            this.btnLaunchSQDBLite.Location = new System.Drawing.Point(134, 234);
-            this.btnLaunchSQDBLite.Name = "btnLaunchSQDBLite";
-            this.btnLaunchSQDBLite.Size = new System.Drawing.Size(103, 41);
-            this.btnLaunchSQDBLite.TabIndex = 15;
-            this.btnLaunchSQDBLite.Text = "Launch";
-            this.btnLaunchSQDBLite.UseVisualStyleBackColor = true;
-            this.btnLaunchSQDBLite.Click += new System.EventHandler(this.btnLaunchSQDBLite_Click);
+            this.btnConfirmAccessory.Location = new System.Drawing.Point(371, 135);
+            this.btnConfirmAccessory.Name = "btnConfirmAccessory";
+            this.btnConfirmAccessory.Size = new System.Drawing.Size(239, 48);
+            this.btnConfirmAccessory.TabIndex = 24;
+            this.btnConfirmAccessory.Text = "Add Accessory";
+            this.btnConfirmAccessory.UseVisualStyleBackColor = true;
+            this.btnConfirmAccessory.Click += new System.EventHandler(this.btnConfirmAccessory_Click);
             // 
-            // txtBoxSQDBLite
+            // btnDefaultAccessoryEdits
             // 
-            this.txtBoxSQDBLite.Location = new System.Drawing.Point(11, 281);
-            this.txtBoxSQDBLite.Name = "txtBoxSQDBLite";
-            this.txtBoxSQDBLite.Size = new System.Drawing.Size(595, 31);
-            this.txtBoxSQDBLite.TabIndex = 14;
-            this.txtBoxSQDBLite.Text = "Enter Custom Path";
-            this.txtBoxSQDBLite.TextChanged += new System.EventHandler(this.txtBoxSQDBLite_TextChanged);
+            this.btnDefaultAccessoryEdits.Enabled = false;
+            this.btnDefaultAccessoryEdits.Location = new System.Drawing.Point(140, 135);
+            this.btnDefaultAccessoryEdits.Name = "btnDefaultAccessoryEdits";
+            this.btnDefaultAccessoryEdits.Size = new System.Drawing.Size(225, 48);
+            this.btnDefaultAccessoryEdits.TabIndex = 7;
+            this.btnDefaultAccessoryEdits.Text = "Cancel Edits";
+            this.btnDefaultAccessoryEdits.UseVisualStyleBackColor = true;
+            this.btnDefaultAccessoryEdits.Visible = false;
+            this.btnDefaultAccessoryEdits.Click += new System.EventHandler(this.btnDefaultVM_Click);
             // 
-            // lblSQDBLite
+            // btnRemoveAccessory
             // 
-            this.lblSQDBLite.AutoSize = true;
-            this.lblSQDBLite.Location = new System.Drawing.Point(14, 243);
-            this.lblSQDBLite.Name = "lblSQDBLite";
-            this.lblSQDBLite.Size = new System.Drawing.Size(118, 25);
-            this.lblSQDBLite.TabIndex = 13;
-            this.lblSQDBLite.Text = "SQDB Lite:";
+            this.btnRemoveAccessory.Location = new System.Drawing.Point(397, 126);
+            this.btnRemoveAccessory.Name = "btnRemoveAccessory";
+            this.btnRemoveAccessory.Size = new System.Drawing.Size(220, 48);
+            this.btnRemoveAccessory.TabIndex = 25;
+            this.btnRemoveAccessory.Text = "Remove Selected";
+            this.btnRemoveAccessory.UseVisualStyleBackColor = true;
+            this.btnRemoveAccessory.Click += new System.EventHandler(this.btnRemoveAccessory_Click);
             // 
-            // btnSaveTCPView
+            // accessoryTabs
             // 
-            this.btnSaveTCPView.Enabled = false;
-            this.btnSaveTCPView.Location = new System.Drawing.Point(450, 135);
-            this.btnSaveTCPView.Name = "btnSaveTCPView";
-            this.btnSaveTCPView.Size = new System.Drawing.Size(102, 41);
-            this.btnSaveTCPView.TabIndex = 12;
-            this.btnSaveTCPView.Text = "Save";
-            this.btnSaveTCPView.UseVisualStyleBackColor = true;
-            this.btnSaveTCPView.Click += new System.EventHandler(this.btnSaveTCPView_Click);
+            this.accessoryTabs.Location = new System.Drawing.Point(11, 30);
+            this.accessoryTabs.Name = "accessoryTabs";
+            this.accessoryTabs.SelectedIndex = 0;
+            this.accessoryTabs.Size = new System.Drawing.Size(610, 88);
+            this.accessoryTabs.TabIndex = 23;
             // 
-            // btnDefaultTCPView
+            // btnLaunchAccessory
             // 
-            this.btnDefaultTCPView.Enabled = false;
-            this.btnDefaultTCPView.Location = new System.Drawing.Point(342, 135);
-            this.btnDefaultTCPView.Name = "btnDefaultTCPView";
-            this.btnDefaultTCPView.Size = new System.Drawing.Size(102, 42);
-            this.btnDefaultTCPView.TabIndex = 11;
-            this.btnDefaultTCPView.Text = "Default";
-            this.btnDefaultTCPView.UseVisualStyleBackColor = true;
-            this.btnDefaultTCPView.Click += new System.EventHandler(this.btnDefaultTCPView_Click);
-            // 
-            // btnChangeTCPView
-            // 
-            this.btnChangeTCPView.Location = new System.Drawing.Point(233, 135);
-            this.btnChangeTCPView.Name = "btnChangeTCPView";
-            this.btnChangeTCPView.Size = new System.Drawing.Size(103, 41);
-            this.btnChangeTCPView.TabIndex = 10;
-            this.btnChangeTCPView.Text = "Change";
-            this.btnChangeTCPView.UseVisualStyleBackColor = true;
-            this.btnChangeTCPView.Click += new System.EventHandler(this.btnChangeTCPView_Click);
-            // 
-            // lblTCPView
-            // 
-            this.lblTCPView.AutoSize = true;
-            this.lblTCPView.Location = new System.Drawing.Point(12, 143);
-            this.lblTCPView.Name = "lblTCPView";
-            this.lblTCPView.Size = new System.Drawing.Size(106, 25);
-            this.lblTCPView.TabIndex = 9;
-            this.lblTCPView.Text = "TCPView:";
-            // 
-            // btnSaveVM
-            // 
-            this.btnSaveVM.Enabled = false;
-            this.btnSaveVM.Location = new System.Drawing.Point(524, 28);
-            this.btnSaveVM.Name = "btnSaveVM";
-            this.btnSaveVM.Size = new System.Drawing.Size(97, 41);
-            this.btnSaveVM.TabIndex = 8;
-            this.btnSaveVM.Text = "Save";
-            this.btnSaveVM.UseVisualStyleBackColor = true;
-            this.btnSaveVM.Click += new System.EventHandler(this.btnSaveVM_Click);
-            // 
-            // btnDefaultVM
-            // 
-            this.btnDefaultVM.Enabled = false;
-            this.btnDefaultVM.Location = new System.Drawing.Point(415, 29);
-            this.btnDefaultVM.Name = "btnDefaultVM";
-            this.btnDefaultVM.Size = new System.Drawing.Size(103, 42);
-            this.btnDefaultVM.TabIndex = 7;
-            this.btnDefaultVM.Text = "Default";
-            this.btnDefaultVM.UseVisualStyleBackColor = true;
-            this.btnDefaultVM.Click += new System.EventHandler(this.btnDefaultVM_Click);
-            // 
-            // lblVersionManager
-            // 
-            this.lblVersionManager.AutoSize = true;
-            this.lblVersionManager.Location = new System.Drawing.Point(8, 36);
-            this.lblVersionManager.Name = "lblVersionManager";
-            this.lblVersionManager.Size = new System.Drawing.Size(182, 25);
-            this.lblVersionManager.TabIndex = 5;
-            this.lblVersionManager.Text = "Version Manager:";
-            // 
-            // txtBoxTCPViewPath
-            // 
-            this.txtBoxTCPViewPath.Location = new System.Drawing.Point(14, 183);
-            this.txtBoxTCPViewPath.Name = "txtBoxTCPViewPath";
-            this.txtBoxTCPViewPath.Size = new System.Drawing.Size(592, 31);
-            this.txtBoxTCPViewPath.TabIndex = 4;
-            this.txtBoxTCPViewPath.Text = "Enter Custom Path";
-            this.txtBoxTCPViewPath.TextChanged += new System.EventHandler(this.txtBoxTCPViewPath_TextChanged);
-            // 
-            // btnTCPView
-            // 
-            this.btnTCPView.Location = new System.Drawing.Point(124, 135);
-            this.btnTCPView.Name = "btnTCPView";
-            this.btnTCPView.Size = new System.Drawing.Size(103, 41);
-            this.btnTCPView.TabIndex = 3;
-            this.btnTCPView.Text = "Launch";
-            this.btnTCPView.UseVisualStyleBackColor = true;
-            this.btnTCPView.Click += new System.EventHandler(this.btnTCPView_Click);
-            // 
-            // btnVersionManager
-            // 
-            this.btnVersionManager.Location = new System.Drawing.Point(196, 30);
-            this.btnVersionManager.Name = "btnVersionManager";
-            this.btnVersionManager.Size = new System.Drawing.Size(104, 41);
-            this.btnVersionManager.TabIndex = 1;
-            this.btnVersionManager.Text = "Launch";
-            this.btnVersionManager.UseVisualStyleBackColor = true;
-            this.btnVersionManager.Click += new System.EventHandler(this.btnVersionManager_Click);
-            // 
-            // txtBoxVMPath
-            // 
-            this.txtBoxVMPath.Location = new System.Drawing.Point(14, 77);
-            this.txtBoxVMPath.Name = "txtBoxVMPath";
-            this.txtBoxVMPath.Size = new System.Drawing.Size(592, 31);
-            this.txtBoxVMPath.TabIndex = 2;
-            this.txtBoxVMPath.Text = "Enter Custom Path";
-            this.txtBoxVMPath.TextChanged += new System.EventHandler(this.txtBoxVMPath_TextChanged);
-            // 
-            // btnChangeVMPath
-            // 
-            this.btnChangeVMPath.Location = new System.Drawing.Point(306, 30);
-            this.btnChangeVMPath.Name = "btnChangeVMPath";
-            this.btnChangeVMPath.Size = new System.Drawing.Size(103, 41);
-            this.btnChangeVMPath.TabIndex = 6;
-            this.btnChangeVMPath.Text = "Change";
-            this.btnChangeVMPath.UseVisualStyleBackColor = true;
-            this.btnChangeVMPath.Click += new System.EventHandler(this.btnChangeVMPath_Click);
+            this.btnLaunchAccessory.Location = new System.Drawing.Point(8, 126);
+            this.btnLaunchAccessory.Name = "btnLaunchAccessory";
+            this.btnLaunchAccessory.Size = new System.Drawing.Size(199, 48);
+            this.btnLaunchAccessory.TabIndex = 1;
+            this.btnLaunchAccessory.Text = "Launch Selected";
+            this.btnLaunchAccessory.UseVisualStyleBackColor = true;
+            this.btnLaunchAccessory.Click += new System.EventHandler(this.btnLaunchAccessory_Click);
             // 
             // groupBox5
             // 
@@ -670,6 +558,43 @@
             this.btnChangeVPNClient.UseVisualStyleBackColor = true;
             this.btnChangeVPNClient.Click += new System.EventHandler(this.btnChangeVPNClient_Click);
             // 
+            // btnLoadBatch
+            // 
+            this.btnLoadBatch.Location = new System.Drawing.Point(451, 854);
+            this.btnLoadBatch.Name = "btnLoadBatch";
+            this.btnLoadBatch.Size = new System.Drawing.Size(182, 42);
+            this.btnLoadBatch.TabIndex = 22;
+            this.btnLoadBatch.Text = "Load";
+            this.btnLoadBatch.UseVisualStyleBackColor = true;
+            this.btnLoadBatch.Click += new System.EventHandler(this.btnLoadBatch_Click);
+            // 
+            // btnChangeBatchFolder
+            // 
+            this.btnChangeBatchFolder.Location = new System.Drawing.Point(451, 807);
+            this.btnChangeBatchFolder.Name = "btnChangeBatchFolder";
+            this.btnChangeBatchFolder.Size = new System.Drawing.Size(182, 41);
+            this.btnChangeBatchFolder.TabIndex = 21;
+            this.btnChangeBatchFolder.Text = "Change Folder";
+            this.btnChangeBatchFolder.UseVisualStyleBackColor = true;
+            this.btnChangeBatchFolder.Click += new System.EventHandler(this.btnChangeBatchFolder_Click);
+            // 
+            // txtBoxLoadBatchFolder
+            // 
+            this.txtBoxLoadBatchFolder.Location = new System.Drawing.Point(19, 848);
+            this.txtBoxLoadBatchFolder.Name = "txtBoxLoadBatchFolder";
+            this.txtBoxLoadBatchFolder.Size = new System.Drawing.Size(410, 31);
+            this.txtBoxLoadBatchFolder.TabIndex = 20;
+            this.txtBoxLoadBatchFolder.Text = "Enter Folder Path for Batch Files";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(20, 815);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(342, 25);
+            this.label14.TabIndex = 19;
+            this.label14.Text = "Upload Accounts from Batch Files:";
+            // 
             // btnStartLocalServer
             // 
             this.btnStartLocalServer.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -686,7 +611,7 @@
             // btnCloseApp
             // 
             this.btnCloseApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnCloseApp.Location = new System.Drawing.Point(419, 561);
+            this.btnCloseApp.Location = new System.Drawing.Point(406, 643);
             this.btnCloseApp.Name = "btnCloseApp";
             this.btnCloseApp.Size = new System.Drawing.Size(141, 59);
             this.btnCloseApp.TabIndex = 15;
@@ -756,6 +681,9 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label20);
+            this.groupBox4.Controls.Add(this.txtBoxExtraParams);
+            this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.btnUserInfo);
             this.groupBox4.Controls.Add(this.btnSaveGroup);
             this.groupBox4.Controls.Add(this.btnDefaultGroup);
@@ -792,7 +720,7 @@
             this.groupBox4.Controls.Add(this.lblServer);
             this.groupBox4.Location = new System.Drawing.Point(332, 189);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(565, 653);
+            this.groupBox4.Size = new System.Drawing.Size(565, 727);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "App Manager";
@@ -958,7 +886,7 @@
             // BtnLaunchApp
             // 
             this.BtnLaunchApp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.BtnLaunchApp.Location = new System.Drawing.Point(112, 561);
+            this.BtnLaunchApp.Location = new System.Drawing.Point(12, 643);
             this.BtnLaunchApp.Name = "BtnLaunchApp";
             this.BtnLaunchApp.Size = new System.Drawing.Size(152, 59);
             this.BtnLaunchApp.TabIndex = 11;
@@ -968,7 +896,7 @@
             // 
             // btnCloseAppSelUser
             // 
-            this.btnCloseAppSelUser.Location = new System.Drawing.Point(270, 561);
+            this.btnCloseAppSelUser.Location = new System.Drawing.Point(211, 643);
             this.btnCloseAppSelUser.Name = "btnCloseAppSelUser";
             this.btnCloseAppSelUser.Size = new System.Drawing.Size(143, 59);
             this.btnCloseAppSelUser.TabIndex = 15;
@@ -989,7 +917,7 @@
             // chkBoxNoUpd
             // 
             this.chkBoxNoUpd.AutoSize = true;
-            this.chkBoxNoUpd.Location = new System.Drawing.Point(29, 596);
+            this.chkBoxNoUpd.Location = new System.Drawing.Point(93, 595);
             this.chkBoxNoUpd.Name = "chkBoxNoUpd";
             this.chkBoxNoUpd.Size = new System.Drawing.Size(62, 29);
             this.chkBoxNoUpd.TabIndex = 14;
@@ -1000,7 +928,7 @@
             // chkBoxMultiApp
             // 
             this.chkBoxMultiApp.AutoSize = true;
-            this.chkBoxMultiApp.Location = new System.Drawing.Point(29, 561);
+            this.chkBoxMultiApp.Location = new System.Drawing.Point(24, 595);
             this.chkBoxMultiApp.Name = "chkBoxMultiApp";
             this.chkBoxMultiApp.Size = new System.Drawing.Size(63, 29);
             this.chkBoxMultiApp.TabIndex = 13;
@@ -1101,7 +1029,7 @@
             this.Links.Controls.Add(this.label4);
             this.Links.Location = new System.Drawing.Point(1555, 12);
             this.Links.Name = "Links";
-            this.Links.Size = new System.Drawing.Size(422, 830);
+            this.Links.Size = new System.Drawing.Size(422, 904);
             this.Links.TabIndex = 3;
             this.Links.TabStop = false;
             this.Links.Text = "Useful Shortcuts";
@@ -1113,7 +1041,7 @@
             this.btnOpenARComparer.Name = "btnOpenARComparer";
             this.btnOpenARComparer.Size = new System.Drawing.Size(170, 50);
             this.btnOpenARComparer.TabIndex = 22;
-            this.btnOpenARComparer.Text = "AR Comparer";
+            this.btnOpenARComparer.Text = "AR Verifier";
             this.btnOpenARComparer.UseVisualStyleBackColor = true;
             this.btnOpenARComparer.Click += new System.EventHandler(this.btnOpenARComparer_Click);
             // 
@@ -1263,7 +1191,7 @@
             // reeEEE
             // 
             this.reeEEE.Image = ((System.Drawing.Image)(resources.GetObject("reeEEE.Image")));
-            this.reeEEE.Location = new System.Drawing.Point(359, 771);
+            this.reeEEE.Location = new System.Drawing.Point(359, 19);
             this.reeEEE.Name = "reeEEE";
             this.reeEEE.Size = new System.Drawing.Size(57, 53);
             this.reeEEE.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -1419,7 +1347,7 @@
             this.groupBox7.Controls.Add(this.groupBox8);
             this.groupBox7.Location = new System.Drawing.Point(13, 12);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(306, 830);
+            this.groupBox7.Size = new System.Drawing.Size(306, 904);
             this.groupBox7.TabIndex = 4;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "User Searching";
@@ -1436,9 +1364,9 @@
             this.groupBox9.Controls.Add(this.label13);
             this.groupBox9.Controls.Add(this.txtBoxNewGroupSearch);
             this.groupBox9.Controls.Add(this.txtBoxNewUserSearch);
-            this.groupBox9.Location = new System.Drawing.Point(6, 349);
+            this.groupBox9.Location = new System.Drawing.Point(6, 394);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(286, 462);
+            this.groupBox9.Size = new System.Drawing.Size(286, 504);
             this.groupBox9.TabIndex = 1;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Search For:";
@@ -1477,7 +1405,7 @@
             // 
             // btnClearSearch
             // 
-            this.btnClearSearch.Location = new System.Drawing.Point(42, 384);
+            this.btnClearSearch.Location = new System.Drawing.Point(47, 393);
             this.btnClearSearch.Name = "btnClearSearch";
             this.btnClearSearch.Size = new System.Drawing.Size(181, 69);
             this.btnClearSearch.TabIndex = 46;
@@ -1489,7 +1417,7 @@
             // 
             this.btnSearch.BackColor = System.Drawing.Color.Goldenrod;
             this.btnSearch.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnSearch.Location = new System.Drawing.Point(42, 310);
+            this.btnSearch.Location = new System.Drawing.Point(47, 319);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(183, 69);
             this.btnSearch.TabIndex = 45;
@@ -1560,7 +1488,7 @@
             this.groupBox8.Controls.Add(this.txtBoxCurrFirmSearch);
             this.groupBox8.Location = new System.Drawing.Point(6, 31);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(287, 312);
+            this.groupBox8.Size = new System.Drawing.Size(287, 332);
             this.groupBox8.TabIndex = 0;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Current Search:";
@@ -1633,12 +1561,37 @@
             this.txtBoxCurrFirmSearch.Size = new System.Drawing.Size(269, 31);
             this.txtBoxCurrFirmSearch.TabIndex = 35;
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(288, 565);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(235, 25);
+            this.label19.TabIndex = 34;
+            this.label19.Text = "Enter Extra Parameters";
+            // 
+            // txtBoxExtraParams
+            // 
+            this.txtBoxExtraParams.Location = new System.Drawing.Point(281, 593);
+            this.txtBoxExtraParams.Name = "txtBoxExtraParams";
+            this.txtBoxExtraParams.Size = new System.Drawing.Size(266, 31);
+            this.txtBoxExtraParams.TabIndex = 35;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(7, 565);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(213, 25);
+            this.label20.TabIndex = 36;
+            this.label20.Text = "Common Parameters";
+            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1992, 854);
+            this.ClientSize = new System.Drawing.Size(1992, 1340);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.Links);
             this.Controls.Add(this.groupBox2);
@@ -1647,13 +1600,15 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "frmMainForm";
-            this.Text = "LM_C9Master_BETA_2.0";
+            this.Text = "LM_C9Master_BETA_2.1";
             this.Load += new System.EventHandler(this.frmMainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
+            this.accessoryModifications.ResumeLayout(false);
+            this.accessoryModifications.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -1726,7 +1681,7 @@
         private System.Windows.Forms.Label lblPortal;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Button btnStartLocalServer;
-        private System.Windows.Forms.Button btnVersionManager;
+        private System.Windows.Forms.Button btnLaunchAccessory;
         private System.Windows.Forms.ToolTip toolTipVPNSwitch;
         private System.Windows.Forms.ToolTip SquirrelMSIToggle;
         private System.Windows.Forms.ToolTip removeUserTT;
@@ -1739,18 +1694,8 @@
         private System.Windows.Forms.ToolTip closeAllTT;
         private System.Windows.Forms.ToolTip closeUserTT;
         private System.Windows.Forms.ToolTip serverDefaultTT;
-        private System.Windows.Forms.TextBox txtBoxVMPath;
-        private System.Windows.Forms.TextBox txtBoxTCPViewPath;
-        private System.Windows.Forms.Button btnTCPView;
-        private System.Windows.Forms.Button btnSaveVM;
-        private System.Windows.Forms.Button btnDefaultVM;
-        private System.Windows.Forms.Button btnChangeVMPath;
-        private System.Windows.Forms.Label lblVersionManager;
+        private System.Windows.Forms.Button btnDefaultAccessoryEdits;
         private System.Windows.Forms.OpenFileDialog openFileDialogVM;
-        private System.Windows.Forms.Button btnSaveTCPView;
-        private System.Windows.Forms.Button btnDefaultTCPView;
-        private System.Windows.Forms.Button btnChangeTCPView;
-        private System.Windows.Forms.Label lblTCPView;
         private System.Windows.Forms.OpenFileDialog openFileDialogTCPView;
         private System.Windows.Forms.Button btnAnalyticsUploads;
         private System.Windows.Forms.Button btnRecordingFolder;
@@ -1759,12 +1704,6 @@
         private System.Windows.Forms.Button btnDeleteRD;
         private System.Windows.Forms.Button btnDeleteShout;
         private System.Windows.Forms.Button btnAudioCodes;
-        private System.Windows.Forms.Button btnSavePathSQDBLite;
-        private System.Windows.Forms.Button btnDefaultSQDBLite;
-        private System.Windows.Forms.Button btnChangePathSQDBLite;
-        private System.Windows.Forms.Button btnLaunchSQDBLite;
-        private System.Windows.Forms.TextBox txtBoxSQDBLite;
-        private System.Windows.Forms.Label lblSQDBLite;
         private System.Windows.Forms.OpenFileDialog openFileDialogSQDBLite;
         private System.Windows.Forms.Button btnBackup;
         private System.Windows.Forms.Button btnBackupFolder;
@@ -1819,6 +1758,19 @@
         private System.Windows.Forms.Button btnPortal1;
         private System.Windows.Forms.Button btnTraderLogs;
         private System.Windows.Forms.Button btnOpenARComparer;
+        private System.Windows.Forms.TabControl accessoryTabs;
+        private System.Windows.Forms.GroupBox accessoryModifications;
+        private System.Windows.Forms.TextBox txtBoxNewAccessoryFilepath;
+        private System.Windows.Forms.TextBox txtBoxNewAccessoryName;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button btnConfirmAccessory;
+        private System.Windows.Forms.Button btnRemoveAccessory;
+        private System.Windows.Forms.Button btnEditAccessory;
+        private System.Windows.Forms.Button btnFldrBrowser;
+        private System.Windows.Forms.TextBox txtBoxExtraParams;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label20;
     }
 }
 

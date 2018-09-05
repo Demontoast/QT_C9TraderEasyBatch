@@ -61,15 +61,15 @@
             this.panel1.Controls.Add(this.txtBoxUserARDisplay);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.txtBoxUserARs);
-            this.panel1.Location = new System.Drawing.Point(11, 12);
+            this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(2541, 1146);
+            this.panel1.Size = new System.Drawing.Size(2218, 956);
             this.panel1.TabIndex = 0;
             // 
             // errorX
             // 
             this.errorX.Image = ((System.Drawing.Image)(resources.GetObject("errorX.Image")));
-            this.errorX.Location = new System.Drawing.Point(1636, 1033);
+            this.errorX.Location = new System.Drawing.Point(1472, 832);
             this.errorX.Name = "errorX";
             this.errorX.Size = new System.Drawing.Size(91, 85);
             this.errorX.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -80,7 +80,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1287, 13);
+            this.label4.Location = new System.Drawing.Point(1123, 23);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(216, 25);
             this.label4.TabIndex = 11;
@@ -89,14 +89,14 @@
             // txtBoxMediaFile
             // 
             this.txtBoxMediaFile.AllowDrop = true;
-            this.txtBoxMediaFile.Location = new System.Drawing.Point(1505, 10);
+            this.txtBoxMediaFile.Location = new System.Drawing.Point(1341, 20);
             this.txtBoxMediaFile.Name = "txtBoxMediaFile";
-            this.txtBoxMediaFile.Size = new System.Drawing.Size(1033, 31);
+            this.txtBoxMediaFile.Size = new System.Drawing.Size(843, 31);
             this.txtBoxMediaFile.TabIndex = 10;
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(908, 1027);
+            this.btnReset.Location = new System.Drawing.Point(744, 826);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(344, 97);
             this.btnReset.TabIndex = 9;
@@ -107,7 +107,7 @@
             // checkMark
             // 
             this.checkMark.Image = ((System.Drawing.Image)(resources.GetObject("checkMark.Image")));
-            this.checkMark.Location = new System.Drawing.Point(1636, 1033);
+            this.checkMark.Location = new System.Drawing.Point(1472, 832);
             this.checkMark.Name = "checkMark";
             this.checkMark.Size = new System.Drawing.Size(91, 85);
             this.checkMark.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -117,7 +117,7 @@
             // 
             // btnCompareText
             // 
-            this.btnCompareText.Location = new System.Drawing.Point(1292, 1027);
+            this.btnCompareText.Location = new System.Drawing.Point(1128, 826);
             this.btnCompareText.Name = "btnCompareText";
             this.btnCompareText.Size = new System.Drawing.Size(323, 97);
             this.btnCompareText.TabIndex = 7;
@@ -129,7 +129,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(1466, 59);
+            this.label3.Location = new System.Drawing.Point(1302, 69);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(840, 63);
             this.label3.TabIndex = 6;
@@ -139,7 +139,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(250, 59);
+            this.label2.Location = new System.Drawing.Point(213, 69);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(703, 63);
             this.label2.TabIndex = 5;
@@ -147,25 +147,25 @@
             // 
             // txtBoxMediaFileARDisplay
             // 
-            this.txtBoxMediaFileARDisplay.Location = new System.Drawing.Point(1292, 125);
+            this.txtBoxMediaFileARDisplay.Location = new System.Drawing.Point(1128, 135);
             this.txtBoxMediaFileARDisplay.Name = "txtBoxMediaFileARDisplay";
-            this.txtBoxMediaFileARDisplay.Size = new System.Drawing.Size(1233, 877);
+            this.txtBoxMediaFileARDisplay.Size = new System.Drawing.Size(1056, 657);
             this.txtBoxMediaFileARDisplay.TabIndex = 4;
             this.txtBoxMediaFileARDisplay.Text = "";
             this.txtBoxMediaFileARDisplay.TextChanged += new System.EventHandler(this.txtBoxMediaFileARDisplay_TextChanged);
             // 
             // txtBoxUserARDisplay
             // 
-            this.txtBoxUserARDisplay.Location = new System.Drawing.Point(14, 125);
+            this.txtBoxUserARDisplay.Location = new System.Drawing.Point(32, 135);
             this.txtBoxUserARDisplay.Name = "txtBoxUserARDisplay";
-            this.txtBoxUserARDisplay.Size = new System.Drawing.Size(1238, 877);
+            this.txtBoxUserARDisplay.Size = new System.Drawing.Size(1056, 657);
             this.txtBoxUserARDisplay.TabIndex = 3;
             this.txtBoxUserARDisplay.Text = "";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 13);
+            this.label1.Location = new System.Drawing.Point(2, 23);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(237, 25);
             this.label1.TabIndex = 2;
@@ -174,16 +174,16 @@
             // txtBoxUserARs
             // 
             this.txtBoxUserARs.AllowDrop = true;
-            this.txtBoxUserARs.Location = new System.Drawing.Point(246, 10);
+            this.txtBoxUserARs.Location = new System.Drawing.Point(245, 20);
             this.txtBoxUserARs.Name = "txtBoxUserARs";
-            this.txtBoxUserARs.Size = new System.Drawing.Size(1006, 31);
+            this.txtBoxUserARs.Size = new System.Drawing.Size(843, 31);
             this.txtBoxUserARs.TabIndex = 0;
             // 
             // ARComparer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2564, 1170);
+            this.ClientSize = new System.Drawing.Size(2262, 983);
             this.Controls.Add(this.panel1);
             this.Name = "ARComparer";
             this.Text = "ARComparer";
