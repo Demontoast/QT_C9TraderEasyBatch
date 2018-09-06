@@ -87,6 +87,7 @@ namespace LM_C9Master
             List<string> servers = new List<string>();
             List<string> userInfo = new List<string>();
             List<string> users = new List<string>();
+            List<string> accessories = new List<string>();
 
             using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
             {
@@ -159,6 +160,16 @@ namespace LM_C9Master
                         }
                     }
 
+                    if (Line.Contains("<Accessories>"))
+                    {
+                        Line = SR.ReadLine();
+                        while (!Line.Contains("</Accessories>"))
+                        {
+                            accessories.Add(Line);
+                            Line = SR.ReadLine();
+                        }
+                    }
+
                     Line = SR.ReadLine();
                 }
             }
@@ -182,18 +193,26 @@ namespace LM_C9Master
                     SW.WriteLine("C9TraderMSILocation=");
                 SW.WriteLine("</AppManager>");
                 SW.WriteLine("<Accessories>");
-                if (vmLoc != "" && vmLoc != null)
-                    SW.WriteLine(vmLoc);
+                if (accessories.Count > 0)
+                {
+                    foreach (string access in accessories)
+                        SW.WriteLine(access);
+                }
                 else
-                    SW.WriteLine("VMLocation=");
-                if (sqdbLoc != "" && sqdbLoc != null)
-                    SW.WriteLine(sqdbLoc);
-                else
-                    SW.WriteLine("SQDBLiteLocation=");
-                if (tcpLoc != "" && tcpLoc != null)
-                    SW.WriteLine(tcpLoc);
-                else
-                    SW.WriteLine("TCPViewLocation=");
+                {
+                    if (vmLoc != "" && vmLoc != null)
+                        SW.WriteLine(vmLoc);
+                    else
+                        SW.WriteLine("VMLocation=");
+                    if (sqdbLoc != "" && sqdbLoc != null)
+                        SW.WriteLine(sqdbLoc);
+                    else
+                        SW.WriteLine("SQDBLiteLocation=");
+                    if (tcpLoc != "" && tcpLoc != null)
+                        SW.WriteLine(tcpLoc);
+                    else
+                        SW.WriteLine("TCPViewLocation=");
+                }
                 SW.WriteLine("</Accessories>");
                 SW.WriteLine("<DesignatedServer>");
                 if (servers.Count > 0)
