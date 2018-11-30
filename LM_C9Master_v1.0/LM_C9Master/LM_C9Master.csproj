@@ -90,6 +90,12 @@
     <Compile Include="ARComparer.Designer.cs">
       <DependentUpon>ARComparer.cs</DependentUpon>
     </Compile>
+    <Compile Include="userOrderingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="userOrderingForm.Designer.cs">
+      <DependentUpon>userOrderingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +132,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userOrderingForm.resx">
+      <DependentUpon>userOrderingForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -215,6 +224,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\callPendingTone.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

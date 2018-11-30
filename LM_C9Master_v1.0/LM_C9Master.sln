@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LM_C9Master", "LM_C9Master\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FE2CBCDF-531F-49CB-8F4D-9848C8623D04}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\..\Users\Thinkpad 3rd Gen\AppData\Local\C9Trader\app-2.28.0.702\callPendingTone.wav = ..\..\..\Users\Thinkpad 3rd Gen\AppData\Local\C9Trader\app-2.28.0.702\callPendingTone.wav
 		..\..\reeeeeeeee2.wav = ..\..\reeeeeeeee2.wav
 	EndProjectSection
 EndProject

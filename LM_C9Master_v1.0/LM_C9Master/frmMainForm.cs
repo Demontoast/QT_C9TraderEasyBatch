@@ -94,6 +94,7 @@ namespace LM_C9Master
         String[] traderRoots = new String[2];
         frmUserInfoForm userInfoForm;
         frmMainForm mainForm;
+        userOrderingForm userOrderForm;
         ARComparer arCompareForm;
         String currVersion;
 
@@ -913,7 +914,7 @@ namespace LM_C9Master
         // Action Listener for the user combo box that automatically supplies a saved password if the user
         // selected is changed
         private void cmbBoxUsers_TextChanged(object sender, EventArgs e)
-        {
+        {   
             btnAddUser.Enabled = false;
             btnRemoveUser.Enabled = false;
             if (txtBoxSetUsrPassword.Text != "" && cmbBoxUsers.Text != "" && !searchFlag)
@@ -922,6 +923,18 @@ namespace LM_C9Master
                 btnRemoveUser.Enabled = true;
             }
             AutoSetAccSettings(cmbBoxUsers.Text);
+        }
+
+        private void cmbBoxUsers_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (!cmbBoxUsers.Text.Equals("") && !cmbBoxUsers.Text.Equals(null))
+                {
+                    BtnLaunchApp_Click(sender, e);
+                }
+                
+            }
         }
 
         // Action Listener for the button that launches the application using information supplied in the user
@@ -1354,12 +1367,6 @@ namespace LM_C9Master
             btnDefaultC9TraderRoot.Enabled = false;
         }
 
-        // Action Listener for the button that links the user to the C9 Portal
-        private void btnPortalLink_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://qa1-portal.xhoot.com/c9portal/#/login");
-        }
-
         // Action Listener for the button that starts the local server for the user (api_server.py)
         private void btnStartLocalServer_Click(object sender, EventArgs e)
         {
@@ -1446,7 +1453,7 @@ namespace LM_C9Master
             Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads");
         }
 
-        private void btnPortalGateway_Click(object sender, EventArgs e)
+        private void btnSplunk_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://qa1-log1.xhoot.com:8443/en-US/account/login?return_to=%2Fen-US%2Fmanager%2Fsearch%2Flicenseusage");
         }
@@ -2035,6 +2042,15 @@ namespace LM_C9Master
             mainForm.Enabled = true;
         }
 
+        private void userOrderingClosedEventHandler(object sender, EventArgs e)
+        {
+            AccountsFromSettings = userOrderForm.getOrderedAccounts();
+            btnReorder.Enabled = true;
+            SaveAccountsToSettings();
+            LoadSettings("APPACCOUNTS");
+            mainForm.Enabled = true;
+        }
+
         private void btnFlushC2C_Click(object sender, EventArgs e)
         {
             string currUser = Environment.UserName;
@@ -2074,21 +2090,6 @@ namespace LM_C9Master
             Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\C9Trader\calls");
         }
 
-        private void btnPortal1_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://qa1-portal1.xhoot.com/c9portal/#/login");
-        }
-
-        private void btnPortal2_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://qa1-portal2.xhoot.com/c9portal/#/login");
-        }
-
-        private void btnPortal3_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://qa1-portal3.xhoot.com/c9portal/#/login");
-        }
-
         private void btnTraderLogs_Click(object sender, EventArgs e)
         {
             String currUser = Environment.UserName;
@@ -2101,13 +2102,6 @@ namespace LM_C9Master
             arCompareForm.Activate();
             arCompareForm.BringToFront();
             arCompareForm.Show();
-            arCompareForm.FormClosed += arComparerClosedEventHandler;
-        }
-
-
-        public void arComparerClosedEventHandler(object sender, EventArgs e)
-        {
-            
         }
 
         private void btnFldrBrowser_Click(object sender, EventArgs e)
@@ -2260,6 +2254,30 @@ namespace LM_C9Master
             }
 
             accessoryTabs.Controls.Remove(accessoryTabs.SelectedTab);
+        }
+
+        private void btnLaunchPortal_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(cmbBoxPortalServers.Text);
+            }
+            catch
+            {
+                
+            }
+        }
+
+        private void btnReorder_Click(object sender, EventArgs e)
+        {
+            userOrderForm = new userOrderingForm(AccountsFromSettings);
+           
+            userOrderForm.Activate();
+            userOrderForm.BringToFront();
+            userOrderForm.Show();
+            userOrderForm.FormClosing += userOrderingClosedEventHandler;
+
+            mainForm.Enabled = false;
         }
     }
 }
