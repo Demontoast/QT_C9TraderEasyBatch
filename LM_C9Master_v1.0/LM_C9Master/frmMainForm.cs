@@ -176,11 +176,6 @@ namespace LM_C9Master
                 BtnVPNSwitch.Text = "OFF";
                 BtnVPNSwitch.BackColor = Color.LightCoral;
                 BtnVPNSwitch.ForeColor = Color.DarkRed;
-                btnVPNClientLaunch.Enabled = false;
-                BtnLaunchApp.Enabled = false;
-                btnCloseApp.Enabled = false;
-                btnCloseAppSelUser.Enabled = false;
-                btnLaunchAccessory.Enabled = false;
             }
             else
             {
@@ -192,22 +187,12 @@ namespace LM_C9Master
                         BtnVPNSwitch.Text = "OFF";
                         BtnVPNSwitch.BackColor = Color.LightCoral;
                         BtnVPNSwitch.ForeColor = Color.DarkRed;
-                        btnVPNClientLaunch.Enabled = false;
-                        BtnLaunchApp.Enabled = false;
-                        btnCloseApp.Enabled = false;
-                        btnCloseAppSelUser.Enabled = false;
-                        btnLaunchAccessory.Enabled = false;
                     }
                     else if (svcVPNAgent.Status == ServiceControllerStatus.Running)
                     {
                         BtnVPNSwitch.Text = "ON";
                         BtnVPNSwitch.BackColor = Color.LightGreen;
                         BtnVPNSwitch.ForeColor = Color.DarkGreen;
-                        btnVPNClientLaunch.Enabled = true;
-                        BtnLaunchApp.Enabled = true;
-                        btnCloseApp.Enabled = true;
-                        btnCloseAppSelUser.Enabled = true;
-                        btnLaunchAccessory.Enabled = true;
                     }
                 }
                 else
@@ -218,22 +203,12 @@ namespace LM_C9Master
                         BtnVPNSwitch.Text = "OFF";
                         BtnVPNSwitch.BackColor = Color.LightCoral;
                         BtnVPNSwitch.ForeColor = Color.DarkRed;
-                        btnVPNClientLaunch.Enabled = false;
-                        BtnLaunchApp.Enabled = false;
-                        btnCloseApp.Enabled = false;
-                        btnCloseAppSelUser.Enabled = false;
-                        btnLaunchAccessory.Enabled = false;
                     }
                     else if (svcAcumbrella.Status == ServiceControllerStatus.Running)
                     {
                         BtnVPNSwitch.Text = "ON";
                         BtnVPNSwitch.BackColor = Color.LightGreen;
                         BtnVPNSwitch.ForeColor = Color.DarkGreen;
-                        btnVPNClientLaunch.Enabled = true;
-                        BtnLaunchApp.Enabled = true;
-                        btnCloseApp.Enabled = true;
-                        btnCloseAppSelUser.Enabled = true;
-                        btnLaunchAccessory.Enabled = true;
                     }
                 }
             }
@@ -649,6 +624,7 @@ namespace LM_C9Master
 
             ServiceController svcAcumbrella;
             ServiceController svcVPNAgent;
+
             try
             {
                 svcAcumbrella = new ServiceController("acumbrellaagent");
@@ -666,6 +642,7 @@ namespace LM_C9Master
             {
                 svcVPNAgentFound = false;
             }
+
             
             if (BtnVPNSwitch.Text == "OFF")
             {
@@ -673,7 +650,7 @@ namespace LM_C9Master
                     {
                         svcAcumbrella = new ServiceController("acumbrellaagent");
 
-                        if (svcAcumbrella.Status == ServiceControllerStatus.Stopped)
+                    if (svcAcumbrella.Status == ServiceControllerStatus.Stopped)
                         {
                             svcAcumbrella.Start();
                         }
@@ -683,7 +660,8 @@ namespace LM_C9Master
                     if (svcVPNAgentFound)
                     {
                         svcVPNAgent = new ServiceController("vpnagent");
-                        if (svcVPNAgent.Status == ServiceControllerStatus.Stopped)
+
+                    if (svcVPNAgent.Status == ServiceControllerStatus.Stopped)
                         {
                             svcVPNAgent.Start();
                         }
@@ -693,13 +671,8 @@ namespace LM_C9Master
                         BtnVPNSwitch.Text = "ON";
                         BtnVPNSwitch.BackColor = Color.LightGreen;
                         BtnVPNSwitch.ForeColor = Color.DarkGreen;
-                        btnVPNClientLaunch.Enabled = true;
                         BtnVPNSwitch.Enabled = true;
-                        BtnLaunchApp.Enabled = true;
-                        btnCloseApp.Enabled = true;
-                        btnCloseAppSelUser.Enabled = true;
-                        btnLaunchAccessory.Enabled = true;
-                    }
+                }
                     else
                     {
                         MessageBox.Show("VPN services are not working properly..." + Environment.NewLine + "Please verify their status in Windows Task Manager", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -732,12 +705,7 @@ namespace LM_C9Master
                         BtnVPNSwitch.Text = "OFF";
                         BtnVPNSwitch.BackColor = Color.LightCoral;
                         BtnVPNSwitch.ForeColor = Color.DarkRed;
-                        btnVPNClientLaunch.Enabled = false;
                         BtnVPNSwitch.Enabled = true;
-                        BtnLaunchApp.Enabled = false;
-                        btnCloseApp.Enabled = false;
-                        btnCloseAppSelUser.Enabled = false;
-                        btnLaunchAccessory.Enabled = false;
                     }
                     else
                     {

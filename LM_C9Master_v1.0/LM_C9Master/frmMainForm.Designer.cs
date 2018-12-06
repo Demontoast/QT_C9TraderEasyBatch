@@ -78,6 +78,7 @@
             this.opnFDVPNClientSelector = new System.Windows.Forms.OpenFileDialog();
             this.fldBrwsDiagSharedFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnReorder = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
             this.txtBoxExtraParams = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -150,27 +151,26 @@
             this.removeServerTT = new System.Windows.Forms.ToolTip(this.components);
             this.splunkTT = new System.Windows.Forms.ToolTip(this.components);
             this.fldBrwsDiagLoadBatches = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnReorder = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.txtBoxCurrFirmSearch = new System.Windows.Forms.TextBox();
-            this.txtBoxCurrGroupSearch = new System.Windows.Forms.TextBox();
-            this.txtBoxCurrUserSearch = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtBoxCurrFeatureSearch = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
+            this.txtBoxCurrFeatureSearch = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtBoxCurrUserSearch = new System.Windows.Forms.TextBox();
+            this.txtBoxCurrGroupSearch = new System.Windows.Forms.TextBox();
+            this.txtBoxCurrFirmSearch = new System.Windows.Forms.TextBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.txtBoxNewUserSearch = new System.Windows.Forms.TextBox();
-            this.txtBoxNewGroupSearch = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.txtBoxNewFirmSearch = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.btnClearSearch = new System.Windows.Forms.Button();
-            this.cmbSearchFeature = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
+            this.cmbSearchFeature = new System.Windows.Forms.ComboBox();
+            this.btnClearSearch = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtBoxNewFirmSearch = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtBoxNewGroupSearch = new System.Windows.Forms.TextBox();
+            this.txtBoxNewUserSearch = new System.Windows.Forms.TextBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -212,7 +212,6 @@
             // 
             // btnVPNClientLaunch
             // 
-            this.btnVPNClientLaunch.Enabled = false;
             this.btnVPNClientLaunch.Location = new System.Drawing.Point(154, 94);
             this.btnVPNClientLaunch.Name = "btnVPNClientLaunch";
             this.btnVPNClientLaunch.Size = new System.Drawing.Size(273, 49);
@@ -725,6 +724,16 @@
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "App Manager";
+            // 
+            // btnReorder
+            // 
+            this.btnReorder.Location = new System.Drawing.Point(482, 128);
+            this.btnReorder.Name = "btnReorder";
+            this.btnReorder.Size = new System.Drawing.Size(109, 54);
+            this.btnReorder.TabIndex = 37;
+            this.btnReorder.Text = "Reorder";
+            this.btnReorder.UseVisualStyleBackColor = true;
+            this.btnReorder.Click += new System.EventHandler(this.btnReorder_Click);
             // 
             // label20
             // 
@@ -1362,16 +1371,6 @@
             // 
             this.splunkTT.ToolTipTitle = "Splunk";
             // 
-            // btnReorder
-            // 
-            this.btnReorder.Location = new System.Drawing.Point(482, 128);
-            this.btnReorder.Name = "btnReorder";
-            this.btnReorder.Size = new System.Drawing.Size(109, 54);
-            this.btnReorder.TabIndex = 37;
-            this.btnReorder.Text = "Reorder";
-            this.btnReorder.UseVisualStyleBackColor = true;
-            this.btnReorder.Click += new System.EventHandler(this.btnReorder_Click);
-            // 
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.label15);
@@ -1389,47 +1388,22 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Current Search:";
             // 
-            // txtBoxCurrFirmSearch
+            // label15
             // 
-            this.txtBoxCurrFirmSearch.Enabled = false;
-            this.txtBoxCurrFirmSearch.Location = new System.Drawing.Point(10, 131);
-            this.txtBoxCurrFirmSearch.Name = "txtBoxCurrFirmSearch";
-            this.txtBoxCurrFirmSearch.Size = new System.Drawing.Size(236, 31);
-            this.txtBoxCurrFirmSearch.TabIndex = 35;
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(11, 240);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(86, 25);
+            this.label15.TabIndex = 40;
+            this.label15.Text = "Feature";
             // 
-            // txtBoxCurrGroupSearch
+            // txtBoxCurrFeatureSearch
             // 
-            this.txtBoxCurrGroupSearch.Enabled = false;
-            this.txtBoxCurrGroupSearch.Location = new System.Drawing.Point(10, 201);
-            this.txtBoxCurrGroupSearch.Name = "txtBoxCurrGroupSearch";
-            this.txtBoxCurrGroupSearch.Size = new System.Drawing.Size(236, 31);
-            this.txtBoxCurrGroupSearch.TabIndex = 36;
-            // 
-            // txtBoxCurrUserSearch
-            // 
-            this.txtBoxCurrUserSearch.Enabled = false;
-            this.txtBoxCurrUserSearch.Location = new System.Drawing.Point(10, 63);
-            this.txtBoxCurrUserSearch.Name = "txtBoxCurrUserSearch";
-            this.txtBoxCurrUserSearch.Size = new System.Drawing.Size(236, 31);
-            this.txtBoxCurrUserSearch.TabIndex = 33;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(11, 103);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(54, 25);
-            this.label9.TabIndex = 37;
-            this.label9.Text = "Firm";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(11, 35);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(57, 25);
-            this.label10.TabIndex = 34;
-            this.label10.Text = "User";
+            this.txtBoxCurrFeatureSearch.Enabled = false;
+            this.txtBoxCurrFeatureSearch.Location = new System.Drawing.Point(10, 268);
+            this.txtBoxCurrFeatureSearch.Name = "txtBoxCurrFeatureSearch";
+            this.txtBoxCurrFeatureSearch.Size = new System.Drawing.Size(236, 31);
+            this.txtBoxCurrFeatureSearch.TabIndex = 39;
             // 
             // label7
             // 
@@ -1440,22 +1414,47 @@
             this.label7.TabIndex = 38;
             this.label7.Text = "Group";
             // 
-            // txtBoxCurrFeatureSearch
+            // label10
             // 
-            this.txtBoxCurrFeatureSearch.Enabled = false;
-            this.txtBoxCurrFeatureSearch.Location = new System.Drawing.Point(10, 268);
-            this.txtBoxCurrFeatureSearch.Name = "txtBoxCurrFeatureSearch";
-            this.txtBoxCurrFeatureSearch.Size = new System.Drawing.Size(236, 31);
-            this.txtBoxCurrFeatureSearch.TabIndex = 39;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(11, 35);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(57, 25);
+            this.label10.TabIndex = 34;
+            this.label10.Text = "User";
             // 
-            // label15
+            // label9
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(11, 240);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(86, 25);
-            this.label15.TabIndex = 40;
-            this.label15.Text = "Feature";
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(11, 103);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(54, 25);
+            this.label9.TabIndex = 37;
+            this.label9.Text = "Firm";
+            // 
+            // txtBoxCurrUserSearch
+            // 
+            this.txtBoxCurrUserSearch.Enabled = false;
+            this.txtBoxCurrUserSearch.Location = new System.Drawing.Point(10, 63);
+            this.txtBoxCurrUserSearch.Name = "txtBoxCurrUserSearch";
+            this.txtBoxCurrUserSearch.Size = new System.Drawing.Size(236, 31);
+            this.txtBoxCurrUserSearch.TabIndex = 33;
+            // 
+            // txtBoxCurrGroupSearch
+            // 
+            this.txtBoxCurrGroupSearch.Enabled = false;
+            this.txtBoxCurrGroupSearch.Location = new System.Drawing.Point(10, 201);
+            this.txtBoxCurrGroupSearch.Name = "txtBoxCurrGroupSearch";
+            this.txtBoxCurrGroupSearch.Size = new System.Drawing.Size(236, 31);
+            this.txtBoxCurrGroupSearch.TabIndex = 36;
+            // 
+            // txtBoxCurrFirmSearch
+            // 
+            this.txtBoxCurrFirmSearch.Enabled = false;
+            this.txtBoxCurrFirmSearch.Location = new System.Drawing.Point(10, 131);
+            this.txtBoxCurrFirmSearch.Name = "txtBoxCurrFirmSearch";
+            this.txtBoxCurrFirmSearch.Size = new System.Drawing.Size(236, 31);
+            this.txtBoxCurrFirmSearch.TabIndex = 35;
             // 
             // groupBox9
             // 
@@ -1476,78 +1475,14 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Search For:";
             // 
-            // txtBoxNewUserSearch
+            // label16
             // 
-            this.txtBoxNewUserSearch.Location = new System.Drawing.Point(5, 58);
-            this.txtBoxNewUserSearch.Name = "txtBoxNewUserSearch";
-            this.txtBoxNewUserSearch.Size = new System.Drawing.Size(236, 31);
-            this.txtBoxNewUserSearch.TabIndex = 39;
-            this.txtBoxNewUserSearch.TextChanged += new System.EventHandler(this.txtBoxNewUserSearch_TextChanged);
-            // 
-            // txtBoxNewGroupSearch
-            // 
-            this.txtBoxNewGroupSearch.Location = new System.Drawing.Point(4, 199);
-            this.txtBoxNewGroupSearch.Name = "txtBoxNewGroupSearch";
-            this.txtBoxNewGroupSearch.Size = new System.Drawing.Size(236, 31);
-            this.txtBoxNewGroupSearch.TabIndex = 42;
-            this.txtBoxNewGroupSearch.TextChanged += new System.EventHandler(this.txtBoxNewGroupSearch_TextChanged);
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(6, 99);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(54, 25);
-            this.label13.TabIndex = 43;
-            this.label13.Text = "Firm";
-            // 
-            // txtBoxNewFirmSearch
-            // 
-            this.txtBoxNewFirmSearch.Location = new System.Drawing.Point(5, 127);
-            this.txtBoxNewFirmSearch.Name = "txtBoxNewFirmSearch";
-            this.txtBoxNewFirmSearch.Size = new System.Drawing.Size(236, 31);
-            this.txtBoxNewFirmSearch.TabIndex = 41;
-            this.txtBoxNewFirmSearch.TextChanged += new System.EventHandler(this.txtBoxNewFirmSearch_TextChanged);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 30);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(57, 25);
-            this.label12.TabIndex = 40;
-            this.label12.Text = "User";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(5, 171);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(71, 25);
-            this.label11.TabIndex = 44;
-            this.label11.Text = "Group";
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.BackColor = System.Drawing.Color.Goldenrod;
-            this.btnSearch.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnSearch.Location = new System.Drawing.Point(47, 328);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(150, 69);
-            this.btnSearch.TabIndex = 45;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = false;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
-            // btnClearSearch
-            // 
-            this.btnClearSearch.Location = new System.Drawing.Point(47, 402);
-            this.btnClearSearch.Name = "btnClearSearch";
-            this.btnClearSearch.Size = new System.Drawing.Size(148, 69);
-            this.btnClearSearch.TabIndex = 46;
-            this.btnClearSearch.Text = "Clear Search";
-            this.btnClearSearch.UseVisualStyleBackColor = true;
-            this.btnClearSearch.Click += new System.EventHandler(this.btnClearSearch_Click);
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(6, 238);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(86, 25);
+            this.label16.TabIndex = 48;
+            this.label16.Text = "Feature";
             // 
             // cmbSearchFeature
             // 
@@ -1572,14 +1507,78 @@
             this.cmbSearchFeature.Size = new System.Drawing.Size(236, 33);
             this.cmbSearchFeature.TabIndex = 47;
             // 
-            // label16
+            // btnClearSearch
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(6, 238);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(86, 25);
-            this.label16.TabIndex = 48;
-            this.label16.Text = "Feature";
+            this.btnClearSearch.Location = new System.Drawing.Point(47, 402);
+            this.btnClearSearch.Name = "btnClearSearch";
+            this.btnClearSearch.Size = new System.Drawing.Size(148, 69);
+            this.btnClearSearch.TabIndex = 46;
+            this.btnClearSearch.Text = "Clear Search";
+            this.btnClearSearch.UseVisualStyleBackColor = true;
+            this.btnClearSearch.Click += new System.EventHandler(this.btnClearSearch_Click);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.BackColor = System.Drawing.Color.Goldenrod;
+            this.btnSearch.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnSearch.Location = new System.Drawing.Point(47, 328);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(150, 69);
+            this.btnSearch.TabIndex = 45;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(5, 171);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(71, 25);
+            this.label11.TabIndex = 44;
+            this.label11.Text = "Group";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 30);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(57, 25);
+            this.label12.TabIndex = 40;
+            this.label12.Text = "User";
+            // 
+            // txtBoxNewFirmSearch
+            // 
+            this.txtBoxNewFirmSearch.Location = new System.Drawing.Point(5, 127);
+            this.txtBoxNewFirmSearch.Name = "txtBoxNewFirmSearch";
+            this.txtBoxNewFirmSearch.Size = new System.Drawing.Size(236, 31);
+            this.txtBoxNewFirmSearch.TabIndex = 41;
+            this.txtBoxNewFirmSearch.TextChanged += new System.EventHandler(this.txtBoxNewFirmSearch_TextChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 99);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(54, 25);
+            this.label13.TabIndex = 43;
+            this.label13.Text = "Firm";
+            // 
+            // txtBoxNewGroupSearch
+            // 
+            this.txtBoxNewGroupSearch.Location = new System.Drawing.Point(4, 199);
+            this.txtBoxNewGroupSearch.Name = "txtBoxNewGroupSearch";
+            this.txtBoxNewGroupSearch.Size = new System.Drawing.Size(236, 31);
+            this.txtBoxNewGroupSearch.TabIndex = 42;
+            this.txtBoxNewGroupSearch.TextChanged += new System.EventHandler(this.txtBoxNewGroupSearch_TextChanged);
+            // 
+            // txtBoxNewUserSearch
+            // 
+            this.txtBoxNewUserSearch.Location = new System.Drawing.Point(5, 58);
+            this.txtBoxNewUserSearch.Name = "txtBoxNewUserSearch";
+            this.txtBoxNewUserSearch.Size = new System.Drawing.Size(236, 31);
+            this.txtBoxNewUserSearch.TabIndex = 39;
+            this.txtBoxNewUserSearch.TextChanged += new System.EventHandler(this.txtBoxNewUserSearch_TextChanged);
             // 
             // groupBox7
             // 
