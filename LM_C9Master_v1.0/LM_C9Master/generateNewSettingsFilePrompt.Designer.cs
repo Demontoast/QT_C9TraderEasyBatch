@@ -97,7 +97,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "generateNewSettingsFilePrompt";
-            this.Text = "LM_C9Master_BETA_2.0";
+            this.Text = "LM_C9Master_BETA_2.1";
             this.Load += new System.EventHandler(this.generateNewSettingsFilePrompt_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -94,6 +94,8 @@ namespace LM_C9Master
         String[] traderRoots = new String[2];
         frmUserInfoForm userInfoForm;
         frmMainForm mainForm;
+        userOrderingForm userOrderForm;
+        ARComparer arCompareForm;
         String currVersion;
 
         // Main method, loads all forms and settings
@@ -106,7 +108,7 @@ namespace LM_C9Master
             currVersion = mainForm.Text;
 
             this.Width = 1015;
-            this.Height = 485;
+            this.Height = 525;
             this.SetDesktopLocation(130, 75);
 
             foreach (Process p in System.Diagnostics.Process.GetProcesses())
@@ -123,6 +125,7 @@ namespace LM_C9Master
             LoadSettings("C9TRADERROOT");
             LoadSettings("SERVER");
 
+            LoadSettings("ACCESSORIES");
             LoadSettings("APPACCOUNTS");
             LoadSettings("VERSIONMANAGER");
             LoadSettings("TCPVIEW");
@@ -134,12 +137,7 @@ namespace LM_C9Master
             btnTraderRootSave.Enabled = false;
             btnDefaultVPN.Enabled = false;
             btnVPNSaveSettings.Enabled = false;
-            btnSaveTCPView.Enabled = false;
-            btnDefaultTCPView.Enabled = false;
-            btnDefaultVM.Enabled = false;
-            btnSaveVM.Enabled = false;
-            btnDefaultSQDBLite.Enabled = false;
-            btnSavePathSQDBLite.Enabled = false;
+            btnDefaultAccessoryEdits.Enabled = false;
             btnDefaultTrscpServ.Enabled = false;
             btnSaveTrscpServ.Enabled = false;
             btnSaveFirm.Enabled = false;
@@ -154,6 +152,8 @@ namespace LM_C9Master
             try
             {
                 svcAcumbrella = new ServiceController("acumbrellaagent");
+                if (svcAcumbrella.Status == ServiceControllerStatus.Stopped || svcAcumbrella.Status == ServiceControllerStatus.Running)
+                    acumbrellaFound = true;
             }
             catch
             {
@@ -176,11 +176,6 @@ namespace LM_C9Master
                 BtnVPNSwitch.Text = "OFF";
                 BtnVPNSwitch.BackColor = Color.LightCoral;
                 BtnVPNSwitch.ForeColor = Color.DarkRed;
-                btnVPNClientLaunch.Enabled = false;
-                BtnLaunchApp.Enabled = false;
-                btnCloseApp.Enabled = false;
-                btnCloseAppSelUser.Enabled = false;
-                btnVersionManager.Enabled = false;
             }
             else
             {
@@ -192,48 +187,28 @@ namespace LM_C9Master
                         BtnVPNSwitch.Text = "OFF";
                         BtnVPNSwitch.BackColor = Color.LightCoral;
                         BtnVPNSwitch.ForeColor = Color.DarkRed;
-                        btnVPNClientLaunch.Enabled = false;
-                        BtnLaunchApp.Enabled = false;
-                        btnCloseApp.Enabled = false;
-                        btnCloseAppSelUser.Enabled = false;
-                        btnVersionManager.Enabled = false;
                     }
                     else if (svcVPNAgent.Status == ServiceControllerStatus.Running)
                     {
                         BtnVPNSwitch.Text = "ON";
                         BtnVPNSwitch.BackColor = Color.LightGreen;
                         BtnVPNSwitch.ForeColor = Color.DarkGreen;
-                        btnVPNClientLaunch.Enabled = true;
-                        BtnLaunchApp.Enabled = true;
-                        btnCloseApp.Enabled = true;
-                        btnCloseAppSelUser.Enabled = true;
-                        btnVersionManager.Enabled = true;
                     }
                 }
                 else
                 {
                     svcAcumbrella = new ServiceController("acumbrellaagent");
-                    if (svcAcumbrella.Status == ServiceControllerStatus.Stopped || svcVPNAgent.Status == ServiceControllerStatus.Stopped)
+                    if (svcAcumbrella.Status == ServiceControllerStatus.Stopped)
                     {
                         BtnVPNSwitch.Text = "OFF";
                         BtnVPNSwitch.BackColor = Color.LightCoral;
                         BtnVPNSwitch.ForeColor = Color.DarkRed;
-                        btnVPNClientLaunch.Enabled = false;
-                        BtnLaunchApp.Enabled = false;
-                        btnCloseApp.Enabled = false;
-                        btnCloseAppSelUser.Enabled = false;
-                        btnVersionManager.Enabled = false;
                     }
-                    else if (svcAcumbrella.Status == ServiceControllerStatus.Running && svcVPNAgent.Status == ServiceControllerStatus.Running)
+                    else if (svcAcumbrella.Status == ServiceControllerStatus.Running)
                     {
                         BtnVPNSwitch.Text = "ON";
                         BtnVPNSwitch.BackColor = Color.LightGreen;
                         BtnVPNSwitch.ForeColor = Color.DarkGreen;
-                        btnVPNClientLaunch.Enabled = true;
-                        BtnLaunchApp.Enabled = true;
-                        btnCloseApp.Enabled = true;
-                        btnCloseAppSelUser.Enabled = true;
-                        btnVersionManager.Enabled = true;
                     }
                 }
             }
@@ -417,84 +392,6 @@ namespace LM_C9Master
                     }
                     
                     break;
-                case "VERSIONMANAGER":
-                    txtBoxVMPath.Clear();
-                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
-                    {
-                        Line = SR.ReadLine();
-                        while (Line!="<VersionManager>" && Line!="<Accessories>")
-                        {
-
-                            if (Line==(null))
-                            {
-                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <VersionManager> OR <Accessories>");
-                                break;
-                            }
-                            Line = SR.ReadLine();
-                        }
-                        while (Line != "</VersionManager>" && Line != "</Accessories>")
-                        {
-                            try
-                            {
-                                LineSplit = Line.Split('=');
-                                if (LineSplit[0] == "VMLocation")
-                                {
-                                    txtBoxVMPath.Text = LineSplit[1];
-                                    break;
-                                }
-                            }
-                            catch
-                            {
-
-                            }
-                            if (Line==(null))
-                            {
-                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </VersionManager> OR </Accessories>");
-                                break;
-                            }
-                            Line = SR.ReadLine();
-                        }
-                    }
-                    
-                    break;
-                case "TCPVIEW":
-                    txtBoxTCPViewPath.Clear();
-                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
-                    {
-                        Line = SR.ReadLine();
-                        while (Line != "<TCPView>" && Line!= "<Accessories>")
-                        {
-                            if (Line == null)
-                            {
-                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <TCPView>");
-                                break;
-                            }
-                            Line = SR.ReadLine();
-                        }
-                        while (Line != "</TCPView>" && Line != "</Accessories>")
-                        {
-                            try
-                            {
-                                LineSplit = Line.Split('=');
-                                if (LineSplit[0] == "TCPViewLocation")
-                                {
-                                    txtBoxTCPViewPath.Text = LineSplit[1];
-                                    break;
-                                }
-                            }
-                            catch
-                            {
-
-                            }
-                            if (Line.Equals(null))
-                            {
-                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </TCPView>");
-                                break;
-                            }
-                            Line = SR.ReadLine();
-                        }
-                    }
-                    break;
                 case "SERVER":
                     txtBoxServerName.Items.Clear();
                     serverList.Clear();
@@ -541,79 +438,6 @@ namespace LM_C9Master
                     }
                     txtBoxServerName.SelectedItem = defServ;
                     break;
-                case "SQDB":
-                    txtBoxSQDBLite.Clear();
-                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
-                    {
-                        Line = SR.ReadLine();
-                        while (Line != "<SQDBLite>" && Line != "<Accessories>")
-                        {
-                            if (Line==(null))
-                            {
-                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <SQDBLite>");
-                                break;
-                            }
-                            Line = SR.ReadLine();
-                        }
-                        while (Line != "</SQDBLite>" && Line != "</Accessories>")
-                        {
-                            try
-                            {
-                                LineSplit = Line.Split('=');
-                                if (LineSplit[0] == "SQDBLiteLocation")
-                                {
-                                    txtBoxSQDBLite.Text = LineSplit[1];
-                                    break;
-                                }
-                            }
-                            catch
-                            {
-
-                            }
-                            if (Line.Equals(null))
-                            {
-                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </SQDBLite>");
-                                break;
-                            }
-                            Line = SR.ReadLine();
-                        }
-                    }
-                    break;
-                case "TRSCPSERV":
-                    txtBoxTranscriptionServer.Clear();
-                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
-                    {
-                        while ((Line = SR.ReadLine()) != "<TranscriptionServer>")
-                        {
-                            if (Line.Equals(null))
-                            {
-                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <TranscriptionServer>");
-                                break;
-                            }
-                        }
-                        while ((Line= SR.ReadLine()) != "</TranscriptionServer>")
-                        {
-                            try
-                            {
-                                LineSplit = Line.Split('=');
-                                if (LineSplit[0] == "TranscriptionServer")
-                                {
-                                    txtBoxTranscriptionServer.Text = LineSplit[1];
-                                    break;
-                                }
-                            }
-                            catch
-                            {
-
-                            }
-                            if (Line.Equals(null))
-                            {
-                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </TranscriptionServer>");
-                                break;
-                            }
-                        }
-                    }
-                    break;
                 case "FEATURES":
                     using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
                     {
@@ -651,6 +475,46 @@ namespace LM_C9Master
                         }
                     }
                     break;
+                case "ACCESSORIES":
+                    using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                    {
+                        Line = SR.ReadLine();
+                        while (Line != "<Accessories>")
+                        {
+
+                            if (Line == (null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND <Accessories>");
+                                break;
+                            }
+                            Line = SR.ReadLine();
+                        }
+                        while (Line != "</Accessories>")
+                        {  
+                            try
+                            {
+                                LineSplit = Line.Split('=');
+                                TabPage newTab = new TabPage(LineSplit[0]);
+                                TextBox newTabFPBox = new TextBox();
+                                newTabFPBox.SetBounds(0, 0, 300, 50);
+                                newTabFPBox.Text = LineSplit[1];
+                                newTabFPBox.Enabled = false;
+                                newTab.Controls.Add(newTabFPBox);
+                                accessoryTabs.TabPages.Add(newTab);
+                            }
+                            catch
+                            {
+
+                            }
+                            if (Line == (null))
+                            {
+                                MessageBox.Show("WARNING: SETTINGS FILE CORRUPTED CANNOT FIND </Accessories>");
+                                break;
+                            }
+                            Line = SR.ReadLine();
+                        }
+                        break;
+                    }
             }
         }
 
@@ -760,6 +624,7 @@ namespace LM_C9Master
 
             ServiceController svcAcumbrella;
             ServiceController svcVPNAgent;
+
             try
             {
                 svcAcumbrella = new ServiceController("acumbrellaagent");
@@ -777,6 +642,7 @@ namespace LM_C9Master
             {
                 svcVPNAgentFound = false;
             }
+
             
             if (BtnVPNSwitch.Text == "OFF")
             {
@@ -784,7 +650,7 @@ namespace LM_C9Master
                     {
                         svcAcumbrella = new ServiceController("acumbrellaagent");
 
-                        if (svcAcumbrella.Status == ServiceControllerStatus.Stopped)
+                    if (svcAcumbrella.Status == ServiceControllerStatus.Stopped)
                         {
                             svcAcumbrella.Start();
                         }
@@ -794,7 +660,8 @@ namespace LM_C9Master
                     if (svcVPNAgentFound)
                     {
                         svcVPNAgent = new ServiceController("vpnagent");
-                        if (svcVPNAgent.Status == ServiceControllerStatus.Stopped)
+
+                    if (svcVPNAgent.Status == ServiceControllerStatus.Stopped)
                         {
                             svcVPNAgent.Start();
                         }
@@ -804,13 +671,8 @@ namespace LM_C9Master
                         BtnVPNSwitch.Text = "ON";
                         BtnVPNSwitch.BackColor = Color.LightGreen;
                         BtnVPNSwitch.ForeColor = Color.DarkGreen;
-                        btnVPNClientLaunch.Enabled = true;
                         BtnVPNSwitch.Enabled = true;
-                        BtnLaunchApp.Enabled = true;
-                        btnCloseApp.Enabled = true;
-                        btnCloseAppSelUser.Enabled = true;
-                        btnVersionManager.Enabled = true;
-                    }
+                }
                     else
                     {
                         MessageBox.Show("VPN services are not working properly..." + Environment.NewLine + "Please verify their status in Windows Task Manager", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -843,12 +705,7 @@ namespace LM_C9Master
                         BtnVPNSwitch.Text = "OFF";
                         BtnVPNSwitch.BackColor = Color.LightCoral;
                         BtnVPNSwitch.ForeColor = Color.DarkRed;
-                        btnVPNClientLaunch.Enabled = false;
                         BtnVPNSwitch.Enabled = true;
-                        BtnLaunchApp.Enabled = false;
-                        btnCloseApp.Enabled = false;
-                        btnCloseAppSelUser.Enabled = false;
-                        btnVersionManager.Enabled = false;
                     }
                     else
                     {
@@ -1025,7 +882,7 @@ namespace LM_C9Master
         // Action Listener for the user combo box that automatically supplies a saved password if the user
         // selected is changed
         private void cmbBoxUsers_TextChanged(object sender, EventArgs e)
-        {
+        {   
             btnAddUser.Enabled = false;
             btnRemoveUser.Enabled = false;
             if (txtBoxSetUsrPassword.Text != "" && cmbBoxUsers.Text != "" && !searchFlag)
@@ -1034,6 +891,18 @@ namespace LM_C9Master
                 btnRemoveUser.Enabled = true;
             }
             AutoSetAccSettings(cmbBoxUsers.Text);
+        }
+
+        private void cmbBoxUsers_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (!cmbBoxUsers.Text.Equals("") && !cmbBoxUsers.Text.Equals(null))
+                {
+                    BtnLaunchApp_Click(sender, e);
+                }
+                
+            }
         }
 
         // Action Listener for the button that launches the application using information supplied in the user
@@ -1050,7 +919,9 @@ namespace LM_C9Master
                 parameters += " -a";
             if (chkBoxNoUpd.Checked == true)
                 parameters += " -x";
-            if (!txtBoxTranscriptionServer.Text.Equals("") || !txtBoxTranscriptionServer.Text.Equals(null))
+            if (!txtBoxExtraParams.Text.Equals("") && !txtBoxExtraParams.Text.Equals(null))
+                parameters += " " + txtBoxExtraParams.Text;
+            if (!txtBoxTranscriptionServer.Text.Equals("") && !txtBoxTranscriptionServer.Text.Equals(null))
                 parameters += " -t " + txtBoxTranscriptionServer.Text;
             ProcessUser pram = new ProcessUser();
             Process p = new Process();
@@ -1061,7 +932,6 @@ namespace LM_C9Master
             {
                 if (MSI_Toggle.Text == "Squirrel")
                 {
-                    p.StartInfo.Arguments = parameters;
                     p = Process.Start(lblC9TraderRoot.Text + "\\app-" + cmbBoxVersionsList.Text + "\\C9Shell.exe", parameters);
                 }
                 else if (MSI_Toggle.Text == "MSI")
@@ -1465,12 +1335,6 @@ namespace LM_C9Master
             btnDefaultC9TraderRoot.Enabled = false;
         }
 
-        // Action Listener for the button that links the user to the C9 Portal
-        private void btnPortalLink_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://qa1-portal.xhoot.com/c9portal/#/login");
-        }
-
         // Action Listener for the button that starts the local server for the user (api_server.py)
         private void btnStartLocalServer_Click(object sender, EventArgs e)
         {
@@ -1504,32 +1368,17 @@ namespace LM_C9Master
             Process.Start(tempFilename);
         }
 
-        private void btnVersionManager_Click(object sender, EventArgs e)
+        private void btnLaunchAccessory_Click(object sender, EventArgs e)
         {
-            if (!txtBoxVMPath.Text.Equals("Enter Custom Path") && !txtBoxVMPath.Text.Equals(""))
-            {
                 try
                 {
-                    Process.Start(txtBoxVMPath.Text, "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text);
+                    Point p = new Point(0, 0);
+                    Process.Start(accessoryTabs.SelectedTab.GetChildAtPoint(p).Text);
                 }
                 catch
                 {
-                    MessageBox.Show("Error: C9 Version Manager not found");
+                    MessageBox.Show("Error: Invalid Filepath!");
                 }
-            }
-            else
-            {
-                String filePath = VMDirSearch("C:\\Program Files (x86)\\Cloud9 Technologies LLC\\");
-                txtBoxVMPath.Text = filePath;
-                try
-                {
-                    Process.Start(filePath, "-u " + cmbBoxUsers.Text + " -p " + txtBoxSetUsrPassword.Text);
-                }
-                catch
-                {
-                    MessageBox.Show("Error: C9 Version Manager not found");
-                }
-            }
         }
 
         public String VMDirSearch(String a)
@@ -1547,150 +1396,17 @@ namespace LM_C9Master
             return "";
         }
 
-        private void btnTCPView_Click(object sender, EventArgs e)
-        {
-            String filePath = "";
-            try
-            {
-                filePath = txtBoxTCPViewPath.Text;
-                Process.Start(filePath);
-            }
-            catch
-            {
-                MessageBox.Show("Error: TCPView not found");
-            }          
-        }
-
-        private void btnChangeVMPath_Click(object sender, EventArgs e)
-        {
-            DialogResult VMSelectorResult = new DialogResult();
-            VMSelectorResult = openFileDialogVM.ShowDialog();
-            if (VMSelectorResult == DialogResult.OK)
-            {
-                string strResultChangeCheck = openFileDialogVM.FileName;
-                if (strResultChangeCheck != txtBoxVMPath.Text)
-                {
-                    txtBoxVMPath.Text = strResultChangeCheck;
-                    btnDefaultVM.Enabled = true;
-                    btnSaveVM.Enabled = true;
-                }
-
-            }
-        }
-
         private void btnDefaultVM_Click(object sender, EventArgs e)
         {
-            LoadSettings("VERSIONMANAGER");
-            btnDefaultVM.Enabled = false;
-            btnSaveVM.Enabled = false;
-            txtBoxVMPath.Select();
-        }
-
-        private void btnSaveVM_Click(object sender, EventArgs e)
-        {
-            List<string> strCurrentSettings = new List<string>();
-
-            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
-            {
-                string Line = SR.ReadLine();
-                while (Line != null)
-                {
-                    strCurrentSettings.Add(Line);
-                    Line = SR.ReadLine();
-                }
-            }
-            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
-            {
-                if (strCurrentSettings != null)
-                {
-                    foreach (string s in strCurrentSettings)
-                    {
-                        if (s.Contains("VMLocation="))
-                        {
-                            String append = s;
-                            append = "VMLocation=" + txtBoxVMPath.Text;
-                            SW.WriteLine(append);
-                        }
-                        else
-                            SW.WriteLine(s);
-                    }
-                }
-            }
-
-            btnSaveVM.Enabled = false;
-            btnDefaultVM.Enabled = false;
-        }
-
-        private void btnChangeTCPView_Click(object sender, EventArgs e)
-        {
-            DialogResult VMSelectorResult = new DialogResult();
-            VMSelectorResult = openFileDialogTCPView.ShowDialog();
-            if (VMSelectorResult == DialogResult.OK)
-            {
-                string strResultChangeCheck = openFileDialogTCPView.FileName;
-                if (strResultChangeCheck != txtBoxTCPViewPath.Text)
-                {
-                    txtBoxTCPViewPath.Text = strResultChangeCheck;
-                    btnDefaultTCPView.Enabled = true;
-                    btnSaveTCPView.Enabled = true;
-                }
-
-            }
-        }
-
-        private void btnDefaultTCPView_Click(object sender, EventArgs e)
-        {
-            LoadSettings("TCPVIEW");
-            btnDefaultTCPView.Enabled = false;
-            btnSaveTCPView.Enabled = false;
-            txtBoxTCPViewPath.Select();
-        }
-
-        private void btnSaveTCPView_Click(object sender, EventArgs e)
-        {
-            List<string> strCurrentSettings = new List<string>();
-
-            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
-            {
-                string Line = SR.ReadLine();
-                while (Line != null)
-                {
-                    strCurrentSettings.Add(Line);
-                    Line = SR.ReadLine();
-                }
-            }
-            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
-            {
-                if (strCurrentSettings != null)
-                {
-                    foreach (string s in strCurrentSettings)
-                    {
-                        if (s.Contains("TCPViewLocation="))
-                        {
-                            String append = s;
-                            append = "TCPViewLocation=" + txtBoxTCPViewPath.Text;
-                            SW.WriteLine(append);
-                        }
-                        else
-                            SW.WriteLine(s);
-                    }
-                }
-            }
-
-            btnSaveTCPView.Enabled = false;
-            btnDefaultTCPView.Enabled = false;
-        }
-
-        private void txtBoxVMPath_TextChanged(object sender, EventArgs e)
-        {
-            btnSaveVM.Enabled = true;
-            btnDefaultVM.Enabled = true;
-        }
-
-        private void txtBoxTCPViewPath_TextChanged(object sender, EventArgs e)
-        {
-            btnSaveTCPView.Enabled = true;
-            btnDefaultTCPView.Enabled = true;
+            accessoryModifications.Text = "New Accessory Manager";
+            btnConfirmAccessory.Text = "Add Accessory";
+            txtBoxNewAccessoryFilepath.Clear();
+            txtBoxNewAccessoryName.Clear();
+            btnDefaultAccessoryEdits.Enabled = false;
+            btnLaunchAccessory.Enabled = true;
+            btnRemoveAccessory.Enabled = true;
+            accessoryTabs.Enabled = true;
+            btnDefaultAccessoryEdits.Visible = false;
         }
 
         private void btnRecordingFolder_Click(object sender, EventArgs e)
@@ -1705,7 +1421,7 @@ namespace LM_C9Master
             Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\c9analytics\uploads");
         }
 
-        private void btnPortalGateway_Click(object sender, EventArgs e)
+        private void btnSplunk_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://qa1-log1.xhoot.com:8443/en-US/account/login?return_to=%2Fen-US%2Fmanager%2Fsearch%2Flicenseusage");
         }
@@ -1796,85 +1512,6 @@ namespace LM_C9Master
         private void btnAudioCodes_Click(object sender, EventArgs e)
         {
             Process.Start("http://qa1-gateway1.xhoot.com/QA%20Dual%20GW1/");
-        }
-
-        private void btnLaunchSQDBLite_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (!txtBoxSQDBLite.Text.Contains("DB Browser for SQLite"))
-                    MessageBox.Show("SQDBLite not found");
-                else
-                    Process.Start(txtBoxSQDBLite.Text);
-            }
-            catch
-            {
-                MessageBox.Show("Error: SQDBLite not found");
-            }
-        }
-
-        private void txtBoxSQDBLite_TextChanged(object sender, EventArgs e)
-        {
-            btnSavePathSQDBLite.Enabled = true;
-            btnDefaultSQDBLite.Enabled = true;
-        }
-
-        private void btnChangePathSQDBLite_Click(object sender, EventArgs e)
-        {
-            DialogResult VMSelectorResult = new DialogResult();
-            VMSelectorResult = openFileDialogSQDBLite.ShowDialog();
-            if (VMSelectorResult == DialogResult.OK)
-            {
-                string strResultChangeCheck = openFileDialogSQDBLite.FileName;
-                if (strResultChangeCheck != txtBoxSQDBLite.Text)
-                {
-                    txtBoxSQDBLite.Text = strResultChangeCheck;
-                }
-
-            }
-        }
-
-        private void btnDefaultSQDBLite_Click(object sender, EventArgs e)
-        {
-            LoadSettings("SQDB");
-            btnDefaultSQDBLite.Enabled = false;
-            btnSavePathSQDBLite.Enabled = false;
-            txtBoxSQDBLite.Select();
-        }
-
-        private void btnSavePathSQDBLite_Click(object sender, EventArgs e)
-        {
-            List<string> strCurrentSettings = new List<string>();
-
-            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
-            {
-                string Line = SR.ReadLine();
-                while (Line != null)
-                {
-                    strCurrentSettings.Add(Line);
-                    Line = SR.ReadLine();
-                }
-            }
-            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
-            {
-                if (strCurrentSettings != null)
-                {
-                    foreach (string s in strCurrentSettings)
-                    {
-                        if (s.Contains("SQDBLiteLocation="))
-                        {
-                            String append = s;
-                            append = "SQDBLiteLocation=" + txtBoxSQDBLite.Text;
-                            SW.WriteLine(append);
-                        }
-                        else
-                            SW.WriteLine(s);
-                    }
-                }
-            }
-
-            btnSavePathSQDBLite.Enabled = false;
-            btnDefaultSQDBLite.Enabled = false;
         }
 
         private void btnBackup_Click(object sender, EventArgs e)
@@ -2373,6 +2010,15 @@ namespace LM_C9Master
             mainForm.Enabled = true;
         }
 
+        private void userOrderingClosedEventHandler(object sender, EventArgs e)
+        {
+            AccountsFromSettings = userOrderForm.getOrderedAccounts();
+            btnReorder.Enabled = true;
+            SaveAccountsToSettings();
+            LoadSettings("APPACCOUNTS");
+            mainForm.Enabled = true;
+        }
+
         private void btnFlushC2C_Click(object sender, EventArgs e)
         {
             string currUser = Environment.UserName;
@@ -2395,14 +2041,14 @@ namespace LM_C9Master
                 BtnLaunchApp.Enabled = true;
                 btnCloseApp.Enabled = true;
                 btnCloseAppSelUser.Enabled = true;
-                btnVersionManager.Enabled = true;
+                btnLaunchAccessory.Enabled = true;
             }
             if (chkBoxInC9.Checked == false && BtnVPNSwitch.Text.Equals("OFF"))
             {
                 BtnLaunchApp.Enabled = false;
                 btnCloseApp.Enabled = false;
                 btnCloseAppSelUser.Enabled = false;
-                btnVersionManager.Enabled = false;
+                btnLaunchAccessory.Enabled = false;
             }
         }
 
@@ -2412,25 +2058,194 @@ namespace LM_C9Master
             Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\C9Trader\calls");
         }
 
-        private void btnPortal1_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://qa1-portal1.xhoot.com/c9portal/#/login");
-        }
-
-        private void btnPortal2_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://qa1-portal2.xhoot.com/c9portal/#/login");
-        }
-
-        private void btnPortal3_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://qa1-portal3.xhoot.com/c9portal/#/login");
-        }
-
         private void btnTraderLogs_Click(object sender, EventArgs e)
         {
             String currUser = Environment.UserName;
             Process.Start(@"C:\Users\" + currUser + @"\AppData\Local\Cloud9_Technologies\C9Trader\log");
+        }
+
+        private void btnOpenARComparer_Click(object sender, EventArgs e)
+        {
+            arCompareForm = new ARComparer();
+            arCompareForm.Activate();
+            arCompareForm.BringToFront();
+            arCompareForm.Show();
+        }
+
+        private void btnFldrBrowser_Click(object sender, EventArgs e)
+        {
+            DialogResult VMSelectorResult = new DialogResult();
+            VMSelectorResult = openFileDialogVM.ShowDialog();
+            if (VMSelectorResult == DialogResult.OK)
+            {
+                txtBoxNewAccessoryFilepath.Text = openFileDialogVM.FileName;
+                btnDefaultAccessoryEdits.Enabled = true;
+            }
+        }
+
+        private void btnEditAccessory_Click(object sender, EventArgs e)
+        {
+            accessoryModifications.Text = "Edit Accessory Information";
+            txtBoxNewAccessoryName.Text = accessoryTabs.SelectedTab.Text;
+            Point p = new Point(0, 0);
+            txtBoxNewAccessoryFilepath.Text = accessoryTabs.SelectedTab.GetChildAtPoint(p).Text;
+            btnConfirmAccessory.Text = "Save Changes";
+            btnDefaultAccessoryEdits.Visible = true;
+            btnLaunchAccessory.Enabled = false;
+            btnRemoveAccessory.Enabled = false;
+            accessoryTabs.Enabled = false;
+        }
+
+        private void btnConfirmAccessory_Click(object sender, EventArgs e)
+        {
+            if (!(txtBoxNewAccessoryName.Text.Equals(null) || txtBoxNewAccessoryName.Text.Trim().Equals("") ||
+                txtBoxNewAccessoryFilepath.Text.Equals(null) || txtBoxNewAccessoryFilepath.Text.Trim().Equals("")))
+            {
+                Point p = new Point(0, 0);
+                List<string> strCurrentSettings = new List<string>();
+
+                using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+                {
+                    string Line = SR.ReadLine();
+                    while (Line != null)
+                    {
+                        strCurrentSettings.Add(Line);
+                        Line = SR.ReadLine();
+                    }
+                }
+
+                if (accessoryModifications.Text.Equals("New Accessory Manager"))
+                {
+                    using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+                    {
+                        if (strCurrentSettings != null)
+                        {
+                            foreach (string s in strCurrentSettings)
+                            {
+
+                                if (s.Contains("<Accessories>"))
+                                {
+                                    SW.WriteLine(s);
+                                    SW.WriteLine(txtBoxNewAccessoryName.Text + "=" + txtBoxNewAccessoryFilepath.Text);
+                                }
+                                else
+                                    SW.WriteLine(s);
+                            }
+                        }
+                    }
+
+                    TabPage newTab = new TabPage(txtBoxNewAccessoryName.Text);
+                    TextBox newFPBox = new TextBox();
+                    newFPBox.SetBounds(0, 0, 300, 50);
+                    newFPBox.Text = txtBoxNewAccessoryFilepath.Text;
+                    newFPBox.Enabled = false;
+                    newTab.Controls.Add(newFPBox);
+                    accessoryTabs.Controls.Add(newTab);
+                }
+                else
+                {
+                    using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+                    {
+                        if (strCurrentSettings != null)
+                        {
+                            foreach (string s in strCurrentSettings)
+                            {
+
+                                if (s.Contains(accessoryTabs.SelectedTab.GetChildAtPoint(p).Text))
+                                {
+                                    String append = s;
+                                    append = txtBoxNewAccessoryName.Text + "=" + txtBoxNewAccessoryFilepath.Text;
+                                    SW.WriteLine(append);
+                                }
+                                else
+                                    SW.WriteLine(s);
+                            }
+                        }
+                    }
+
+                    accessoryModifications.Text = "New Accessory Manager";
+                    accessoryTabs.SelectedTab.Text = txtBoxNewAccessoryName.Text;
+                    accessoryTabs.SelectedTab.GetChildAtPoint(p).Text = txtBoxNewAccessoryFilepath.Text;
+                    btnConfirmAccessory.Text = "Add Accessory";
+                    btnDefaultAccessoryEdits.Enabled = false;
+                    btnLaunchAccessory.Enabled = true;
+                    btnRemoveAccessory.Enabled = true;
+                    accessoryTabs.Enabled = true;
+                    btnDefaultAccessoryEdits.Visible = false;
+                }
+
+                txtBoxNewAccessoryFilepath.Clear();
+                txtBoxNewAccessoryName.Clear();
+            }
+            else
+                MessageBox.Show("Error: Invalid Accessory Information");
+        }
+
+        private void txtBoxNewAccessoryName_TextChanged(object sender, EventArgs e)
+        {
+            btnDefaultAccessoryEdits.Enabled = true;
+        }
+
+        private void txtBoxNewAccessoryFilepath_TextChanged(object sender, EventArgs e)
+        {
+            btnDefaultAccessoryEdits.Enabled = true;
+        }
+
+        private void btnRemoveAccessory_Click(object sender, EventArgs e)
+        {
+            Point p = new Point(0, 0);
+            List<string> strCurrentSettings = new List<string>();
+
+            using (StreamReader SR = new StreamReader("LM_C9MSettings.set"))
+            {
+                string Line = SR.ReadLine();
+                while (Line != null)
+                {
+                    strCurrentSettings.Add(Line);
+                    Line = SR.ReadLine();
+                }
+            }
+            using (StreamWriter SW = new StreamWriter("LM_C9MSettings.set", false))
+            {
+                if (strCurrentSettings != null)
+                {
+                    foreach (string s in strCurrentSettings)
+                    {
+
+                        if (!(s.Contains(accessoryTabs.SelectedTab.Text + "=" + accessoryTabs.SelectedTab.GetChildAtPoint(p).Text)))
+                        {
+                            SW.WriteLine(s);
+                        }
+                            
+                    }
+                }
+            }
+
+            accessoryTabs.Controls.Remove(accessoryTabs.SelectedTab);
+        }
+
+        private void btnLaunchPortal_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(cmbBoxPortalServers.Text);
+            }
+            catch
+            {
+                
+            }
+        }
+
+        private void btnReorder_Click(object sender, EventArgs e)
+        {
+            userOrderForm = new userOrderingForm(AccountsFromSettings);
+           
+            userOrderForm.Activate();
+            userOrderForm.BringToFront();
+            userOrderForm.Show();
+            userOrderForm.FormClosing += userOrderingClosedEventHandler;
+
+            mainForm.Enabled = false;
         }
     }
 }
